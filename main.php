@@ -20,6 +20,8 @@ if ($base_directory == '/') {
 include_once "$base_directory/run/init.php";
 
 use DiViMS\ServersPool;
+
+use DiViMS\ServersPoolDOC;
 use DiViMS\Config;
 use DiViMS\SCW;
 use DiViMS\SSH;
@@ -93,7 +95,7 @@ $logger->pushHandler(
 $config = new Config($project, $logger);
 
 // Start daemon
-$pool = new ServersPool($config, $logger);
+$pool = new ServersPoolDOC($config, $logger);
 echo "oke!!!\n";
 
 
@@ -120,22 +122,7 @@ $domainName = 'scalelitebbb.systems';
 // $droplets=$digitalocean->getAllDroplets();
 // if ($droplets) {
 //     foreach ($droplets as $droplet) {
-//        echo "Droplet id: $droplet->id\n";
-//        echo "Droplet name: $droplet->name\n";
-//         echo "Droplet status: $droplet->status\n";
-//         $networks = $droplet->networks;
-//         foreach ($networks as $network) {
-//             // Kiểm tra xem mạng có loại là public không
-//             if ($network->type === 'public') {
-//                 // Hiển thị địa chỉ IP của mạng public
-//                 echo "Public IP Address: $network->ipAddress\n";
-//                 $domainName = 'scalelitebbb.systems';
-//                 $recordType = 'A';
-//                 $recordName = 'test'.$droplet->name;
-//                 $recordData = $network->ipAddress;
-//                 $recordId = $digitalocean->createDomainRecord($domainName, $recordType, $recordName, $recordData);
-//             }
-//         }
+//        $get=$digitalocean->getDropletbyId($droplet->id);
 //     }
 // }
 
@@ -170,10 +157,10 @@ $domainName = 'scalelitebbb.systems';
 $ssh = new SSH(['host' => $config->get('scalelite_host')], $config, $logger);
 
 $ssh->exec("docker exec -i scalelite-api bundle exec rake servers", ['max_tries' => 3]);
-// $pool->poll(true);
+$pool->poll(true);
 echo json_encode($pool->list, JSON_PRETTY_PRINT);
 
-// $pool->generateNFSCommands();
+$pool->generateNFSCommands();
 // $rsa = $params['rsa'] ?? $config->get('project_directory') . '/' . $config->get('ssh_rsa');
 // echo $rsa;
 // $file_content = file_get_contents($rsa);
@@ -245,70 +232,3 @@ echo json_encode($pool->list, JSON_PRETTY_PRINT);
 // $meetings = $result->getMeetings();
 // var_dump($meetings);
 
-
-
-/**
- * Test Zabbix Api
- */
-/*
-try {
-    // connect to Zabbix API
-    $api = new ZabbixApi($config->get('zabbix_api_url'), $config->get('zabbix_username'), $config->get('zabbix_password'));
-
-    // get one host
-    $hosts = $api->hostGet(['search' => ['host' => "server.example.com"], 'selectInterfaces' => ['interfaceid', 'dns']]);
-    foreach ($hosts as $host) {
-        //echo $host->host . ", ID: ". $host->hostid . "\n";
-        //printf("id:%d host:%s\n", $host->hostid, $host->host);
-        var_dump($host);
-    }
-
-    $hosts = $api->hostUpdate(['hostid' => '10373', 'status' => '1']);
-
-    $hosts = $api->hostGet(['search' => ['host' => "server.example.com"]]);
-    foreach ($hosts as $host) {
-        //echo $host->host . ", ID: ". $host->hostid . "\n";
-        //printf("id:%d host:%s\n", $host->hostid, $host->host);
-        var_dump($host);
-    }
-
-} catch (Exception $e) {
-    // Exception in ZabbixApi catched
-    echo $e->getMessage();
-}
-//*/
-
-
-/**
- * Test SCW Api
- */
-/*
-if($config->get('hoster_api') == 'SCW') {
-    $scw = new SCW($config->get('scw_zone'), $config->get('scw_auth_token'));
-    for ( $i=50; $i<=99; $i++ ) {
-        $server_number = $i;
-        $domain = $pool->getServerDomain($server_number);
-        $hostname = $pool->getHostname($server_number);
-        $logger->info("Searching hostname : $hostname");
-        $servers = $scw->getServers(['name' => $hostname, 'project' => $config->get('scw_project_id')]);
-        //var_dump($servers);
-        if (! isset($servers['servers'])) {
-            $logger->warning("No matching servers");
-            continue;
-        }
-        $count = count($servers['servers']);
-        $logger->info("Matching servers count : $count");
-        foreach($servers['servers'] as $server) {
-            if ($server['name'] == $hostname) {
-                $server_id = $server['id'];
-                $logger->debug("Server id : $server_id");
-                $logger->info("Powering on server", ['domain' => $domain]);
-                $result=$scw->actOnServer($server_id, ['action' => 'poweron']);
-                var_dump($result);
-            }
-        }
-        usleep(200000);
-    }
-    exit(0); 
-}
-//*/

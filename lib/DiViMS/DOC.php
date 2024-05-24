@@ -156,6 +156,27 @@ class DOC
             return false;
         }
     }   
+
+    /**
+     * List all servers with pattern matching
+     * !! WARNING not an exact match !! 'name=server1' returns "server1" AND "server100"...
+     * For an exact match use getServerByName
+     * Docs : https://developers.scaleway.com/en/products/instance/api/#get-2c1c6f
+     * @param array Array of query parameters
+     **/
+    public function getServers(array $params) {
+
+        $servers=$this->getAllDroplets();
+        //filter?
+        $listservers=[];
+        foreach($servers as $server){
+            $serverdetail=$this->getDropletbyId($server->id);
+            $listservers[]=$serverdetail;
+        }
+        echo json_encode(count($listservers), JSON_PRETTY_PRINT);
+        return $listservers;
+    }
+
     public function getDropletbyId($dropletid){
         try{
             $droplet=$this->clientDOC->droplet();

@@ -31,7 +31,7 @@ class ServersPoolDOC
      *  'meetings', 'users', 'largest_meeting', 'videos', 'scalelite_id', 'secret', 'scalelite_load', load_multiplier'
      *  'cpus', 'uptime', 'loadavg1', 'loadavg5', 'loadavg15', 'rxavg1', 'txavg1', 'internal_ipv4', 'external_ipv4', 'external_ipv6',
      *  'bbb_status' -> 'OK|KO',
-     *  'hoster_id', 'hoster_state' -> (running|stopped|stopped in place|starting|stopping|locked|unreachable), 'hoster_state_duration', 'hoster_maintenances','hoster_public_ip', 'hoster_private_ip',
+     *  'hoster_id', 'hoster_state' -> (running|stopped|stopped in place|starting|stopping|locked|unreachable), 'hoster_state_duration','hoster_public_ip', 'hoster_private_ip',
      *  'divims_state' -> '(active|in maintenance)'
      *  'custom_state' -> 'unresponsive|to recycle|malfunctioning|null'
      *  'server_type' -> 'virtual machine|bare metal'
@@ -76,11 +76,11 @@ class ServersPoolDOC
         $this->config = $config;
         $this->logger = $logger;
         $this->server_capacity = $this->config->get('pool_capacity') / $this->config->get('pool_size');
-        if ($this->config->get('hoster_api') == 'SCW') {
-            $this->hoster_api = new SCW([], $config, $logger);
+        if ($this->config->get('hoster_api') == 'DOC') {
+            $this->hoster_api = new DOC($this->config, $this->logger);
         }
-        //$this->zabbix_api = new ZabbixApi($this->config->get('zabbix_api_url'), $this->config->get('zabbix_username'), $this->config->get('zabbix_password'));
-        $digitalocean_client = new DigitalOceanV2\Client();
+
+
     }
 
     /**
@@ -126,6 +126,7 @@ class ServersPoolDOC
         // Poll running servers in parallel if required (CPU and time intensive)
         if ($poll_running_servers) {
             $running_servers = $this->getFilteredArray($servers, ['hoster_state' => 'running']);
+            echo "list of running servers: " . json_encode($running_servers, JSON_PRETTY_PRINT);
             if (!empty($running_servers)) {
                 $running_servers = $this->SSHPollBBBServers($running_servers);
                 $servers = array_merge($servers, $running_servers);
@@ -689,7 +690,7 @@ class ServersPoolDOC
         $this->logger->info('Poll Hoster API for servers data');
 
         $server_data = [];
-        if ($this->config->get('hoster_api') == 'SCW') {
+        if ($this->config->get('hoster_api') == 'DOC') {
             $search_pattern = str_replace('X', '', $this->config->get('clone_hostname_template'));
             $this->logger->debug("Hoster : Search hostnames with pattern: $search_pattern");
 
@@ -700,28 +701,59 @@ class ServersPoolDOC
             while (true) {
                 $try_count++;
                 $servers = $this->hoster_api->getServers(['name' => $search_pattern]);
-                if (!isset($servers['servers'])) {
+                if (empty($servers)) {
                     $this->logger->warning("Hoster polling: No matching servers in Scaleway API. Wait $sleep seconds before retrying.", ['try' => $try_count]);
                 } else {
-                    foreach ($servers['servers'] as $server) {
-                        $server_number = $this->getServerNumberFromHostname($server['name']);
-                        $domain = $this->getServerDomain($server_number);
-
+                    foreach ($servers as $server) {
+                      
+                      
                         // Compute state duration in seconds from modification date
-                        $modification_date = \DateTime::createFromFormat("Y-m-d\TH:i:s.uP", $server['modification_date']);
+                        $modification_date = \DateTime::createFromFormat("Y-m-d\TH:i:s\Z", $server->createdAt);
+
+                        // Check if the date was parsed successfully
+                        if ($modification_date === false) {
+                            $this->logger->error("Failed to parse date", [
+                                'createdAt' => $server->createdAt,
+                                'server_name' => $server->name,
+                            ]);
+                            $modification_date= new \DateTime('NOW'); // Skip this server if date parsing failed
+                        }
+
                         $now = new \DateTime('NOW');
                         $hoster_state_duration = $now->getTimestamp() - $modification_date->getTimestamp();
+                        $public_ip = '';
+                        $private_ip = '';
 
-                        $server_data[$domain] = [
-                            'hoster_id' => $server['id'],
-                            'hoster_state' => $server['state'],
+                        // Extract IP addresses
+                        foreach ($server->networks as $network) {
+                            if ($network->type == 'public') {
+                                $public_ip = $network->ipAddress;
+                            } elseif ($network->type == 'private') {
+                                $private_ip = $network->ipAddress;
+                            }
+                            echo $network->type . ' ' . $network->ipAddress . PHP_EOL;
+                        }
+
+                        // Organize server data
+                        $server_data[$server->name] = [
+                            'hoster_id' => $server->id,
+                            'hoster_state' => $server->status,
                             'hoster_state_duration' => $hoster_state_duration,
-                            'hoster_maintenances' => $server['maintenances'],
-                            'hoster_public_ip' => $server['public_ip']['address'],
-                            'hoster_private_ip' => $server['private_ip'],
+                            'hoster_public_ip' => $public_ip,
+                            'hoster_private_ip' => $private_ip,
                             'server_type' => 'virtual machine',
                         ];
+                        $this->logger->info("Server details", [
+                            'name' => $server->name,
+                            'hoster_id' => $server->id,
+                            'hoster_state' => $server->status,
+                            'hoster_state_duration' => $hoster_state_duration,
+                            'hoster_public_ip' => $public_ip,
+                            'hoster_private_ip' => $private_ip,
+                            'server_type' => 'virtual machine',
+                        ]);
                     }
+
                     return $server_data;
                 }
                 if ($try_count == $max_tries) break;
@@ -1141,8 +1173,10 @@ class ServersPoolDOC
 
         //Create list for NFS server
         echo "== NFS exports list ==\n";
+
         foreach ($this->list as $domain => $v) {
             echo $v['external_ipv4'] . "(rw,sync,subtree_check) ";
+            echo json_encode($v) . "\n";
         }
 
         // And Firewall rules
@@ -1644,17 +1678,7 @@ class ServersPoolDOC
                 // Disable the required number of servers in Scalelite so that they drain rooms
                 $servers_to_cordon_count = 0;
 
-                // First register servers that have programmed maintenances
-                foreach ($potential_servers_to_cordon as $domain => $v) {
-                    if ($servers_to_cordon_count == abs($server_difference_count)) break;
-                    if (!empty($v['hoster_maintenances'])) {
-                        $this->logger->info("Register priority server ({$v['hoster_state']} and {$v['scalelite_status']} in Scalelite) in cordon list (has programmed maintenance).", ['domain' => $domain, 'hoster_maintenances' => json_encode($v['hoster_maintenances'])]);
-                        $servers_to_cordon[] = $domain;
-                        // Remove server from list so that it is not added twice
-                        unset($potential_servers_to_cordon[$domain]);
-                        $servers_to_cordon_count++;
-                    }
-                }
+            
 
                 // Then register servers stopped or stopped in place (exceptional)
                 foreach ($potential_servers_to_cordon as $domain => $v) {
