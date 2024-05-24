@@ -128,29 +128,29 @@ $pool = new ServersPool($config, $logger);
 /**
  * Test BigBlueButton Api
  */
-/*
-$bbb_secret = $config->get('clone_bbb_secret');
-$domain = $config->get('clone_old_domain');
-putenv("BBB_SECRET=$bbb_secret");
-putenv("BBB_SERVER_BASE_URL=https://$domain/bigbluebutton/");
-$bbb = new BigBlueButton();
-$parameters = new GetRecordingsParameters();
-$parameters->setState('processing');
-$result = $bbb->getRecordings($parameters);
-if ($result->getReturnCode() == 'SUCCESS') {
-    $recordings = $result->getRecords();
-    var_dump($recordings);
-}
-
-foreach($recordings as $recording) {
-    //if ($recording['state']=='published') echo "fuck";
-    echo $recording->getState();
-}
-
-$result = $bbb->getMeetings(new GetRecordingsParameters());
-$meetings = $result->getMeetings();
-var_dump($meetings);
 //*/
+// $bbb_secret = $config->get('clone_bbb_secret');
+// $domain = $config->get('clone_old_domain');
+// putenv("BBB_SECRET=$bbb_secret");
+// putenv("BBB_SERVER_BASE_URL=https://$domain/bigbluebutton/");
+// $bbb = new BigBlueButton();
+// $parameters = new GetRecordingsParameters();
+// $parameters->setState('processing');
+// $result = $bbb->getRecordings($parameters);
+// if ($result->getReturnCode() == 'SUCCESS') {
+//     $recordings = $result->getRecords();
+//     var_dump($recordings);
+// }
+
+// foreach($recordings as $recording) {
+//     //if ($recording['state']=='published') echo "fuck";
+//     echo $recording->getState();
+// }
+
+// $result = $bbb->getMeetings(new GetRecordingsParameters());
+// $meetings = $result->getMeetings();
+// var_dump($meetings);
+
 
 
 /**

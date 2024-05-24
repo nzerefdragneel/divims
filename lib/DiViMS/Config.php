@@ -19,6 +19,9 @@ Class Config {
         // Retrieve project configuration file
         // Get base directory ('/app')
         $base_directory = '/' . explode('/', $_SERVER['PHP_SELF'])[1];
+        if ($base_directory == '/') {
+            $base_directory ='.';
+        }
         $project_directory = "$base_directory/config/project/$project";
         if (!file_exists("$project_directory/config.php")) {
             echo "Error : Unknown project directory or missing config file. Please select an existing project.";
