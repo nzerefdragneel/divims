@@ -46,4 +46,5 @@ return array(
     'Carbon\\Doctrine\\' => array($vendorDir . '/carbonphp/carbon-doctrine-types/src/Carbon/Doctrine'),
     'Carbon\\' => array($vendorDir . '/nesbot/carbon/src/Carbon'),
     'BigBlueButton\\' => array($vendorDir . '/bigbluebutton/bigbluebutton-api-php/src'),
+    'App\\' => array($baseDir . '/lib'),
 );

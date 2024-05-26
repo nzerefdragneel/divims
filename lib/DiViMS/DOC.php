@@ -254,7 +254,29 @@ class DOC
             return false;
         }
     }
+    public function getAllImages(){
+        try {
+            $image=$this->clientDOC->image();
+            $image=$image->getAll();
+            $this->logger->info("Retrieved all images", ['images' => $image]);
+            return $image;
+        } catch (Exception $e) {
+            $this->logger->error("Error retrieving images", ['exception' => $e]);
+            return false;
+        }
+    }
 
+    public function getAllSnapshots(){
+        try {
+            $snapshot=$this->clientDOC->snapshot();
+            $snapshot=$snapshot->getAll();
+            $this->logger->info("Retrieved all snapshots", ['snapshots' => $snapshot]);
+            return $snapshot;
+        } catch (Exception $e) {
+            $this->logger->error("Error retrieving snapshots", ['exception' => $e]);
+            return false;
+        }
+    }
 
 
 }

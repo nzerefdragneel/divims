@@ -31,7 +31,7 @@ class ServersPoolDOC
      *  'meetings', 'users', 'largest_meeting', 'videos', 'scalelite_id', 'secret', 'scalelite_load', load_multiplier'
      *  'cpus', 'uptime', 'loadavg1', 'loadavg5', 'loadavg15', 'rxavg1', 'txavg1', 'internal_ipv4', 'external_ipv4', 'external_ipv6',
      *  'bbb_status' -> 'OK|KO',
-     *  'hoster_id', 'hoster_state' -> (running|stopped|stopped in place|starting|stopping|locked|unreachable), 'hoster_state_duration','hoster_public_ip', 'hoster_private_ip',
+     *  'hoster_id', 'hoster_state' -> (active|stopped|stopped in place|starting|stopping|locked|unreachable), 'hoster_state_duration','hoster_public_ip', 'hoster_private_ip',
      *  'divims_state' -> '(active|in maintenance)'
      *  'custom_state' -> 'unresponsive|to recycle|malfunctioning|null'
      *  'server_type' -> 'virtual machine|bare metal'
@@ -85,10 +85,10 @@ class ServersPoolDOC
 
     /**
      * Poll scalelite pool
-     * @param bool $poll_running_servers Wether to poll running servers for statistics (CPU intensive)
+     * @param bool $poll_active_servers Wether to poll active servers for statistics (CPU intensive)
      * @return array list of servers with data
      */
-    public function poll(bool $poll_running_servers = false)
+    public function poll(bool $poll_active_servers = false)
     {
 
         $this->logger->info("Poll/Gather data for servers");
@@ -108,7 +108,7 @@ class ServersPoolDOC
             $port = $this->config->get('ssh_port'); 
             $wait_timeout_seconds = 1; 
             if($fp = fsockopen($domain, $port, $errCode, $errStr, $wait_timeout_seconds)){   
-                $state = 'running';
+                $state = 'active';
                 $this->logger->debug("Bare metal server $domain detected : Reachable by SSH on port $port.", ['domain' => $domain]);
             } else {
                 $state = 'unreachable';
@@ -123,13 +123,14 @@ class ServersPoolDOC
         $servers = array_merge_recursive($servers, $bare_metal_servers);
 
 
-        // Poll running servers in parallel if required (CPU and time intensive)
-        if ($poll_running_servers) {
-            $running_servers = $this->getFilteredArray($servers, ['hoster_state' => 'running']);
-            echo "list of running servers: " . json_encode($running_servers, JSON_PRETTY_PRINT);
-            if (!empty($running_servers)) {
-                $running_servers = $this->SSHPollBBBServers($running_servers);
-                $servers = array_merge($servers, $running_servers);
+        // Poll active servers in parallel if required (CPU and time intensive)
+        if ($poll_active_servers) {
+            $active_servers = $this->getFilteredArray($servers, ['hoster_state' => 'active']);
+            echo "list of active servers: " . json_encode($active_servers, JSON_PRETTY_PRINT);
+            if (!empty($active_servers)) {
+                $active_servers = $this->SSHPollBBBServers($active_servers);
+                echo "list of active servers: " . json_encode($active_servers, JSON_PRETTY_PRINT);
+                $servers = array_merge($servers, $active_servers);
             }
         }
 
@@ -168,8 +169,8 @@ class ServersPoolDOC
             // Mark nonexistent servers
             if  (!isset($v['hoster_state'])) $servers[$domain]['hoster_state'] = 'nonexistent';
 
-            // Set 'hoster_state_duration for running bare metal servers
-            if ($v['server_type'] == 'bare metal' and $v['hoster_state'] == 'running') {
+            // Set 'hoster_state_duration for active bare metal servers
+            if ($v['server_type'] == 'bare metal' and $v['hoster_state'] == 'active') {
                 $v['hoster_state_duration'] = round($v['uptime'] / 60);
                 $servers[$domain]['hoster_state_duration'] = $v['hoster_state_duration'];
             }
@@ -177,8 +178,8 @@ class ServersPoolDOC
             // Tag servers that need to be replaced
             $divims_state = $servers[$domain]['divims_state'];
             $scalelite_status = $v['scalelite_status'];
-            if ($v['hoster_state'] == 'running' and $v['scalelite_status'] == 'offline' and $v['hoster_state_duration'] >= 240) {
-                // Mark server as unresponsive if it is offline in Scalelite and running since at least 4 minutes
+            if ($v['hoster_state'] == 'active' and $v['scalelite_status'] == 'offline' and $v['hoster_state_duration'] >= 240) {
+                // Mark server as unresponsive if it is offline in Scalelite and active since at least 4 minutes
                 $log_context = compact('domain', 'bbb_status', 'divims_state');
                 if ($v['server_type'] == 'bare metal') {
                     $this->logger->error("Unresponsive bare metal server $domain detected. Tag server as 'unresponsive'. MANUAL INTERVENTION REQUIRED !", $log_context);
@@ -186,7 +187,7 @@ class ServersPoolDOC
                     $this->logger->error("Unresponsive virtual machine server $domain detected. Tag server as 'unresponsive'. Server will be powered off unless it is in maintenance.",  $log_context);
                 }
                 $servers[$domain]['custom_state'] = 'unresponsive';
-            } elseif ($v['hoster_state'] == 'running' and $bbb_status == 'KO' and $v['hoster_state_duration'] >= 120) {
+            } elseif ($v['hoster_state'] == 'active' and $bbb_status == 'KO' and $v['hoster_state_duration'] >= 120) {
                 // Also tag server as 'malfunctioning' when BBB malfunctions
                 $log_context = compact('domain', 'scalelite_status', 'bbb_status', 'divims_state');
                 if ($v['server_type'] == 'bare metal') {
@@ -586,16 +587,16 @@ class ServersPoolDOC
             $logger = unserialize($serialized_logger);
 
             $fetchCount = 1;
-            $pool = new ServersPool($config, $logger);
+            $pool = new ServersPoolDOC($config, $logger);
             $more_data = [];
             for ($i = $start_id; $i < $end_id; $i++) {
                 // The task here
                 $domain = $data[$i]['domain'];
                 $server_number = $pool->getServerNumberFromDomain($domain);
-                $hostname_fqdn = $pool->getHostnameFQDN($server_number);
+                echo "server number: $server_number\n";
                 //echo $hostname;
                 $time_pre = microtime(true);
-                $ssh = new SSH(['host' => $hostname_fqdn], $config, $logger);
+                $ssh = new SSH(['host' => $domain], $config, $logger);
                 if ($ssh->exec("/bin/bash < " . __DIR__ . "/../scripts/BBB-gatherStats", ['max_tries' => 3, 'sleep_time' => 5])) {
                     $out = $ssh->getOutput();
                 } else {
@@ -679,6 +680,61 @@ class ServersPoolDOC
         $data = array_column($data, NULL, 'domain');
         return $data;
     }
+    public function processServer($server, $domain_name) {
+        // Parse the modification date
+        $modification_date = \DateTime::createFromFormat("Y-m-d\TH:i:s\Z", $server->createdAt);
+    
+        // Check if the date was parsed successfully
+        if ($modification_date === false) {
+            $this->logger->error("Failed to parse date", [
+                'createdAt' => $server->createdAt,
+                'server_name' => $server->name,
+            ]);
+            $modification_date = new \DateTime('NOW'); // Use current date if parsing failed
+        }
+    
+        // Calculate the hoster state duration
+        $now = new \DateTime('NOW');
+        $hoster_state_duration = $now->getTimestamp() - $modification_date->getTimestamp();
+    
+        // Initialize IP addresses
+        $public_ip = '';
+        $private_ip = '';
+    
+        // Extract IP addresses
+        foreach ($server->networks as $network) {
+            if ($network->type == 'public') {
+                $public_ip = $network->ipAddress;
+            } elseif ($network->type == 'private') {
+                $private_ip = $network->ipAddress;
+            }
+            echo $network->type . ' ' . $network->ipAddress . PHP_EOL;
+        }
+    
+        // Organize server data
+        $server_data = [
+            'hoster_id' => $server->id,
+            'hoster_state' => $server->status,
+            'hoster_state_duration' => $hoster_state_duration,
+            'hoster_public_ip' => $public_ip,
+            'hoster_private_ip' => $private_ip,
+            'server_type' => 'virtual machine',
+        ];
+    
+        // Log server details
+        $this->logger->info("Server details", [
+            'name' => $server->name,
+            'hoster_id' => $server->id,
+            'hoster_state' => $server->status,
+            'hoster_state_duration' => $hoster_state_duration,
+            'hoster_public_ip' => $public_ip,
+            'hoster_private_ip' => $private_ip,
+            'server_type' => 'virtual machine',
+        ]);
+    
+        // Return organized server data
+        return [$server->name . '.' . $domain_name => $server_data];
+    }
 
     /**
      * Retrieve server data from hoster
@@ -693,7 +749,7 @@ class ServersPoolDOC
         if ($this->config->get('hoster_api') == 'DOC') {
             $search_pattern = str_replace('X', '', $this->config->get('clone_hostname_template'));
             $this->logger->debug("Hoster : Search hostnames with pattern: $search_pattern");
-
+            $domain_name= $this->config->get('domain_name');
             $max_tries = 3;
             $try_count = 0;
             $sleep = 30;
@@ -702,56 +758,15 @@ class ServersPoolDOC
                 $try_count++;
                 $servers = $this->hoster_api->getServers(['name' => $search_pattern]);
                 if (empty($servers)) {
-                    $this->logger->warning("Hoster polling: No matching servers in Scaleway API. Wait $sleep seconds before retrying.", ['try' => $try_count]);
+                    $this->logger->warning("Hoster polling: No matching servers in Digital O API. Wait $sleep seconds before retrying.", ['try' => $try_count]);
                 } else {
                     foreach ($servers as $server) {
-                      
-                      
-                        // Compute state duration in seconds from modification date
-                        $modification_date = \DateTime::createFromFormat("Y-m-d\TH:i:s\Z", $server->createdAt);
-
-                        // Check if the date was parsed successfully
-                        if ($modification_date === false) {
-                            $this->logger->error("Failed to parse date", [
-                                'createdAt' => $server->createdAt,
-                                'server_name' => $server->name,
-                            ]);
-                            $modification_date= new \DateTime('NOW'); // Skip this server if date parsing failed
-                        }
-
-                        $now = new \DateTime('NOW');
-                        $hoster_state_duration = $now->getTimestamp() - $modification_date->getTimestamp();
-                        $public_ip = '';
-                        $private_ip = '';
-
-                        // Extract IP addresses
-                        foreach ($server->networks as $network) {
-                            if ($network->type == 'public') {
-                                $public_ip = $network->ipAddress;
-                            } elseif ($network->type == 'private') {
-                                $private_ip = $network->ipAddress;
-                            }
-                            echo $network->type . ' ' . $network->ipAddress . PHP_EOL;
-                        }
-
-                        // Organize server data
-                        $server_data[$server->name] = [
-                            'hoster_id' => $server->id,
-                            'hoster_state' => $server->status,
-                            'hoster_state_duration' => $hoster_state_duration,
-                            'hoster_public_ip' => $public_ip,
-                            'hoster_private_ip' => $private_ip,
-                            'server_type' => 'virtual machine',
-                        ];
-                        $this->logger->info("Server details", [
-                            'name' => $server->name,
-                            'hoster_id' => $server->id,
-                            'hoster_state' => $server->status,
-                            'hoster_state_duration' => $hoster_state_duration,
-                            'hoster_public_ip' => $public_ip,
-                            'hoster_private_ip' => $private_ip,
-                            'server_type' => 'virtual machine',
-                        ]);
+                        if (preg_match('/^' . preg_quote($search_pattern, '/') . '/', $server->name)) {
+                        
+                            // Compute state duration in seconds from modification date
+                            $result = $this->processServer($server, $domain_name);
+                            $server_data = array_merge($server_data, $result);
+                         }
                     }
 
                     return $server_data;
@@ -759,7 +774,7 @@ class ServersPoolDOC
                 if ($try_count == $max_tries) break;
                 sleep($sleep);
             }
-            $this->logger->critical("Can not get servers data at Scaleway. Scaleway API seems unreachable. Abandon after $max_tries tries.");
+            $this->logger->critical("Can not get servers data at Digital O. Digital O API seems unreachable. Abandon after $max_tries tries.");
             return false;
         }
     }
@@ -965,7 +980,7 @@ class ServersPoolDOC
             $numbers = $this->getServerNumbersFromDomainsList($domains);
         }
 
-        if ($this->config->get('hoster_api') == 'SCW') {
+        if ($this->config->get('hoster_api') == 'DOC') {
             $search_pattern = str_replace('X', '', $this->config->get('clone_hostname_template'));
             $this->logger->debug("Search hostnames with pattern: $search_pattern");
             $servers = $this->hoster_api->getServers(['name' => $search_pattern]);
@@ -1071,11 +1086,7 @@ class ServersPoolDOC
     /**
      * Add a server to the pool by cloning a backed up image
      * @param int $server_number the server number
-     * @return array|bool ['external_ipv4',
-     *                 'hostname', // The short hostname Example : arawa-p-bbb-w4
-     *                 'domain', // Domain known from Scalelite Example bbb-w4.example.com
-     *                 'hoster_id' // Server id at hoster
-     *            ] | false // in case of failure
+     * @return array|bool Server data or false
      **/
     public function hosterCloneAndStartServer(int $server_number)
     {
@@ -1085,52 +1096,35 @@ class ServersPoolDOC
 
         $this->logger->info("Start cloning new VM.", compact('hostname', 'domain'));
 
-        if ($this->config->get('hoster_api') == 'SCW') {
+        if ($this->config->get('hoster_api') == 'DOC') {
             // Retrieve server IP
             $external_ipv4 = shell_exec("getent hosts $domain | cut -d' ' -f1");
             $external_ipv4 = preg_replace("/\r\n|\r|\n/", '', $external_ipv4);
-            $hoster_ip = $this->hoster_api->getIP($external_ipv4);
-            if (isset($hoster_ip['ip']['id'])) {
-                $hoster_ip_id = $hoster_ip['ip']['id'];
-            } else {
-                $this->logger->error("Can not retrieve IP at hoster for server $domain", ['domain' => $domain, 'IP' => $external_ipv4]);
-                return false;
-            }
-            
+           
             // Retrieve image id
-            $result = $this->hoster_api->getImages(['name' => $this->config->get('clone_image_name')]);
-            if (isset($result['images'])) {
-                $image_id = $result['images'][0]['id'];
-                $this->logger->info("Select source image id for new VM", compact('hostname', 'image_id'));
-            } else {
-                $this->logger->error("Retrieve image to clone failed. Aborting.", ["hostname" => $hostname, 'hoster_response' => json_encode($result, JSON_PRETTY_PRINT)]);
-                return false;
-            }
-
-            // Create New instance
-            $server_spec = [
-                "name" => $hostname,
-                "dynamic_ip_required" => false,
-                "enable_ipv6" => !$this->config->get('clone_enable_routed_ip'),
-                "routed_ip_enabled" => $this->config->get('clone_enable_routed_ip'),
-                "commercial_type" => $this->config->get('clone_commercial_type'),
-                "image" => "$image_id",
-                "project" => $this->config->get('scw_project_id'),
-                // The following "volumes" block is a hack to force the API to use the original volume size
-                // Without this block, a 50G image snapshot would result into a 600G volume for a GP1-M instance
-                // See https://developers.scaleway.com/en/products/instance/api/#post-7482b1
-                "volumes" => [
-                    "0" => ["boot" => true],
-                ],
-            ];
-
+            $image_id = $this->config->get('clone_image_id');
+            $region_id=$this->config->get('clone_region_id');
             $tries = 0;
-            $server_id = '';
+            $server_id = 0;
             while (true) {
                 $tries++;
-                $result = $this->hoster_api->createServer($server_spec);
-                if (isset($result['server']['id'])) {
-                    $server_id = $result['server']['id'];
+                $result = $this->hoster_api->createDroplet(  
+                    $hostname,                                    // Tên droplet
+                    $region_id,                                         // ID của khu vực (thay vì slug)
+                    110,                                       // ID của kích thước (thay vì slug)
+                    $image_id,                                 // ID của image (thay vì slug)
+                    false,                                     // Có sao lưu
+                    false,                                      // không có IPv6
+                    "24c014f8-7d48-4ebf-bc79-91ac5475d6e5",    // UUID của VPC
+                    [41923124],                                // Số hiệu SSH
+                    "",                                        // Dữ liệu người dùng
+                    true,                                      // Giám sát
+                    [],                                        // Danh sách volume
+                    [],                                        // Tags
+                    false                                      // Tắt agent
+                );
+                if ($result->id) {
+                    $server_id = $result->id;
                     $this->logger->info("Server created", ['hostname' => $hostname, 'server_id' => $server_id]);
                     break;
                 } elseif ($tries == 3) {
@@ -1141,28 +1135,27 @@ class ServersPoolDOC
             }
 
             // Attach the existing IP to the newly cloned server
-            $this->logger->info("Attach IP to cloned server", ['hostname' => $hostname, "external_ipv4" => $external_ipv4]);
-            $result = $this->hoster_api->updateIP($hoster_ip_id, ['server' => $server_id]);
-            if (!isset($result['ip']['server']['id']) or $result['ip']['server']['id'] != $server_id) {
-                $this->logger->error("Attach IP to cloned server $hostname failed. Aborting.", ['hostname' => $hostname, "external_ipv4" => $external_ipv4, "api_message" => print_r($result, true)]);
-                return false;
+            $tries = 0;
+            $domain_name = $this->config->get('domain_name');
+           
+            $server_data =[];
+            while (true){
+                $tries++;
+                $dropletinfor=$this->hoster_api->getDropletbyId($server_id);
+                $result = $this->processServer($dropletinfor, $domain_name);
+                $key = key($result);  // Get the first key of the result array
+                if (isset($result[$key]['hoster_public_ip']) && !empty($result[$key]['hoster_public_ip'])) {
+                    $server_data = array_merge($server_data, $result);
+                    return $server_data;
+                }  
+                elseif ($tries == 3) {
+                    $this->logger->error("Server $hostname get information error : $tries failed tentatives. Aborting.", ['hostname' => $hostname, "api_message" => print_r($result, true)]);
+                    return false;
+                }
+                sleep(30);
             }
-
-            //poweron server
-            $this->logger->info("Power on new server instance.", ['hostname' => $hostname]);
-            $result = $this->hoster_api->actOnServer($server_id, ['action' => 'poweron']);
-            if (!$result) {
-                $this->logger->error("Power on server $hostname failed. Aborting.", ['hostname' => $hostname]);
-                return false;
-            }
-
-            return [
-                'external_ipv4' => $external_ipv4,
-                'hostname' => $hostname,
-                'domain' => $domain,
-                'hoster_id' => $server_id,
-            ];
         }
+        return false;
  
     }
 
@@ -1484,7 +1477,7 @@ class ServersPoolDOC
         $participants_count = 0;
         $meetings_count = 0;
         // Include bare meral server in load computing
-        foreach($this->getList(['hoster_state' => 'running'], true, false) as $domain => $v) {
+        foreach($this->getList(['hoster_state' => 'active'], true, false) as $domain => $v) {
             $participants_count += intval($v['users']);
             $meetings_count += intval($v['meetings']);
         }
@@ -1581,17 +1574,17 @@ class ServersPoolDOC
         }
 
 
-        $current_active_servers = $this->getList(['scalelite_state' => 'enabled', 'hoster_state' => 'running'], true, false);
+        $current_active_servers = $this->getList(['scalelite_state' => 'enabled', 'hoster_state' => 'active'], true, false);
 
-        $current_active_online_servers = $this->getList(['scalelite_state' => 'enabled', 'scalelite_status' => 'online', 'hoster_state' => 'running'], true, false);
+        $current_active_online_servers = $this->getList(['scalelite_state' => 'enabled', 'scalelite_status' => 'online', 'hoster_state' => 'active'], true, false);
 
         $soon_active_servers = $this->getList(['scalelite_state' => 'enabled', 'hoster_state' => 'starting'], true, false);
 
         $potential_active_servers = $this->getList(['scalelite_state' => 'enabled'], true, false);
 
-        $current_active_unresponsive_servers = $this->getList(['scalelite_state' => 'enabled', 'hoster_state' => 'running', 'custom_state' => 'unresponsive'], true, false);
-        $current_active_malfunctioning_servers = $this->getList(['scalelite_state' => 'enabled', 'hoster_state' => 'running', 'custom_state' => 'malfunctioning'], true, false);
-        $current_active_to_recycle_servers = $this->getList(['scalelite_state' => 'enabled', 'hoster_state' => 'running', 'custom_state' => 'to recycle'], true, false);
+        $current_active_unresponsive_servers = $this->getList(['scalelite_state' => 'enabled', 'hoster_state' => 'active', 'custom_state' => 'unresponsive'], true, false);
+        $current_active_malfunctioning_servers = $this->getList(['scalelite_state' => 'enabled', 'hoster_state' => 'active', 'custom_state' => 'malfunctioning'], true, false);
+        $current_active_to_recycle_servers = $this->getList(['scalelite_state' => 'enabled', 'hoster_state' => 'active', 'custom_state' => 'to recycle'], true, false);
 
         $current_active_to_replace_servers = array_merge($current_active_unresponsive_servers, $current_active_malfunctioning_servers, $current_active_to_recycle_servers);
         $current_active_to_replace_servers_count = count($current_active_to_replace_servers);
@@ -1642,8 +1635,8 @@ class ServersPoolDOC
         $potential_active_servers_count = count($potential_active_servers);
         $current_active_bare_metal_servers_count = count($this->getFilteredArray($current_active_servers, ['server_type' => 'bare metal']));
 
-        $this->logger->info("Current active (running and enabled in Scalelite) servers count: " . count($current_active_servers));
-        $this->logger->info("Current active (running and enabled in Scalelite) bare metal servers count: $current_active_bare_metal_servers_count");
+        $this->logger->info("Current active (active and enabled in Scalelite) servers count: " . count($current_active_servers));
+        $this->logger->info("Current active (active and enabled in Scalelite) bare metal servers count: $current_active_bare_metal_servers_count");
         $this->logger->info("Soon active (starting and enabled in Scalelite) virtual machines servers count: " . count($soon_active_servers));
         $this->logger->info("Potential active (enabled in Scalelite) virtual machine servers count: $potential_active_servers_count");
         $this->logger->info("Servers to be replaced count : $current_active_to_replace_servers_count");
@@ -1737,13 +1730,13 @@ class ServersPoolDOC
                 // Select servers that are not enabled
                 $potential_servers_to_enable = array_merge($this->getList(['scalelite_state' => 'cordoned']), $this->getList(['scalelite_state' => 'disabled']));
 
-                // First enable running servers without problems (custom_state = null)
+                // First enable active servers without problems (custom_state = null)
                 foreach ($potential_servers_to_enable as $domain => $v) {
                     if ($servers_to_enable_count == $server_difference_count) {
                         break;
                     }
-                    if ($v['hoster_state'] == 'running' and $v['custom_state'] == null) {
-                        $this->logger->info("Register running server in enable list.", ['domain' => $domain]);
+                    if ($v['hoster_state'] == 'active' and $v['custom_state'] == null) {
+                        $this->logger->info("Register active server in enable list.", ['domain' => $domain]);
                         $servers_to_enable[] = $domain;
                         unset($potential_servers_to_enable[$domain]);
                         $servers_to_enable_count++;
@@ -1766,15 +1759,15 @@ class ServersPoolDOC
                     }
                 }
 
-                // Then re-enable running servers with minor problems : 'to recycle' or 'malfunctioning'
+                // Then re-enable active servers with minor problems : 'to recycle' or 'malfunctioning'
                 $ordered_custom_states = ['to recycle', 'malfunctioning'];
                 foreach ($ordered_custom_states as $custom_state) {
                     foreach ($potential_servers_to_enable as $domain => $v) {
                         if ($servers_to_enable_count == $server_difference_count) {
                             break 2;
                         }
-                        if ($v['hoster_state'] == 'running' and $v['custom_state'] == $custom_state) {
-                            $this->logger->info("Register (re-enable) running and $custom_state server in enable list.", ['domain' => $domain]);
+                        if ($v['hoster_state'] == 'active' and $v['custom_state'] == $custom_state) {
+                            $this->logger->info("Register (re-enable) active and $custom_state server in enable list.", ['domain' => $domain]);
                             $servers_to_enable[] = $domain;
                             unset($potential_servers_to_enable[$domain]);
                             $servers_to_enable_count++;
@@ -1794,22 +1787,22 @@ class ServersPoolDOC
 
             } else {
                 // $server_difference_count = 0
-                // Give priority to already running servers over starting servers
+                // Give priority to already active servers over starting servers
                 // Switch Scalelite states
-                $running_disabled_servers = array_merge($this->getList(['hoster_state' => 'running', 'scalelite_state' => 'cordoned']), $this->getList(['hoster_state' => 'running', 'scalelite_state' => 'disabled']));
+                $active_disabled_servers = array_merge($this->getList(['hoster_state' => 'active', 'scalelite_state' => 'cordoned']), $this->getList(['hoster_state' => 'active', 'scalelite_state' => 'disabled']));
                 $starting_enabled_servers = $this->getList(['hoster_state' => 'starting', 'scalelite_state' => 'enabled']);
                 uasort($starting_enabled_servers, function ($a, $b) {
                     return $a['hoster_state_duration'] <=> $b['hoster_state_duration'];
                 });
-                $servers_to_switch_count = min(count($running_disabled_servers), count($starting_enabled_servers));
+                $servers_to_switch_count = min(count($active_disabled_servers), count($starting_enabled_servers));
                 $servers_to_cordon = [];
                 $servers_to_enable = [];
                 if ($servers_to_switch_count > 0) {
                     $this->logger->info("Switch $servers_to_switch_count servers states in Scalelite");
                     for($i = $servers_to_switch_count; $i == 0; --$i) {
                         $servers_to_cordon[] = key($starting_enabled_servers);
-                        $servers_to_enable[] = key($running_disabled_servers);
-                        next($running_disabled_servers);
+                        $servers_to_enable[] = key($active_disabled_servers);
+                        next($active_disabled_servers);
                         next($starting_enabled_servers);
                     }
 
@@ -1869,33 +1862,33 @@ class ServersPoolDOC
                 continue;
             }
             // Terminate unresponsive servers
-            if ($hoster_state == 'running' and $v['custom_state'] == 'unresponsive') {
+            if ($hoster_state == 'active' and $v['custom_state'] == 'unresponsive') {
                 $log_context = compact('bbb_status', 'server_type');
                 $this->logger->info("Add unresponsive server $domain to terminate list.", $log_context);
                 $servers_ready_for_terminate[$domain] = $v;
                 continue;
             }
 
-            // Poweroff 'running' servers
+            // Poweroff 'active' servers
             // check for remaining sessions or processing recordings
-            if ($v['hoster_state'] == 'running') {
-                // Check if server is running since at least 3 controller runs
+            if ($v['hoster_state'] == 'active') {
+                // Check if server is active since at least 3 controller runs
                 // to avoid stopping a server that has just been started and could be used in a very near future
-                $running_duration_minutes = $hoster_state_duration_minutes;
-                if ($running_duration_minutes < ($this->config->get('controller_run_frequency') * 3)) {
-                    $log_context = compact('domain', 'scalelite_state', 'running_duration_minutes');
-                    $this->logger->info("Server $domain ready for terminate but running since too little time. Not terminating yet.", $log_context);
+                $active_duration_minutes = $hoster_state_duration_minutes;
+                if ($active_duration_minutes < ($this->config->get('controller_run_frequency') * 3)) {
+                    $log_context = compact('domain', 'scalelite_state', 'active_duration_minutes');
+                    $this->logger->info("Server $domain ready for terminate but active since too little time. Not terminating yet.", $log_context);
                     continue;
                 }
 
                 if ($scalelite_status == 'offline') {
-                    $log_context = compact('domain', 'scalelite_state', 'running_duration_minutes');
-                    $this->logger->info("Server $domain running and ready for terminate but offline in Scalelite. Not terminating yet.", $log_context);
+                    $log_context = compact('domain', 'scalelite_state', 'active_duration_minutes');
+                    $this->logger->info("Server $domain active and ready for terminate but offline in Scalelite. Not terminating yet.", $log_context);
                     continue;
                 }
 
                 // Deal with online servers
-                $this->logger->info("Trying to terminate online server. Check meetings and recordings first.", compact('domain', 'scalelite_state', 'running_duration_minutes'));
+                $this->logger->info("Trying to terminate online server. Check meetings and recordings first.", compact('domain', 'scalelite_state', 'active_duration_minutes'));
                 try {
                     $bbb_secret = $v['secret'];
                     $bbb = new BigBlueButton("https://$domain/bigbluebutton/", $bbb_secret);
@@ -2037,7 +2030,7 @@ class ServersPoolDOC
                     continue;
                 }
 
-                $this->logger->info('Add running and online in Scalelite server to terminate list.', ['domain' => $domain]);
+                $this->logger->info('Add active and online in Scalelite server to terminate list.', ['domain' => $domain]);
                 $servers_ready_for_terminate[$domain] = $v;
             }
         }
@@ -2097,8 +2090,8 @@ class ServersPoolDOC
                 $this->logger->info("Server is already starting and enabled in Scalelite.", ['domain' => $domain, 'start_duration_minutes' => round($v['hoster_state_duration']/60)]);
             } elseif (in_array($hoster_state, ['stopping'])) {
                 $this->logger->info("Server is stopping and enabled in Scalelite. Not powering on now.", ['domain' => $domain,  'stop_duration_minutes' => round($v['hoster_state_duration']/60)]);
-            } elseif ($hoster_state == 'running' and $scalelite_status == 'offline') {
-                $this->logger->info("Server is already running and enabled in Scalelite but not yet online in Scalelite.", ['domain' => $domain]);
+            } elseif ($hoster_state == 'active' and $scalelite_status == 'offline') {
+                $this->logger->info("Server is already active and enabled in Scalelite but not yet online in Scalelite.", ['domain' => $domain]);
             }
         }
 
@@ -2135,10 +2128,10 @@ class ServersPoolDOC
      **/
     public function restartServers(bool $fix = true)
     {
-        $running_servers = $this->getFilteredArray($this->list, ['hoster_state' => 'running']);
-        $running_servers = $this->SSHPollBBBServers($running_servers);
+        $active_servers = $this->getFilteredArray($this->list, ['hoster_state' => 'active']);
+        $active_servers = $this->SSHPollBBBServers($active_servers);
 
-        foreach ($running_servers as $domain => $v) {
+        foreach ($active_servers as $domain => $v) {
             if (($v['bbb_status'] ?? NULL) == 'KO') {
                 $server_number = $this->getServerNumberFromDomain($domain);
                 $hostname_fqdn = $this->getHostnameFQDN($server_number);
@@ -2164,7 +2157,7 @@ class ServersPoolDOC
         }
 
         echo "== Hoster ==\n";
-        $states = ['running', 'stopped', 'stopped in place', 'starting', 'stopping', 'locked', 'unreachable'];
+        $states = ['active', 'stopped', 'stopped in place', 'starting', 'stopping', 'locked', 'unreachable'];
         foreach ($states as $state) {
             $servers_list = array_keys($this->getList(['hoster_state' => $state], false, false));
             echo "* $state: " . count($servers_list) . " [" . implode(',', $this->getServerNumbersFromDomainsList($servers_list)) .  "]\n";

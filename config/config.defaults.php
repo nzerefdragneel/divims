@@ -11,7 +11,7 @@ $config = [
     // Whether to use routed or natted IP (NAT used to be the default at Scaleway)
     'clone_enable_routed_ip' => false,
     // SSH commands timeout in seconds
-    'ssh_timeout' => 10,
+    'ssh_timeout' => 60,
     'hoster_api' => 'SCW',
     // Bare-metal servers
     'bare_metal_servers_count' => 0,

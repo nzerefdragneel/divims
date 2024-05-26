@@ -21,6 +21,8 @@ RUN pecl install parallel-1.1.4 \
 RUN pecl install stats-2.0.3 \
   && docker-php-ext-enable stats
 
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
 #RUN pecl install psr-1.2.0 \
 #  && docker-php-ext-enable psr
 

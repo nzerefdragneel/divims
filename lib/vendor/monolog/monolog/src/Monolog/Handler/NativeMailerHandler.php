@@ -111,7 +111,7 @@ class NativeMailerHandler extends MailHandler
     /**
      * {@inheritDoc}
      */
-    protected function send(string $content, array $records): void
+    public function send(string $content, array $records): void
     {
         $contentType = $this->getContentType() ?: ($this->isHtmlBody($content) ? 'text/html' : 'text/plain');
 

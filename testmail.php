@@ -91,31 +91,28 @@ $logger->pushHandler(
     )
 );
 $to = 'nguyentranngocsuong94@gmail.com';
-$subject = 'Warning: DiViM-S $project';
-$from = 'twitterdevtw@gmail.com';
-$level = Logger::WARNING;
+$subject = 'Test Email';
+$message = 'This is a test email sent using msmtp with PHP.';
+$headers = 'From: your-email@gmail.com' . "\r\n" .
+           'Reply-To: your-email@gmail.com' . "\r\n" .
+           'X-Mailer: PHP/' . phpversion();
 
-// Instantiate EmailSender
-$emailSender = new NativeMailerHandler($to, $subject, $from, $level);
-
-// Add a custom header
-$emailSender->addHeader('For testing purpose');
-
-// Send the test email
-$emailSender->send('This is a test email', []);
-
+if (mail($to, $subject, $message, $headers)) {
+    echo 'Email sent successfully.';
+} else {
+    echo 'Failed to send email.';
+}
+echo "mail";
 $config = new Config($project, $logger);
 
 // Start daemon
 $pool = new ServersPoolDOC($config, $logger);
-echo "oke!!!\n";
+
 
 
 // test digital ocean
 $digitalocean=new DOC($config, $logger);
 $domainName = 'scalelitebbb.systems';
-$images=$digitalocean->getAllSnapshots();
-
 // $recordType = 'AAAA';
 // $recordName = 'bar-name';
 // $recordData = '2001:db8::ff00:42:8329';
@@ -172,37 +169,7 @@ $images=$digitalocean->getAllSnapshots();
 
 // $ssh->exec("docker exec -i scalelite-api bundle exec rake servers", ['max_tries' => 3]);
 // $pool->poll(true);
-// echo "list server___________________________\n";
-// echo json_encode($pool->list, JSON_PRETTY_PRINT).'\n';
-// echo "end list server___________________________\n";
-
-
-//clone new server 
-// $newinstance=$pool->hosterCloneAndStartServer(6);
-// echo "newwwww_____________________\n";
-// echo json_encode($newinstance, JSON_PRETTY_PRINT).'\n';
-// echo "end newwwww_____________________\n";
-// $domaintoreconfigure=$key = key($newinstance);  
-//add subdomain
-
-// $subdomain=$digitalocean->createDomainRecord($domainName, 'A', "bbb6", "152.42.212.132");
-// echo json_encode($subdomain, JSON_PRETTY_PRINT).'\n';
-//reconfigure bbb
-
-
-// Check if the file exists before attempting to read it
-
-$ssh = new SSH(['host' => "bbb6.scalelitebbb.systems"], $config, $logger);
-
-if ($ssh->exec("./reconfigureVM-3.0.sh", ['max_tries' => 3, 'sleep_time' => 5, 'timeout' => 60*60])) {
-    $out = $ssh->getOutput();
-} else {
-    if ($error_log) {
-        $logger->error("Can not poll BigBlueButton server bbb6.scalelitebbb.systems  for stats.");
-    }
-}
-
-// echo "end list server___________________________\n";
+// echo json_encode($pool->list, JSON_PRETTY_PRINT);
 
 // $pool->generateNFSCommands();
 // $rsa = $params['rsa'] ?? $config->get('project_directory') . '/' . $config->get('ssh_rsa');
@@ -218,15 +185,15 @@ if ($ssh->exec("./reconfigureVM-3.0.sh", ['max_tries' => 3, 'sleep_time' => 5, '
 /**
  * Clone
  */
-// $range = range(3,75);
-// $range = [50];
-// $range=[20,33,56,133];
-// $pool->addServersListToHoster($range);
-// $pool->checkHosterValidity();
-// $pool->addServersListToPool($range);
-// $pool->checkPoolValidity();
-// $pool->cloneServerSCW(3);
-// $pool->hosterCloneAndStartServer(1);
+//$range = range(3,75);
+//$range = [50];
+//$range=[20,33,56,133];
+//$pool->addServersListToHoster($range);
+//$pool->checkHosterValidity();
+//$pool->addServersListToPool($range);
+//$pool->checkPoolValidity();
+//$pool->cloneServerSCW(3);
+//$pool->hosterCloneAndStartServer(1);
 
 /**
  * Adapt Pool capacity

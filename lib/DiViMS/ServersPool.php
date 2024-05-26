@@ -585,6 +585,7 @@ class ServersPool
                 include __DIR__ . "/../" . str_replace('\\', '/', $class_name) . '.php';
             });
 
+            
             $config = unserialize($serialized_config);
             $logger = unserialize($serialized_logger);
 
@@ -1191,7 +1192,7 @@ class ServersPool
      * @param
      * @return
      **/
-    public function checkHosterValidity()
+    public function addServersListToPool()
     {
 
         if($server_data = $this->pollHoster()) {
