@@ -54,7 +54,7 @@ Class SSH {
 
         $rsa = $params['rsa'] ?? $this->config->get('project_directory') . '/' . $this->config->get('ssh_rsa');
 
-        $this->base_ssh_command = "ssh -i $rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=2 -p$port $user@$host";
+        $this->base_ssh_command = "ssh -i $rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=2 -p $port $user@$host";
     }
 
     public function exec(string $command, array $params = []) {

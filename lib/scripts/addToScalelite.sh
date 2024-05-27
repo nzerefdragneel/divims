@@ -2,6 +2,7 @@
 
 ##BEGIN-INSERT
 NEW_DOMAIN=
+NEW_IP=
 SECRET=
 ENABLE_IN_SCALELITE=
 ##END-INSERT
@@ -22,6 +23,10 @@ if [ $ENABLE_IN_SCALELITE = "true" ]; then
     echo "$RESULT"
 fi
 
+# Add new VM to NFS 
+echo "/mnt/scalelite-recordings $NEW_IP(rw,sync,no_root_squash)" >> /etc/exports
+exportfs -r
+sudo systemctl start nfs-kernel-server.service 
 #COMMAND=( docker exec scalelite-api ./bin/rake servers )
 #RESULT=$("${COMMAND[@]}")
 #echo "$RESULT"

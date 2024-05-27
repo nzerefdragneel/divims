@@ -623,7 +623,6 @@ class ServersPoolDOC
                     'rxavg1' => floatval($values['rx_avg1']),
                     'txavg1' => floatval($values['tx_avg1']),
                     'internal_ipv4' => $values['internal_ipv4'],
-                    'external_ipv4' => $values['external_ipv4'],
                     'external_ipv6' => $values['external_ipv6'],
                     'bbb_status' => $values['bbb_status'],
                 ];
@@ -700,6 +699,7 @@ class ServersPoolDOC
         // Initialize IP addresses
         $public_ip = '';
         $private_ip = '';
+        $external_ipv4 = '';
     
         // Extract IP addresses
         foreach ($server->networks as $network) {
@@ -708,16 +708,21 @@ class ServersPoolDOC
             } elseif ($network->type == 'private') {
                 $private_ip = $network->ipAddress;
             }
+            if ($network->type=='public'&& $network->version==4){
+                $external_ipv4 = $network->ipAddress;
+            }
             echo $network->type . ' ' . $network->ipAddress . PHP_EOL;
         }
     
         // Organize server data
         $server_data = [
+            'name'=>$server->name,
             'hoster_id' => $server->id,
             'hoster_state' => $server->status,
             'hoster_state_duration' => $hoster_state_duration,
             'hoster_public_ip' => $public_ip,
             'hoster_private_ip' => $private_ip,
+            'external_ipv4'=>$external_ipv4,
             'server_type' => 'virtual machine',
         ];
     
@@ -1081,8 +1086,103 @@ class ServersPoolDOC
         $result = $ovh->post('/domain/zone/'  . $this->config->get('clone_dns_entry_zone') . '/refresh');
         sleep(5);
     }
+    public function createAndenableServerOnScalelite(int $server_number, bool $error_log = true)
+    {
+        $server = $this->hosterCloneAndStartServer($server_number);
+        
+        $recordType = "A";
+        $recordName = $server['name'];
+        $domainName=$this->config->get('domain_name');
+        $server_ip = $server['hoster_public_ip'];
+        $recordId = $this->hoster_api->createDomainRecord($domainName, $recordType, $recordName, $server_ip );
+        if ($recordId) {
+            $this->logger->info("Record created", ['recordId' => $recordId]);
+            //reconfigure bbb
+            $sshBBB=new SSH(['host' => $server_ip ], $this->config, $this->logger);
+            $target_script = '/root/reconfigureVM-3.0.sh';
+            $old_extenal_ip=$this->config->get('clone_old_external_ipv4');
+            $new_external_ip=$server_ip;
+            $email=$this->config->get('email');
+            $new_domain=$server['name'] . '.' . $this->config->get('domain_namex');
+            //replace value
+            $sshBBB->exec("sed -i -e \"s/^OLD_EXTERNAL_IPV4=.*/OLD_EXTERNAL_IPV4=\"$old_extenal_ip\"/\" $target_script", ['max_tries' => 3, 'sleep_time' => 5, 'timeout' => 10]);
+            $sshBBB->exec("sed -i -e \"s/^NEW_EXTERNAL_IPV4=.*/NEW_EXTERNAL_IPV4=\"$new_external_ip\"/\" $target_script", ['max_tries' => 3, 'sleep_time' => 5, 'timeout' => 10]);
+            $sshBBB->exec("sed -i -e \"s/^EMAIL=.*/EMAIL=\"$email\"/\" $target_script", ['max_tries' => 3, 'sleep_time' => 5, 'timeout' => 10]);
+            $sshBBB->exec("sed -i -e \"s/^NEW_DOMAIN=.*/NEW_DOMAIN=\"$new_domain\"/\" $target_script", ['max_tries' => 3, 'sleep_time' => 5, 'timeout' => 10]);
+            //excute
+
+            $sshBBB->exec("chmod +x $target_script");
+
+            if ($sshBBB->exec($target_script, ['max_tries' => 3, 'sleep_time' => 5, 'timeout' => 10])) {
+                $out = $sshBBB->getOutput();
+            } else {
+                if ($error_log) {
+                    $this->logger->error("Can not reconfigure BBB.");
+                }
+                return false;
+            }
 
 
+            //enable in scalelite
+            $scalelite_ip=$this->config->get('scalelite_host');
+            $sshScalelite = new SSH(['host' => $scalelite_ip], $this->config, $this->logger);
+
+            $new_domain = $server['name'] . '.' . $this->config->get('domain_namex');
+            $secret = $this->config->get('clone_bbb_secret');
+            $enable_in_scalelite = "true";
+            $new_ip=$server_ip;
+            $target_script="/root/addToScalelite.sh";
+
+            $sshScalelite->exec("sed -i -e \"s/^NEW_DOMAIN=.*/NEW_DOMAIN=\"$new_domain\"/\" $target_script", ['max_tries' => 3, 'sleep_time' => 5, 'timeout' => 10]);
+            $sshScalelite->exec("sed -i -e \"s/^SECRET=.*/SECRET=\"$secret\"/\" $target_script", ['max_tries' => 3, 'sleep_time' => 5, 'timeout' => 10]);
+            $sshScalelite->exec("sed -i -e \"s/^ENABLE_IN_SCALELITE=.*/ENABLE_IN_SCALELITE=\"$enable_in_scalelite\"/\" $target_script", ['max_tries' => 3, 'sleep_time' => 5, 'timeout' => 10]);
+            $sshScalelite->exec("sed -i -e \"s/^NEW_IP=.*/NEW_IP=\"$new_ip\"/\" $target_script", ['max_tries' => 3, 'sleep_time' => 5, 'timeout' => 10]);
+            $sshScalelite->exec("chmod +x $target_script");
+
+            if ($sshScalelite->exec($target_script, ['max_tries' => 3, 'sleep_time' => 5, 'timeout' => 10])) {
+                $out = $sshScalelite->getOutput();
+            } else {
+                if ($error_log) {
+                    $this->logger->error("Can not add BBB to scalelite.");
+                }
+                return false;
+            }
+
+
+            //add NFS on BBB
+            $bbb_nfs="/root/enableNFSonBBB.sh";
+
+            $sshBBB->exec("sed -i -e \"s/^SCALELITE_SERVER_IP=.*/SCALELITE_SERVER_IP=\"$scalelite_ip\"/\" /root/enableNFSonBBB.sh", ['max_tries' => 3, 'sleep_time' => 5, 'timeout' => 10]);
+            $sshBBB->exec("chmod +x $bbb_nfs");
+            if (  $sshBBB->exec($bbb_nfs, ['max_tries' => 3, 'sleep_time' => 5, 'timeout' => 10])) {
+                $out = $sshScalelite->getOutput();
+            } else {
+                if ($error_log) {
+                    $this->logger->error("Can not add BBB to scalelite.");
+                }
+                return false;
+            }
+            $sshBBB->exec("bbb-conf --restart", ['max_tries' => 3, 'sleep_time' => 5, 'timeout' => 10]);
+            $sshBBB->exec("bbb-conf --check", ['max_tries' => 3, 'sleep_time' => 5, 'timeout' => 10]);
+
+
+            return $server;
+          
+
+        } else {
+            $this->logger->error("Record creation failed", ['recordId' => $recordId]);
+            return false;
+        }
+    }
+    public function getSnapshotId($name){
+        $snapshots = $this->hoster_api->getAllSnapshots();
+        foreach ($snapshots as $snapshot) {
+            if ($snapshot->name == $name) {
+                return $snapshot->id;
+            }
+        }
+        return false;
+    }
     /**
      * Add a server to the pool by cloning a backed up image
      * @param int $server_number the server number
@@ -1101,9 +1201,9 @@ class ServersPoolDOC
             $external_ipv4 = shell_exec("getent hosts $domain | cut -d' ' -f1");
             $external_ipv4 = preg_replace("/\r\n|\r|\n/", '', $external_ipv4);
            
-            // Retrieve image id
-            $image_id = $this->config->get('clone_image_id');
             $region_id=$this->config->get('clone_region_id');
+            $snapshot_name = $this->config->get('clone_image_name');
+            $snapshot_id=$this->getSnapshotId($snapshot_name);
             $tries = 0;
             $server_id = 0;
             while (true) {
@@ -1112,7 +1212,7 @@ class ServersPoolDOC
                     $hostname,                                    // Tên droplet
                     $region_id,                                         // ID của khu vực (thay vì slug)
                     110,                                       // ID của kích thước (thay vì slug)
-                    $image_id,                                 // ID của image (thay vì slug)
+                    $snapshot_id,                                 // ID của image (thay vì slug)
                     false,                                     // Có sao lưu
                     false,                                      // không có IPv6
                     "24c014f8-7d48-4ebf-bc79-91ac5475d6e5",    // UUID của VPC
@@ -1156,8 +1256,8 @@ class ServersPoolDOC
             }
         }
         return false;
- 
     }
+
 
     public function generateNFSCommands()
     {

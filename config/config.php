@@ -5,7 +5,7 @@ $config = [
      * General
     */
     // Poll max number of workers
-    'poll_max_workers' => 100,
+    'poll_max_workers' => 10,
     // Max number of parallel processes to clone servers
     'clone_max_workers' => 5,
     // Whether to use routed or natted IP (NAT used to be the default at Scaleway)

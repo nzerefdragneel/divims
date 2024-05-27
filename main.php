@@ -113,8 +113,10 @@ echo "oke!!!\n";
 
 // test digital ocean
 $digitalocean=new DOC($config, $logger);
-$domainName = 'scalelitebbb.systems';
-$images=$digitalocean->getAllSnapshots();
+$snapshotname=$config->get('clone_image_name');
+$snapshotid=$pool->getSnapshotId($snapshotname);
+echo "snapshotid: $snapshotid\n";
+$server=$pool->createAndenableServerOnScalelite(10);
 
 // $recordType = 'AAAA';
 // $recordName = 'bar-name';
@@ -192,22 +194,49 @@ $images=$digitalocean->getAllSnapshots();
 
 // Check if the file exists before attempting to read it
 
-$ssh = new SSH(['host' => "bbb6.scalelitebbb.systems"], $config, $logger);
+// $ssh = new SSH(['host' => "157.245.193.98"], $config, $logger);
+// $new_domain = "bbb6.scalelitebbb.systems";
+// $secret = "Jzmzx5PsZvJOmza1zLClKJElF9E14KHsVmZNMlASA";
+// $enable_in_scalelite = "true";
+// $new_ip="152.42.212.132";
+// $scalelite_ip="157.245.193.98";
+// $bbb_nfs="/root/enableNFSonBBB.sh";
 
-if ($ssh->exec("./reconfigureVM-3.0.sh", ['max_tries' => 3, 'sleep_time' => 5, 'timeout' => 60*60])) {
-    $out = $ssh->getOutput();
-} else {
-    if ($error_log) {
-        $logger->error("Can not poll BigBlueButton server bbb6.scalelitebbb.systems  for stats.");
-    }
-}
+// // Path to the script to be updated on the remote server
+// $target_script = '/root/addToScalelite.sh';
+// $ssh->exec("sed -i -e \"s/^NEW_DOMAIN=.*/NEW_DOMAIN=\"$new_domain\"/\" /root/addToScalelite.sh", ['max_tries' => 3, 'sleep_time' => 5, 'timeout' => 10]);
+
+// $ssh->exec("sed -i -e \"s/^SECRET=.*/SECRET=\"$secret\"/\" /root/addToScalelite.sh", ['max_tries' => 3, 'sleep_time' => 5, 'timeout' => 10]);
+
+// $ssh->exec("sed -i -e \"s/^ENABLE_IN_SCALELITE=.*/ENABLE_IN_SCALELITE=\"$enable_in_scalelite\"/\" /root/addToScalelite.sh", ['max_tries' => 3, 'sleep_time' => 5, 'timeout' => 10]);
+// $ssh->exec("sed -i -e \"s/^NEW_IP=.*/NEW_IP=\"$new_ip\"/\" /root/addToScalelite.sh", ['max_tries' => 3, 'sleep_time' => 5, 'timeout' => 10]);
+// $ssh->exec("chmod +x $target_script");
+// $ssh->exec($target_script, ['max_tries' => 3, 'sleep_time' => 5, 'timeout' => 10]);
+
+
+// $sshbbb=new SSH(['host' => "bbb6.scalelitebbb.systems"], $config, $logger);
+// $sshbbb->exec("sed -i -e \"s/^SCALELITE_SERVER_IP=.*/SCALELITE_SERVER_IP=\"$scalelite_ip\"/\" /root/enableNFSonBBB.sh", ['max_tries' => 3, 'sleep_time' => 5, 'timeout' => 10]);
+// $sshbbb->exec("chmod +x $bbb_nfs");
+// $sshbbb->exec($bbb_nfs, ['max_tries' => 3, 'sleep_time' => 5, 'timeout' => 10]);
+// $sshbbb->exec("bbb-conf --restart", ['max_tries' => 3, 'sleep_time' => 5, 'timeout' => 10]);
+// $sshbbb->exec("bbb-conf --check", ['max_tries' => 3, 'sleep_time' => 5, 'timeout' => 10]);
+
+// // if ($ssh->exec("./addToScalelite.sh", ['max_tries' => 3, 'sleep_time' => 5, 'timeout' => 60*60])) {
+// //     $out = $ssh->getOutput();
+// // } else {
+// //     if ($error_log) {
+// //         $logger->error("Can not poll BigBlueButton server bbb6.scalelitebbb.systems  for stats.");
+// //     }
+// // }
+// $ssh->exec("chmod +x $target_script");
+// $ssh->exec("sed -i -e \"s/^SECRET=.*/SECRET=\"Jzmzx5PsZvJOmza1zLClKJElF9E14KHsVmZNMlASA\"/\" /root/addToScalelite.sh", ['max_tries' => 3, 'sleep_time' => 5, 'timeout' => 10]);
 
 // echo "end list server___________________________\n";
+// $pool->poll(true);
 
-// $pool->generateNFSCommands();
 // $rsa = $params['rsa'] ?? $config->get('project_directory') . '/' . $config->get('ssh_rsa');
 // echo $rsa;
-// $file_content = file_get_contents($rsa);
+
 
 // // Check if reading was successful
 // if ($file_content !== false) {
