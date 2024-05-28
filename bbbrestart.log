@@ -1,0 +1,19 @@
+Warning: Permanently added '134.209.111.8' (ECDSA) to the list of known hosts.
+Restarting BigBlueButton 3.0.0-alpha.6 ...
+Stopping BigBlueButton
+
+Applying updates in /etc/bigbluebutton/bbb-conf/apply-config.sh: 
+  - Enable Firewall and opening 22/tcp, 80/tcp, 443/tcp and 16384:32768/udp
+Skipping adding existing rule
+Skipping adding existing rule (v6)
+Skipping adding existing rule
+Skipping adding existing rule (v6)
+Skipping adding existing rule
+Skipping adding existing rule (v6)
+  - Local haproxy detected and running -- opening port 3478
+Skipping adding existing rule
+Skipping adding existing rule (v6)
+Firewall is active and enabled on system startup
+
+Reloading NginX configuration
+Starting BigBlueButton

@@ -116,7 +116,14 @@ $digitalocean=new DOC($config, $logger);
 $snapshotname=$config->get('clone_image_name');
 $snapshotid=$pool->getSnapshotId($snapshotname);
 echo "snapshotid: $snapshotid\n";
-$server=$pool->createAndenableServerOnScalelite(10);
+$pool->poll(true);
+// $pool->hosterCloneAndStartServer(8);
+
+//adaptCapacity
+
+
+
+// $server=$pool->createAndenableServerOnScalelite(10);
 
 // $recordType = 'AAAA';
 // $recordName = 'bar-name';
@@ -244,18 +251,6 @@ $server=$pool->createAndenableServerOnScalelite(10);
 // } else {
 //     echo "Failed to read file contents.";
 // }
-/**
- * Clone
- */
-// $range = range(3,75);
-// $range = [50];
-// $range=[20,33,56,133];
-// $pool->addServersListToHoster($range);
-// $pool->checkHosterValidity();
-// $pool->addServersListToPool($range);
-// $pool->checkPoolValidity();
-// $pool->cloneServerSCW(3);
-// $pool->hosterCloneAndStartServer(1);
 
 /**
  * Adapt Pool capacity

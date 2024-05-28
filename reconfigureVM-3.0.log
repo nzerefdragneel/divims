@@ -1,0 +1,347 @@
+Warning: Permanently added '134.209.111.8' (ECDSA) to the list of known hosts.
+Ign:1 https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 InRelease
+Hit:2 https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 Release
+Hit:4 http://mirrors.digitalocean.com/ubuntu jammy InRelease
+Hit:5 https://download.docker.com/linux/ubuntu jammy InRelease
+Hit:6 http://mirrors.digitalocean.com/ubuntu jammy-updates InRelease
+Hit:7 http://mirrors.digitalocean.com/ubuntu jammy-backports InRelease
+Hit:8 https://deb.nodesource.com/node_18.x nodistro InRelease
+Hit:9 https://repos-droplet.digitalocean.com/apt/droplet-agent main InRelease
+Hit:10 https://repos.insights.digitalocean.com/apt/do-agent main InRelease
+Hit:11 http://security.ubuntu.com/ubuntu jammy-security InRelease
+Hit:12 http://apt.postgresql.org/pub/repos/apt jammy-pgdg InRelease
+Hit:13 https://ubuntu.bigbluebutton.org/jammy-300 bigbluebutton-jammy InRelease
+Hit:14 https://ppa.launchpadcontent.net/bigbluebutton/support/ubuntu jammy InRelease
+Hit:15 https://ppa.launchpadcontent.net/martin-uni-mainz/coturn/ubuntu jammy InRelease
+Hit:16 https://ppa.launchpadcontent.net/rmescandon/yq/ubuntu jammy InRelease
+Reading package lists...
+Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8)).
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+Version: GnuPG v1
+
+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
+lJQlBRI5Dn+FrPwezWYG7Q==
+=4caX
+-----END PGP PUBLIC KEY BLOCK-----
+SHELL=/bin/bash
+PWD=/root
+LOGNAME=root
+XDG_SESSION_TYPE=tty
+MOTD_SHOWN=pam
+HOME=/root
+LANG=C.UTF-8
+SSH_CONNECTION=27.75.108.84 51263 134.209.111.8 22
+XDG_SESSION_CLASS=user
+USER=root
+SHLVL=1
+XDG_SESSION_ID=27
+XDG_RUNTIME_DIR=/run/user/0
+SSH_CLIENT=27.75.108.84 51263 22
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/0/bus
+DEBIAN_FRONTEND=noninteractive
+_=/usr/bin/env
+Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8)).
+yq (https://github.com/mikefarah/yq/) version 4.16.2
+Hit:1 http://mirrors.digitalocean.com/ubuntu jammy InRelease
+Hit:2 http://mirrors.digitalocean.com/ubuntu jammy-updates InRelease
+Ign:3 https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 InRelease
+Hit:4 http://mirrors.digitalocean.com/ubuntu jammy-backports InRelease
+Hit:5 https://download.docker.com/linux/ubuntu jammy InRelease
+Hit:6 https://repos.insights.digitalocean.com/apt/do-agent main InRelease
+Hit:7 https://repos-droplet.digitalocean.com/apt/droplet-agent main InRelease
+Hit:8 https://deb.nodesource.com/node_18.x nodistro InRelease
+Hit:9 http://apt.postgresql.org/pub/repos/apt jammy-pgdg InRelease
+Hit:10 http://security.ubuntu.com/ubuntu jammy-security InRelease
+Hit:11 https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 Release
+Hit:12 https://ubuntu.bigbluebutton.org/jammy-300 bigbluebutton-jammy InRelease
+Hit:14 https://ppa.launchpadcontent.net/bigbluebutton/support/ubuntu jammy InRelease
+Hit:15 https://ppa.launchpadcontent.net/martin-uni-mainz/coturn/ubuntu jammy InRelease
+Hit:16 https://ppa.launchpadcontent.net/rmescandon/yq/ubuntu jammy InRelease
+Reading package lists...
+Repository: 'deb https://ppa.launchpadcontent.net/bigbluebutton/support/ubuntu/ jammy main'
+Description:
+This PPA contains package builds that are not part of BigBlueButton itself, but
+which are required to use all BigBlueButton features. This includes software not
+packaged in Ubuntu and backports of newer packages.
+
+Packages provided in this PPA are compiled with options suitable for use with
+BigBlueButton, but might be missing features that other applications require.
+More info: https://launchpad.net/~bigbluebutton/+archive/ubuntu/support
+Adding repository.
+Found existing deb entry in /etc/apt/sources.list.d/bigbluebutton-ubuntu-support-jammy.list
+Adding deb entry to /etc/apt/sources.list.d/bigbluebutton-ubuntu-support-jammy.list
+Found existing deb-src entry in /etc/apt/sources.list.d/bigbluebutton-ubuntu-support-jammy.list
+Adding disabled deb-src entry to /etc/apt/sources.list.d/bigbluebutton-ubuntu-support-jammy.list
+Adding key to /etc/apt/trusted.gpg.d/bigbluebutton-ubuntu-support.gpg with fingerprint 36A9CA9512E5F0A4BE549ACF2E1B01D0E95B94BC
+Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8)).
+Hit:1 https://download.docker.com/linux/ubuntu jammy InRelease
+Hit:2 http://mirrors.digitalocean.com/ubuntu jammy InRelease
+Ign:3 https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 InRelease
+Hit:4 http://mirrors.digitalocean.com/ubuntu jammy-updates InRelease
+Hit:5 http://mirrors.digitalocean.com/ubuntu jammy-backports InRelease
+Hit:6 https://repos-droplet.digitalocean.com/apt/droplet-agent main InRelease
+Hit:7 https://deb.nodesource.com/node_18.x nodistro InRelease
+Hit:8 https://repos.insights.digitalocean.com/apt/do-agent main InRelease
+Hit:9 https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 Release
+Hit:10 http://security.ubuntu.com/ubuntu jammy-security InRelease
+Hit:11 http://apt.postgresql.org/pub/repos/apt jammy-pgdg InRelease
+Hit:13 https://ubuntu.bigbluebutton.org/jammy-300 bigbluebutton-jammy InRelease
+Hit:14 https://ppa.launchpadcontent.net/bigbluebutton/support/ubuntu jammy InRelease
+Hit:15 https://ppa.launchpadcontent.net/martin-uni-mainz/coturn/ubuntu jammy InRelease
+Hit:16 https://ppa.launchpadcontent.net/rmescandon/yq/ubuntu jammy InRelease
+Reading package lists...
+Repository: 'deb https://ppa.launchpadcontent.net/martin-uni-mainz/coturn/ubuntu/ jammy main'
+Description:
+Newer builds of coturn
+More info: https://launchpad.net/~martin-uni-mainz/+archive/ubuntu/coturn
+Adding repository.
+Found existing deb entry in /etc/apt/sources.list.d/martin-uni-mainz-ubuntu-coturn-jammy.list
+Adding deb entry to /etc/apt/sources.list.d/martin-uni-mainz-ubuntu-coturn-jammy.list
+Found existing deb-src entry in /etc/apt/sources.list.d/martin-uni-mainz-ubuntu-coturn-jammy.list
+Adding disabled deb-src entry to /etc/apt/sources.list.d/martin-uni-mainz-ubuntu-coturn-jammy.list
+Adding key to /etc/apt/trusted.gpg.d/martin-uni-mainz-ubuntu-coturn.gpg with fingerprint FC442DFD467C55252758A08C4B77C2225D3BBDB3
+Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8)).
+deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-6.0.gpg ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 multiverse
+gpg: cannot open '/dev/tty': No such device or address
+curl: (23) Failure writing output to destination
+Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8)).
+/usr/bin/docker
+Reading package lists...
+Building dependency tree...
+Reading state information...
+Package 'docker-compose' is not installed, so not removed
+0 upgraded, 0 newly installed, 0 to remove and 2 not upgraded.
+Hit:1 https://download.docker.com/linux/ubuntu jammy InRelease
+Hit:2 http://mirrors.digitalocean.com/ubuntu jammy InRelease
+Hit:3 http://mirrors.digitalocean.com/ubuntu jammy-updates InRelease
+Hit:4 https://repos.insights.digitalocean.com/apt/do-agent main InRelease
+Get:5 http://mirrors.digitalocean.com/ubuntu jammy-backports InRelease [109 kB]
+Hit:6 https://repos-droplet.digitalocean.com/apt/droplet-agent main InRelease
+Hit:7 https://deb.nodesource.com/node_18.x nodistro InRelease
+Hit:8 http://security.ubuntu.com/ubuntu jammy-security InRelease
+Ign:9 https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 InRelease
+Hit:10 http://apt.postgresql.org/pub/repos/apt jammy-pgdg InRelease
+Hit:11 https://ubuntu.bigbluebutton.org/jammy-300 bigbluebutton-jammy InRelease
+Hit:12 https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 Release
+Hit:14 https://ppa.launchpadcontent.net/bigbluebutton/support/ubuntu jammy InRelease
+Hit:15 https://ppa.launchpadcontent.net/martin-uni-mainz/coturn/ubuntu jammy InRelease
+Hit:16 https://ppa.launchpadcontent.net/rmescandon/yq/ubuntu jammy InRelease
+Fetched 109 kB in 2s (45.2 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+Calculating upgrade...
+The following packages have been kept back:
+  python3-update-manager update-manager-core
+0 upgraded, 0 newly installed, 0 to remove and 2 not upgraded.
+Hit:1 http://mirrors.digitalocean.com/ubuntu jammy InRelease
+Get:2 http://mirrors.digitalocean.com/ubuntu jammy-updates InRelease [119 kB]
+Hit:3 https://repos.insights.digitalocean.com/apt/do-agent main InRelease
+Hit:4 https://download.docker.com/linux/ubuntu jammy InRelease
+Ign:5 https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 InRelease
+Get:6 http://mirrors.digitalocean.com/ubuntu jammy-backports InRelease [109 kB]
+Hit:7 https://repos-droplet.digitalocean.com/apt/droplet-agent main InRelease
+Hit:8 https://deb.nodesource.com/node_18.x nodistro InRelease
+Hit:9 https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 Release
+Hit:10 http://security.ubuntu.com/ubuntu jammy-security InRelease
+Hit:12 https://ubuntu.bigbluebutton.org/jammy-300 bigbluebutton-jammy InRelease
+Hit:13 https://ppa.launchpadcontent.net/bigbluebutton/support/ubuntu jammy InRelease
+Hit:14 http://apt.postgresql.org/pub/repos/apt jammy-pgdg InRelease
+Hit:15 https://ppa.launchpadcontent.net/martin-uni-mainz/coturn/ubuntu jammy InRelease
+Hit:16 https://ppa.launchpadcontent.net/rmescandon/yq/ubuntu jammy InRelease
+Fetched 227 kB in 2s (109 kB/s)
+Reading package lists...
+Hit:1 http://mirrors.digitalocean.com/ubuntu jammy InRelease
+Hit:2 https://download.docker.com/linux/ubuntu jammy InRelease
+Get:3 http://mirrors.digitalocean.com/ubuntu jammy-updates InRelease [119 kB]
+Get:4 http://mirrors.digitalocean.com/ubuntu jammy-backports InRelease [109 kB]
+Hit:5 https://deb.nodesource.com/node_18.x nodistro InRelease
+Hit:6 https://repos.insights.digitalocean.com/apt/do-agent main InRelease
+Hit:7 https://repos-droplet.digitalocean.com/apt/droplet-agent main InRelease
+Hit:8 http://apt.postgresql.org/pub/repos/apt jammy-pgdg InRelease
+Ign:9 https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 InRelease
+Hit:10 http://security.ubuntu.com/ubuntu jammy-security InRelease
+Hit:11 https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 Release
+Hit:12 https://ubuntu.bigbluebutton.org/jammy-300 bigbluebutton-jammy InRelease
+Hit:14 https://ppa.launchpadcontent.net/bigbluebutton/support/ubuntu jammy InRelease
+Hit:15 https://ppa.launchpadcontent.net/martin-uni-mainz/coturn/ubuntu jammy InRelease
+Hit:16 https://ppa.launchpadcontent.net/rmescandon/yq/ubuntu jammy InRelease
+Fetched 227 kB in 2s (107 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+Calculating upgrade...
+The following packages have been kept back:
+  python3-update-manager update-manager-core
+0 upgraded, 0 newly installed, 0 to remove and 2 not upgraded.
+Job for coturn.service failed because the control process exited with error code.
+See "systemctl status coturn.service" and "journalctl -xeu coturn.service" for details.
+Synchronizing state of haproxy.service with SysV service script with /lib/systemd/systemd-sysv-install.
+Executing: /lib/systemd/systemd-sysv-install enable haproxy
+Reading package lists...
+Building dependency tree...
+Reading state information...
+0 upgraded, 0 newly installed, 0 to remove and 2 not upgraded.
+Assigning bbb8.scalelitebbb.systems for web application URL in /etc/bigbluebutton/bbb-web.properties
+Assigning bbb8.scalelitebbb.systems for web application URL in /etc/bigbluebutton/bbb-apps-akka.conf
+Assigning bbb8.scalelitebbb.systems for record and playback in /usr/local/bigbluebutton/core/scripts/bigbluebutton.yml
+Assigning bbb8.scalelitebbb.systems for playback of recordings: .
+Restarting BigBlueButton 3.0.0-alpha.6 ...
+Stopping BigBlueButton
+
+Applying updates in /etc/bigbluebutton/bbb-conf/apply-config.sh: 
+  - Enable Firewall and opening 22/tcp, 80/tcp, 443/tcp and 16384:32768/udp
+Skipping adding existing rule
+Skipping adding existing rule (v6)
+Skipping adding existing rule
+Skipping adding existing rule (v6)
+Skipping adding existing rule
+Skipping adding existing rule (v6)
+  - Local haproxy detected and running -- opening port 3478
+Skipping adding existing rule
+Skipping adding existing rule (v6)
+Firewall is active and enabled on system startup
+
+Reloading NginX configuration
+Starting BigBlueButton
+
+BigBlueButton Server 3.0.0-alpha.6 (831)
+                    Kernel version: 5.15.0-107-generic
+                      Distribution: Ubuntu 22.04.4 LTS (64-bit)
+                            Memory: 8127 MB
+                         CPU cores: 4
+
+/etc/bigbluebutton/bbb-web.properties (override for bbb-web)
+/usr/share/bbb-web/WEB-INF/classes/bigbluebutton.properties (bbb-web)
+       bigbluebutton.web.serverURL: https://bbb8.scalelitebbb.systems
+                defaultGuestPolicy: ALWAYS_ACCEPT
+              defaultMeetingLayout: CUSTOM_LAYOUT
+
+/etc/nginx/sites-available/bigbluebutton (nginx)
+                       server_name: bbb8.scalelitebbb.systems
+                              port: 80, [::]:80127.0.0.1:82 http2 proxy_protocol, [::1]:82 http2127.0.0.1:81 proxy_protocol, [::1]:81
+
+/opt/freeswitch/etc/freeswitch/vars.xml (FreeSWITCH)
+                       local_ip_v4: 134.209.111.8
+                   external_rtp_ip: 134.209.111.8
+                   external_sip_ip: 134.209.111.8
+
+/opt/freeswitch/etc/freeswitch/sip_profiles/external.xml (FreeSWITCH)
+                        ext-rtp-ip: $${local_ip_v4}
+                        ext-sip-ip: $${local_ip_v4}
+                        ws-binding: 134.209.111.8:5066
+                       wss-binding: 134.209.111.8:7443
+
+UDP port ranges
+
+                        FreeSWITCH: 16384-24576
+                    bbb-webrtc-sfu: null-null
+                    bbb-webrtc-recorder: null-null
+
+/usr/local/bigbluebutton/core/scripts/bigbluebutton.yml (record and playback)
+                     playback_host: bbb8.scalelitebbb.systems
+                 playback_protocol: https
+                            ffmpeg: 4.4.2-0ubuntu0.22.04.1
+
+/usr/share/bigbluebutton/nginx/sip.nginx (sip.nginx)
+                        proxy_pass: 134.209.111.8
+                          protocol: http
+
+
+# Potential problems described below
+.............
+# Warning: You have this server defined for https, but in
+#
+#   /usr/share/bigbluebutton/nginx/sip.nginx
+#
+#  did not find the use of https in definition for proxy_pass
+#
+#            proxy_pass http://134.209.111.8:5066;
+#
+
+# Warning: You have this server defined for https, but in
+#
+#   /usr/share/bigbluebutton/nginx/sip.nginx
+#
+#  did not find the use of port 7443 in definition for proxy_pass
+#
+#            proxy_pass http://134.209.111.8:5066;
+#
+
+#
+# bbb-webrtc-sfu will try to connect to null but FreeSWITCH is listening on 134.209.111.8 for port 5066
+#
+# To fix, run the commands
+#
+# sudo yq e -i 'freeswitch.sip_ip' = 134.209.111.8 /etc/bigbluebutton/bbb-webrtc-sfu/production.yml
+# sudo chown bigbluebutton:bigbluebutton /etc/bigbluebutton/bbb-webrtc-sfu/production.yml
+#
+
+#
+# Warning: The file
+#
+#  /var/log/bigbluebutton/post_publish.log
+#
+# is not owned by bigbluebutton:bigbluebutton.  To fix, run the command
+#
+#   sudo chown bigbluebutton:bigbluebutton /var/log/bigbluebutton/post_publish.log
+#
+
+#
+# Warning: The file
+#
+#  /var/log/bigbluebutton/sanity.log
+#
+# is not owned by bigbluebutton:bigbluebutton.  To fix, run the command
+#
+#   sudo chown bigbluebutton:bigbluebutton /var/log/bigbluebutton/sanity.log
+#
+IP addresses updated and services restarted.

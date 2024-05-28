@@ -207,7 +207,17 @@ class ServersPoolDOC
                     $this->logger->warning("Uptime above limit for virtual machine server $domain detected. Tag server as 'to recycle'. Server will be powered off unless it is in maintenance.", $log_context);
                 }
                 $servers[$domain]['custom_state'] = 'to recycle';
-            } else {
+            }elseif ($v['hoster_state'] == 'active' and $bbb_status == 'OK' and $v['hoster_state_duration']<100000 and $v['scalelite_status']==null and $v['hoster_public_ip']!=null) {
+                // Alternatively check if server should be recycled due to long uptime
+                $log_context = compact('domain', 'bbb_status', 'divims_state', 'server_max_recycling_uptime', 'uptime','custom_state');
+
+                $servers[$domain]['custom_state'] = 'to add scalelite';
+                $this->logger->warning("Need to add into scalelite", $log_context);
+            
+                $this->enableServerOnScalelite($servers[$domain]);
+               
+            }
+            else {
                 $servers[$domain]['custom_state'] = null; 
             }
 
@@ -456,12 +466,12 @@ class ServersPoolDOC
             $data = array();
             $entries = count($table) - 1;
             
-            if ($entries != $this->config->get('pool_size')) {
-                $this->logger->critical("Scalelite 'status' polling: Server entries count does not match pool size.", ['pool_size' => $this->config->get('pool_size'), 'result_count' => $entries]);
-                return false;
-            } else {
-                $this->logger->info("Scalelite 'status' polling OK: $entries server entries matches pool size.");
-            }
+            // if ($entries != $this->config->get('pool_size')) {
+            //     $this->logger->critical("Scalelite 'status' polling: Server entries count does not match pool size.", ['pool_size' => $this->config->get('pool_size'), 'result_count' => $entries]);
+            //     return false;
+            // } else {
+            //     $this->logger->info("Scalelite 'status' polling OK: $entries server entries matches pool size.");
+            // }
 
             for ($i = 1; $i <= $entries; $i++) {
                 // Explode line
@@ -513,12 +523,12 @@ class ServersPoolDOC
         $line_count = count($table);
         $entries = $line_count / 7;
 
-        if ($entries != $this->config->get('pool_size')) {
-            $this->logger->critical("Scalelite 'servers' polling: Server entries count does not match pool size.", ['pool_size' => $this->config->get('pool_size'), 'result_count' => $entries]);
-            return false;
-        } else {
-            $this->logger->info("Scalelite 'servers' polling OK: $entries server entries matches pool size.");
-        }
+        // if ($entries != $this->config->get('pool_size')) {
+        //     $this->logger->critical("Scalelite 'servers' polling: Server entries count does not match pool size.", ['pool_size' => $this->config->get('pool_size'), 'result_count' => $entries]);
+        //     return false;
+        // } else {
+        //     $this->logger->info("Scalelite 'servers' polling OK: $entries server entries matches pool size.");
+        // }
 
         for ($i = 0; $i < $line_count; $i += 7) {
             $id = substr($table[$i], 4);
@@ -585,6 +595,7 @@ class ServersPoolDOC
 
             $config = unserialize($serialized_config);
             $logger = unserialize($serialized_logger);
+          
 
             $fetchCount = 1;
             $pool = new ServersPoolDOC($config, $logger);
@@ -592,11 +603,12 @@ class ServersPoolDOC
             for ($i = $start_id; $i < $end_id; $i++) {
                 // The task here
                 $domain = $data[$i]['domain'];
+                $external_ipv4=$data[$i]['external_ipv4'];
                 $server_number = $pool->getServerNumberFromDomain($domain);
                 echo "server number: $server_number\n";
                 //echo $hostname;
                 $time_pre = microtime(true);
-                $ssh = new SSH(['host' => $domain], $config, $logger);
+                $ssh = new SSH(['host' => $external_ipv4], $config, $logger);
                 if ($ssh->exec("/bin/bash < " . __DIR__ . "/../scripts/BBB-gatherStats", ['max_tries' => 3, 'sleep_time' => 5])) {
                     $out = $ssh->getOutput();
                 } else {
@@ -1032,64 +1044,10 @@ class ServersPoolDOC
      * 
      * @param array $data An array containing DNS data of the newly created VM ['hostname', 'external_ipv4', 'external_ipv6']
      **/
-    public function createDNSEntriesOVH(array $server_data)
+  
+    public function enableServerOnScalelite($server, bool $error_log = true)
     {
-        $ovh = new Api(
-            $this->config->get('ovh_application_key'),
-            $this->config->get('ovh_application_secret'),
-            $this->config->get('ovh_endpoint'),
-            $this->config->get('ovh_consumer_key')
-        );
 
-        //$result = $ovh->get('/domain/zone');
-
-        // Create server A record
-        $subdomain = $server_data['hostname'] . '.' . $this->config->get('clone_dns_entry_subdomain');
-        $target = $server_data['external_ipv4'];
-        $this->logger->info("Create A record", ['source' => $subdomain . '.' . $this->config->get('clone_dns_entry_zone'), 'target' => $target]);
-        $result = $ovh->post('/domain/zone/' . $this->config->get('clone_dns_entry_zone') . '/record', array(
-            'fieldType' => 'A', // Resource record Name (type: zone.NamedResolutionFieldTypeEnum)
-            'subDomain' => $subdomain, // Resource record subdomain (type: string)
-            'target' => $target, // Resource record target (type: string)
-            'ttl' => NULL, // Resource record ttl (type: long)
-        ));
-        //print_r( $result );
-
-        if ($this->config->get('clone_dns_create_ipv6')) {
-            // Create server AAAA record
-            $this->logger->info("Create AAAA record");
-            $result = $ovh->post('/domain/zone/' . $this->config->get('clone_dns_entry_zone') . '/record', array(
-                'fieldType' => 'AAAA', // Resource record Name (type: zone.NamedResolutionFieldTypeEnum)
-                'subDomain' => $server_data['hostname'] . '.' . $this->config->get('clone_dns_entry_subdomain'), // Resource record subdomain (type: string)
-                'target' => $server_data['external_ipv6'], // Resource record target (type: string)
-                'ttl' => NULL, // Resource record ttl (type: long)
-            ));
-            //print_r( $result );
-        }
-
-        if (isset($server_data['cname_domain_name'])) {
-            // Create domain CNAME record
-            $subdomain = $server_data['cname_domain_name'];
-            $target = $server_data['hostname'] . '.' . $this->config->get('clone_dns_entry_subdomain') . $this->config->get('clone_dns_entry_zone') . '.';
-            $this->logger->info("Create CNAME record", ['source' => $subdomain . '.' . $this->config->get('clone_dns_entry_zone'), 'target' => $target]);
-            $result = $ovh->post('/domain/zone/' . $this->config->get('clone_dns_entry_zone') . '/record', array(
-                'fieldType' => 'CNAME', // Resource record Name (type: zone.NamedResolutionFieldTypeEnum)
-                'subDomain' => $subdomain, // Resource record subdomain (type: string)
-                'target' =>  $target, // Resource record target (type: string)
-                'ttl' => NULL, // Resource record ttl (type: long)
-            ));
-            //print_r( $result );
-        }
-
-        //Refresh the zone
-        $this->logger->info("Refresh zone and wait 5 seconds for zone to be updated");
-        $result = $ovh->post('/domain/zone/'  . $this->config->get('clone_dns_entry_zone') . '/refresh');
-        sleep(5);
-    }
-    public function createAndenableServerOnScalelite(int $server_number, bool $error_log = true)
-    {
-        $server = $this->hosterCloneAndStartServer($server_number);
-        
         $recordType = "A";
         $recordName = $server['name'];
         $domainName=$this->config->get('domain_name');
@@ -1103,7 +1061,7 @@ class ServersPoolDOC
             $old_extenal_ip=$this->config->get('clone_old_external_ipv4');
             $new_external_ip=$server_ip;
             $email=$this->config->get('email');
-            $new_domain=$server['name'] . '.' . $this->config->get('domain_namex');
+            $new_domain=$server['name'] . '.' . $this->config->get('domain_name');
             //replace value
             $sshBBB->exec("sed -i -e \"s/^OLD_EXTERNAL_IPV4=.*/OLD_EXTERNAL_IPV4=\"$old_extenal_ip\"/\" $target_script", ['max_tries' => 3, 'sleep_time' => 5, 'timeout' => 10]);
             $sshBBB->exec("sed -i -e \"s/^NEW_EXTERNAL_IPV4=.*/NEW_EXTERNAL_IPV4=\"$new_external_ip\"/\" $target_script", ['max_tries' => 3, 'sleep_time' => 5, 'timeout' => 10]);
@@ -1113,21 +1071,14 @@ class ServersPoolDOC
 
             $sshBBB->exec("chmod +x $target_script");
 
-            if ($sshBBB->exec($target_script, ['max_tries' => 3, 'sleep_time' => 5, 'timeout' => 10])) {
-                $out = $sshBBB->getOutput();
-            } else {
-                if ($error_log) {
-                    $this->logger->error("Can not reconfigure BBB.");
-                }
-                return false;
-            }
-
-
+            $sshBBB->exec("nohup $target_script > reconfigureVM-3.0.log 2>&1 & ", ['max_tries' => 1, 'sleep_time' => 5, 'timeout' => 300]);
+            
+            $sshBBB->exec("bbb-conf --secret", ['max_tries' => 3, 'sleep_time' => 5, 'timeout' => 10]);
             //enable in scalelite
             $scalelite_ip=$this->config->get('scalelite_host');
             $sshScalelite = new SSH(['host' => $scalelite_ip], $this->config, $this->logger);
 
-            $new_domain = $server['name'] . '.' . $this->config->get('domain_namex');
+            $new_domain = $server['name'] . '.' . $this->config->get('domain_name');
             $secret = $this->config->get('clone_bbb_secret');
             $enable_in_scalelite = "true";
             $new_ip=$server_ip;
@@ -1139,7 +1090,7 @@ class ServersPoolDOC
             $sshScalelite->exec("sed -i -e \"s/^NEW_IP=.*/NEW_IP=\"$new_ip\"/\" $target_script", ['max_tries' => 3, 'sleep_time' => 5, 'timeout' => 10]);
             $sshScalelite->exec("chmod +x $target_script");
 
-            if ($sshScalelite->exec($target_script, ['max_tries' => 3, 'sleep_time' => 5, 'timeout' => 10])) {
+            if ($sshScalelite->exec($target_script, ['max_tries' => 2, 'sleep_time' => 5, 'timeout' => 10])) {
                 $out = $sshScalelite->getOutput();
             } else {
                 if ($error_log) {
@@ -1154,7 +1105,8 @@ class ServersPoolDOC
 
             $sshBBB->exec("sed -i -e \"s/^SCALELITE_SERVER_IP=.*/SCALELITE_SERVER_IP=\"$scalelite_ip\"/\" /root/enableNFSonBBB.sh", ['max_tries' => 3, 'sleep_time' => 5, 'timeout' => 10]);
             $sshBBB->exec("chmod +x $bbb_nfs");
-            if (  $sshBBB->exec($bbb_nfs, ['max_tries' => 3, 'sleep_time' => 5, 'timeout' => 10])) {
+            //chạy ngầm
+            if (  $sshBBB->exec("nohup  $bbb_nfs > enableNFSonBBB.log 2>&1 &" , ['max_tries' => 1, 'sleep_time' => 5, 'timeout' => 10])) {
                 $out = $sshScalelite->getOutput();
             } else {
                 if ($error_log) {
@@ -1162,8 +1114,8 @@ class ServersPoolDOC
                 }
                 return false;
             }
-            $sshBBB->exec("bbb-conf --restart", ['max_tries' => 3, 'sleep_time' => 5, 'timeout' => 10]);
-            $sshBBB->exec("bbb-conf --check", ['max_tries' => 3, 'sleep_time' => 5, 'timeout' => 10]);
+            $sshBBB->exec("nohup bbb-conf --restart > bbbrestart.log 2>&1 & ", ['max_tries' => 1, 'sleep_time' => 5, 'timeout' => 5]);
+            $sshBBB->exec("nohup bbb-conf --check > bbbcheck.log 2>&1 &", ['max_tries' => 1, 'sleep_time' => 5, 'timeout' => 5]);
 
 
             return $server;
@@ -1235,25 +1187,26 @@ class ServersPoolDOC
             }
 
             // Attach the existing IP to the newly cloned server
-            $tries = 0;
-            $domain_name = $this->config->get('domain_name');
+            // $tries = 0;
+            // $domain_name = $this->config->get('domain_name');
            
-            $server_data =[];
-            while (true){
-                $tries++;
-                $dropletinfor=$this->hoster_api->getDropletbyId($server_id);
-                $result = $this->processServer($dropletinfor, $domain_name);
-                $key = key($result);  // Get the first key of the result array
-                if (isset($result[$key]['hoster_public_ip']) && !empty($result[$key]['hoster_public_ip'])) {
-                    $server_data = array_merge($server_data, $result);
-                    return $server_data;
-                }  
-                elseif ($tries == 3) {
-                    $this->logger->error("Server $hostname get information error : $tries failed tentatives. Aborting.", ['hostname' => $hostname, "api_message" => print_r($result, true)]);
-                    return false;
-                }
-                sleep(30);
-            }
+            // $server_data =[];
+            // while (true){
+            //     $tries++;
+            //     $dropletinfor=$this->hoster_api->getDropletbyId($server_id);
+            //     $result = $this->processServer($dropletinfor, $domain_name);
+            //     $key = key($result);  // Get the first key of the result array
+            //     if (isset($result[$key]['hoster_public_ip']) && !empty($result[$key]['hoster_public_ip'])) {
+            //         $server_data = array_merge($server_data, $result);
+            //         return $server_data;
+            //     }  
+            //     elseif ($tries == 3) {
+            //         $this->logger->error("Server $hostname get information error : $tries failed tentatives. Aborting.", ['hostname' => $hostname, "api_message" => print_r($result, true)]);
+            //         return false;
+            //     }
+            //     sleep(30);
+            // }
+            return true;
         }
         return false;
     }

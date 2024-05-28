@@ -1,0 +1,101 @@
+Warning: Permanently added '134.209.111.8' (ECDSA) to the list of known hosts.
+
+BigBlueButton Server 3.0.0-alpha.6 (831)
+                    Kernel version: 5.15.0-107-generic
+                      Distribution: Ubuntu 22.04.4 LTS (64-bit)
+                            Memory: 8127 MB
+                         CPU cores: 4
+
+/etc/bigbluebutton/bbb-web.properties (override for bbb-web)
+/usr/share/bbb-web/WEB-INF/classes/bigbluebutton.properties (bbb-web)
+       bigbluebutton.web.serverURL: https://bbbclone.scalelitebbb.systems
+                defaultGuestPolicy: ALWAYS_ACCEPT
+              defaultMeetingLayout: CUSTOM_LAYOUT
+
+/etc/nginx/sites-available/bigbluebutton (nginx)
+                       server_name: bbbclone.scalelitebbb.systems
+                              port: 80, [::]:80127.0.0.1:82 http2 proxy_protocol, [::1]:82 http2127.0.0.1:81 proxy_protocol, [::1]:81
+
+/opt/freeswitch/etc/freeswitch/vars.xml (FreeSWITCH)
+                       local_ip_v4: 165.22.51.241
+                   external_rtp_ip: 165.22.51.241
+                   external_sip_ip: 165.22.51.241
+
+/opt/freeswitch/etc/freeswitch/sip_profiles/external.xml (FreeSWITCH)
+                        ext-rtp-ip: $${local_ip_v4}
+                        ext-sip-ip: $${local_ip_v4}
+                        ws-binding: 165.22.51.241:5066
+                       wss-binding: 165.22.51.241:7443
+
+UDP port ranges
+
+                        FreeSWITCH: 16384-24576
+                    bbb-webrtc-sfu: null-null
+                    bbb-webrtc-recorder: null-null
+
+/usr/local/bigbluebutton/core/scripts/bigbluebutton.yml (record and playback)
+                     playback_host: bbbclone.scalelitebbb.systems
+                 playback_protocol: https
+                            ffmpeg: 4.4.2-0ubuntu0.22.04.1
+
+/usr/share/bigbluebutton/nginx/sip.nginx (sip.nginx)
+                        proxy_pass: 165.22.51.241
+                          protocol: http
+
+
+# Potential problems described below
+
+# Warning: The setting of 165.22.51.241 for local_ip_v4 in
+#
+#    /opt/freeswitch/etc/freeswitch/vars.xml
+#
+# does not match the local IP address (134.209.111.8).
+# (This is OK if you've manually changed the values)
+
+bbb-apps-akka ————————————————► [✘ - inactive]
+bbb-fsesl-akka ———————————————► [✘ - inactive]
+mongod ———————————————————————► [✘ - inactive]
+bbb-html5 ————————————————————► [✘ - inactive]
+bbb-graphql-actions ——————————► [✘ - inactive]
+bbb-graphql-middleware ———————► [✘ - inactive]
+bbb-webrtc-sfu ———————————————► [✘ - inactive]
+bbb-webrtc-recorder ——————————► [✘ - inactive]
+etherpad —————————————————————► [✘ - inactive]
+bbb-web ——————————————————————► [✘ - inactive]
+bbb-pads —————————————————————► [✘ - inactive]
+bbb-export-annotations ———————► [✘ - inactive]
+bbb-rap-caption-inbox ————————► [✘ - inactive]
+bbb-rap-starter ——————————————► [✘ - inactive]
+# Error: Detected some processes have not started correctly
+#
+#   bbb-apps-akka ————————————————► [✘ - inactive]
+bbb-fsesl-akka ———————————————► [✘ - inactive]
+bbb-html5 ————————————————————► [✘ - inactive]
+bbb-graphql-actions ——————————► [✘ - inactive]
+bbb-graphql-middleware ———————► [✘ - inactive]
+bbb-webrtc-sfu ———————————————► [✘ - inactive]
+#
+# Warning: You have this server defined for https, but in
+#
+#   /usr/share/bigbluebutton/nginx/sip.nginx
+#
+#  did not find the use of https in definition for proxy_pass
+#
+#            proxy_pass http://165.22.51.241:5066;
+#
+# Warning: The setting of 165.22.51.241 for proxy_pass in
+#
+#    /usr/share/bigbluebutton/nginx/sip.nginx
+#
+# does not match the local IP address (134.209.111.8).
+# (This is OK if you've manually changed the values)
+
+
+# Warning: You have this server defined for https, but in
+#
+#   /usr/share/bigbluebutton/nginx/sip.nginx
+#
+#  did not find the use of port 7443 in definition for proxy_pass
+#
+#            proxy_pass http://165.22.51.241:5066;
+#

@@ -458,12 +458,12 @@ class ServersPool
             $data = array();
             $entries = count($table) - 1;
             
-            if ($entries != $this->config->get('pool_size')) {
-                $this->logger->critical("Scalelite 'status' polling: Server entries count does not match pool size.", ['pool_size' => $this->config->get('pool_size'), 'result_count' => $entries]);
-                return false;
-            } else {
-                $this->logger->info("Scalelite 'status' polling OK: $entries server entries matches pool size.");
-            }
+            // if ($entries != $this->config->get('pool_size')) {
+            //     $this->logger->critical("Scalelite 'status' polling: Server entries count does not match pool size.", ['pool_size' => $this->config->get('pool_size'), 'result_count' => $entries]);
+            //     return false;
+            // } else {
+            //     $this->logger->info("Scalelite 'status' polling OK: $entries server entries matches pool size.");
+            // }
 
             for ($i = 1; $i <= $entries; $i++) {
                 // Explode line
