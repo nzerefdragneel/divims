@@ -116,8 +116,21 @@ $digitalocean=new DOC($config, $logger);
 $snapshotname=$config->get('clone_image_name');
 $snapshotid=$pool->getSnapshotId($snapshotname);
 echo "snapshotid: $snapshotid\n";
-$pool->poll(true);
-// $pool->hosterCloneAndStartServer(8);
+while (true){
+$pool->adaptCapacity();
+sleep(60);
+}
+
+
+$domainName = $config->get('domain_name');
+
+
+
+// $ip="165.22.51.241";
+
+
+// $pool->hosterCloneAndStartServer(1);
+// $digitalocean->removeDomainRecordByIp($domainName,$ip);
 
 //adaptCapacity
 

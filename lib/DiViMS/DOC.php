@@ -2,6 +2,7 @@
 
 namespace DiViMS;
 
+use Carbon\Traits\ToStringFormat;
 use Exception;
 use DigitalOceanV2\Client;
 use Psr\Log\LoggerInterface;
@@ -95,6 +96,7 @@ class DOC
             return false;
         }
     }
+
     public function removeDomainRecord($domainName, $recordId)
     {
         try {
@@ -110,6 +112,57 @@ class DOC
             return false;
         }
     }   
+
+    public function removeDomainRecordByIp($domainName, $recordIp)
+    {
+        try {
+            // Create a new DomainRecord API instance
+            $domainRecord = $this->clientDOC->domainRecord();
+
+            // Get all domain records
+            $records = $domainRecord->getAll($domainName);
+
+            // Find the record with the specified IP
+            foreach ($records as $record) {
+                if ($record->data == $recordIp) {
+                    $domainRecord->remove($domainName, $record->id);
+                    $this->logger->info("Removed domain record", ['record_id' => $record->id]);
+                    return true;
+                }
+            }
+
+            $this->logger->info("No domain record found with IP " . $recordIp);
+            return false;
+        } catch (Exception $e) {
+            $this->logger->error("Error removing domain record by IP", ['exception' => $e]);
+            return false;
+        }
+    }
+    function removeDomainRecordByName($domainName, $recordName)
+    {
+        try {
+            // Create a new DomainRecord API instance
+            $domainRecord = $this->clientDOC->domainRecord();
+
+            // Get all domain records
+            $records = $domainRecord->getAll($domainName);
+
+            // Find the record with the specified name
+            foreach ($records as $record) {
+                if ($record->name == $recordName) {
+                    $domainRecord->remove($domainName, $record->id);
+                    $this->logger->info("Removed domain record", ['record_id' => $record->id]);
+                    return true;
+                }
+            }
+
+            $this->logger->info("No domain record found with name " . $recordName);
+            return false;
+        } catch (Exception $e) {
+            $this->logger->error("Error removing domain record by name", ['exception' => $e]);
+            return false;
+        }
+    }
     
     function createDroplet($name, $region, $size, $image, $backups = false, $ipv6 = false, $vpcUuid = false, $sshKeys = [], $userData = '', $monitoring = true, $volumes = [], $tags = [], $disableAgent = false)
 {
@@ -229,6 +282,21 @@ class DOC
             return $droplet;
         } catch (Exception $e) {
             $this->logger->error("Error powerOn droplet by id", ['exception' => $e]);
+            return false;
+        }
+    }
+    public function removeDroplet($dropletid){
+        try {
+           
+            $droplet = $this->clientDOC->droplet();
+
+            // Xóa droplet bằng ID
+            $droplet->remove($dropletid);
+            $this->logger->info("Deleted droplet", ['droplet_id' => $dropletid]);
+          
+            return true;
+        } catch (Exception $e) {
+            $this->logger->error("Error delete droplet by id $dropletid", ['exception' => $e]);
             return false;
         }
     }

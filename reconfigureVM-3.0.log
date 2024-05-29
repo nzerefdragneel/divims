@@ -1,16 +1,16 @@
-Warning: Permanently added '134.209.111.8' (ECDSA) to the list of known hosts.
-Ign:1 https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 InRelease
-Hit:2 https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 Release
-Hit:4 http://mirrors.digitalocean.com/ubuntu jammy InRelease
-Hit:5 https://download.docker.com/linux/ubuntu jammy InRelease
-Hit:6 http://mirrors.digitalocean.com/ubuntu jammy-updates InRelease
+Warning: Permanently added '159.65.132.50' (ECDSA) to the list of known hosts.
+Hit:1 https://download.docker.com/linux/ubuntu jammy InRelease
+Hit:2 http://mirrors.digitalocean.com/ubuntu jammy InRelease
+Hit:3 http://mirrors.digitalocean.com/ubuntu jammy-updates InRelease
+Hit:4 https://repos.insights.digitalocean.com/apt/do-agent main InRelease
+Hit:5 https://deb.nodesource.com/node_18.x nodistro InRelease
+Hit:6 https://repos-droplet.digitalocean.com/apt/droplet-agent main InRelease
 Hit:7 http://mirrors.digitalocean.com/ubuntu jammy-backports InRelease
-Hit:8 https://deb.nodesource.com/node_18.x nodistro InRelease
-Hit:9 https://repos-droplet.digitalocean.com/apt/droplet-agent main InRelease
-Hit:10 https://repos.insights.digitalocean.com/apt/do-agent main InRelease
-Hit:11 http://security.ubuntu.com/ubuntu jammy-security InRelease
-Hit:12 http://apt.postgresql.org/pub/repos/apt jammy-pgdg InRelease
-Hit:13 https://ubuntu.bigbluebutton.org/jammy-300 bigbluebutton-jammy InRelease
+Hit:8 http://security.ubuntu.com/ubuntu jammy-security InRelease
+Ign:9 https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 InRelease
+Hit:10 http://apt.postgresql.org/pub/repos/apt jammy-pgdg InRelease
+Hit:11 https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 Release
+Hit:12 https://ubuntu.bigbluebutton.org/jammy-300 bigbluebutton-jammy InRelease
 Hit:14 https://ppa.launchpadcontent.net/bigbluebutton/support/ubuntu jammy InRelease
 Hit:15 https://ppa.launchpadcontent.net/martin-uni-mainz/coturn/ubuntu jammy InRelease
 Hit:16 https://ppa.launchpadcontent.net/rmescandon/yq/ubuntu jammy InRelease
@@ -75,33 +75,33 @@ XDG_SESSION_TYPE=tty
 MOTD_SHOWN=pam
 HOME=/root
 LANG=C.UTF-8
-SSH_CONNECTION=27.75.108.84 51263 134.209.111.8 22
+SSH_CONNECTION=42.118.199.228 50813 159.65.132.50 22
 XDG_SESSION_CLASS=user
 USER=root
 SHLVL=1
-XDG_SESSION_ID=27
+XDG_SESSION_ID=15
 XDG_RUNTIME_DIR=/run/user/0
-SSH_CLIENT=27.75.108.84 51263 22
+SSH_CLIENT=42.118.199.228 50813 22
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/0/bus
 DEBIAN_FRONTEND=noninteractive
 _=/usr/bin/env
 Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8)).
 yq (https://github.com/mikefarah/yq/) version 4.16.2
-Hit:1 http://mirrors.digitalocean.com/ubuntu jammy InRelease
-Hit:2 http://mirrors.digitalocean.com/ubuntu jammy-updates InRelease
-Ign:3 https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 InRelease
-Hit:4 http://mirrors.digitalocean.com/ubuntu jammy-backports InRelease
-Hit:5 https://download.docker.com/linux/ubuntu jammy InRelease
+Hit:1 https://download.docker.com/linux/ubuntu jammy InRelease
+Hit:2 http://mirrors.digitalocean.com/ubuntu jammy InRelease
+Hit:3 https://deb.nodesource.com/node_18.x nodistro InRelease
+Hit:4 http://mirrors.digitalocean.com/ubuntu jammy-updates InRelease
+Hit:5 http://mirrors.digitalocean.com/ubuntu jammy-backports InRelease
 Hit:6 https://repos.insights.digitalocean.com/apt/do-agent main InRelease
 Hit:7 https://repos-droplet.digitalocean.com/apt/droplet-agent main InRelease
-Hit:8 https://deb.nodesource.com/node_18.x nodistro InRelease
-Hit:9 http://apt.postgresql.org/pub/repos/apt jammy-pgdg InRelease
-Hit:10 http://security.ubuntu.com/ubuntu jammy-security InRelease
+Ign:8 https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 InRelease
+Hit:9 http://security.ubuntu.com/ubuntu jammy-security InRelease
+Hit:10 http://apt.postgresql.org/pub/repos/apt jammy-pgdg InRelease
 Hit:11 https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 Release
 Hit:12 https://ubuntu.bigbluebutton.org/jammy-300 bigbluebutton-jammy InRelease
-Hit:14 https://ppa.launchpadcontent.net/bigbluebutton/support/ubuntu jammy InRelease
-Hit:15 https://ppa.launchpadcontent.net/martin-uni-mainz/coturn/ubuntu jammy InRelease
+Hit:13 https://ppa.launchpadcontent.net/bigbluebutton/support/ubuntu jammy InRelease
+Hit:14 https://ppa.launchpadcontent.net/martin-uni-mainz/coturn/ubuntu jammy InRelease
 Hit:16 https://ppa.launchpadcontent.net/rmescandon/yq/ubuntu jammy InRelease
 Reading package lists...
 Repository: 'deb https://ppa.launchpadcontent.net/bigbluebutton/support/ubuntu/ jammy main'
@@ -120,21 +120,21 @@ Found existing deb-src entry in /etc/apt/sources.list.d/bigbluebutton-ubuntu-sup
 Adding disabled deb-src entry to /etc/apt/sources.list.d/bigbluebutton-ubuntu-support-jammy.list
 Adding key to /etc/apt/trusted.gpg.d/bigbluebutton-ubuntu-support.gpg with fingerprint 36A9CA9512E5F0A4BE549ACF2E1B01D0E95B94BC
 Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8)).
-Hit:1 https://download.docker.com/linux/ubuntu jammy InRelease
-Hit:2 http://mirrors.digitalocean.com/ubuntu jammy InRelease
+Hit:1 http://mirrors.digitalocean.com/ubuntu jammy InRelease
+Hit:2 https://download.docker.com/linux/ubuntu jammy InRelease
 Ign:3 https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 InRelease
 Hit:4 http://mirrors.digitalocean.com/ubuntu jammy-updates InRelease
 Hit:5 http://mirrors.digitalocean.com/ubuntu jammy-backports InRelease
-Hit:6 https://repos-droplet.digitalocean.com/apt/droplet-agent main InRelease
-Hit:7 https://deb.nodesource.com/node_18.x nodistro InRelease
+Hit:6 https://deb.nodesource.com/node_18.x nodistro InRelease
+Hit:7 https://repos-droplet.digitalocean.com/apt/droplet-agent main InRelease
 Hit:8 https://repos.insights.digitalocean.com/apt/do-agent main InRelease
 Hit:9 https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 Release
 Hit:10 http://security.ubuntu.com/ubuntu jammy-security InRelease
-Hit:11 http://apt.postgresql.org/pub/repos/apt jammy-pgdg InRelease
-Hit:13 https://ubuntu.bigbluebutton.org/jammy-300 bigbluebutton-jammy InRelease
-Hit:14 https://ppa.launchpadcontent.net/bigbluebutton/support/ubuntu jammy InRelease
-Hit:15 https://ppa.launchpadcontent.net/martin-uni-mainz/coturn/ubuntu jammy InRelease
-Hit:16 https://ppa.launchpadcontent.net/rmescandon/yq/ubuntu jammy InRelease
+Hit:11 https://ubuntu.bigbluebutton.org/jammy-300 bigbluebutton-jammy InRelease
+Hit:12 https://ppa.launchpadcontent.net/bigbluebutton/support/ubuntu jammy InRelease
+Hit:14 https://ppa.launchpadcontent.net/martin-uni-mainz/coturn/ubuntu jammy InRelease
+Hit:15 https://ppa.launchpadcontent.net/rmescandon/yq/ubuntu jammy InRelease
+Hit:16 http://apt.postgresql.org/pub/repos/apt jammy-pgdg InRelease
 Reading package lists...
 Repository: 'deb https://ppa.launchpadcontent.net/martin-uni-mainz/coturn/ubuntu/ jammy main'
 Description:
@@ -148,31 +148,28 @@ Adding disabled deb-src entry to /etc/apt/sources.list.d/martin-uni-mainz-ubuntu
 Adding key to /etc/apt/trusted.gpg.d/martin-uni-mainz-ubuntu-coturn.gpg with fingerprint FC442DFD467C55252758A08C4B77C2225D3BBDB3
 Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8)).
 deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-6.0.gpg ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 multiverse
-gpg: cannot open '/dev/tty': No such device or address
-curl: (23) Failure writing output to destination
 Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8)).
 /usr/bin/docker
 Reading package lists...
 Building dependency tree...
 Reading state information...
 Package 'docker-compose' is not installed, so not removed
-0 upgraded, 0 newly installed, 0 to remove and 2 not upgraded.
-Hit:1 https://download.docker.com/linux/ubuntu jammy InRelease
-Hit:2 http://mirrors.digitalocean.com/ubuntu jammy InRelease
-Hit:3 http://mirrors.digitalocean.com/ubuntu jammy-updates InRelease
-Hit:4 https://repos.insights.digitalocean.com/apt/do-agent main InRelease
-Get:5 http://mirrors.digitalocean.com/ubuntu jammy-backports InRelease [109 kB]
-Hit:6 https://repos-droplet.digitalocean.com/apt/droplet-agent main InRelease
+0 upgraded, 0 newly installed, 0 to remove and 5 not upgraded.
+Hit:1 http://mirrors.digitalocean.com/ubuntu jammy InRelease
+Hit:2 http://mirrors.digitalocean.com/ubuntu jammy-updates InRelease
+Hit:3 https://download.docker.com/linux/ubuntu jammy InRelease
+Ign:4 https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 InRelease
+Hit:5 https://repos.insights.digitalocean.com/apt/do-agent main InRelease
+Hit:6 http://mirrors.digitalocean.com/ubuntu jammy-backports InRelease
 Hit:7 https://deb.nodesource.com/node_18.x nodistro InRelease
-Hit:8 http://security.ubuntu.com/ubuntu jammy-security InRelease
-Ign:9 https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 InRelease
-Hit:10 http://apt.postgresql.org/pub/repos/apt jammy-pgdg InRelease
-Hit:11 https://ubuntu.bigbluebutton.org/jammy-300 bigbluebutton-jammy InRelease
-Hit:12 https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 Release
-Hit:14 https://ppa.launchpadcontent.net/bigbluebutton/support/ubuntu jammy InRelease
+Hit:8 https://repos-droplet.digitalocean.com/apt/droplet-agent main InRelease
+Hit:9 http://apt.postgresql.org/pub/repos/apt jammy-pgdg InRelease
+Hit:10 https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 Release
+Hit:11 http://security.ubuntu.com/ubuntu jammy-security InRelease
+Hit:12 https://ubuntu.bigbluebutton.org/jammy-300 bigbluebutton-jammy InRelease
+Hit:13 https://ppa.launchpadcontent.net/bigbluebutton/support/ubuntu jammy InRelease
 Hit:15 https://ppa.launchpadcontent.net/martin-uni-mainz/coturn/ubuntu jammy InRelease
 Hit:16 https://ppa.launchpadcontent.net/rmescandon/yq/ubuntu jammy InRelease
-Fetched 109 kB in 2s (45.2 kB/s)
 Reading package lists...
 Reading package lists...
 Building dependency tree...
@@ -180,40 +177,119 @@ Reading state information...
 Calculating upgrade...
 The following packages have been kept back:
   python3-update-manager update-manager-core
-0 upgraded, 0 newly installed, 0 to remove and 2 not upgraded.
+The following packages will be upgraded:
+  git git-man python3-jinja2
+3 upgraded, 0 newly installed, 0 to remove and 2 not upgraded.
+Need to get 4228 kB of archives.
+After this operation, 17.4 kB of additional disk space will be used.
+Get:1 http://mirrors.digitalocean.com/ubuntu jammy-updates/main amd64 git-man all 1:2.34.1-1ubuntu1.11 [955 kB]
+Get:2 http://mirrors.digitalocean.com/ubuntu jammy-updates/main amd64 git amd64 1:2.34.1-1ubuntu1.11 [3165 kB]
+Get:3 http://mirrors.digitalocean.com/ubuntu jammy-updates/main amd64 python3-jinja2 all 3.0.3-1ubuntu0.2 [108 kB]
+Fetched 4228 kB in 0s (33.2 MB/s)
+(Reading database ... 
+(Reading database ... 5%
+(Reading database ... 10%
+(Reading database ... 15%
+(Reading database ... 20%
+(Reading database ... 25%
+(Reading database ... 30%
+(Reading database ... 35%
+(Reading database ... 40%
+(Reading database ... 45%
+(Reading database ... 50%
+(Reading database ... 55%
+(Reading database ... 60%
+(Reading database ... 65%
+(Reading database ... 70%
+(Reading database ... 75%
+(Reading database ... 80%
+(Reading database ... 85%
+(Reading database ... 90%
+(Reading database ... 95%
+(Reading database ... 100%
+(Reading database ... 253761 files and directories currently installed.)
+Preparing to unpack .../git-man_1%3a2.34.1-1ubuntu1.11_all.deb ...
+Unpacking git-man (1:2.34.1-1ubuntu1.11) over (1:2.34.1-1ubuntu1.10) ...
+Preparing to unpack .../git_1%3a2.34.1-1ubuntu1.11_amd64.deb ...
+Unpacking git (1:2.34.1-1ubuntu1.11) over (1:2.34.1-1ubuntu1.10) ...
+Preparing to unpack .../python3-jinja2_3.0.3-1ubuntu0.2_all.deb ...
+Unpacking python3-jinja2 (3.0.3-1ubuntu0.2) over (3.0.3-1ubuntu0.1) ...
+Setting up python3-jinja2 (3.0.3-1ubuntu0.2) ...
+Setting up git-man (1:2.34.1-1ubuntu1.11) ...
+Setting up git (1:2.34.1-1ubuntu1.11) ...
+Processing triggers for man-db (2.10.2-1) ...
+NEEDRESTART-VER: 3.5
+NEEDRESTART-KCUR: 5.15.0-107-generic
+NEEDRESTART-KEXP: 5.15.0-107-generic
+NEEDRESTART-KSTA: 1
+Assigning bbb2.scalelitebbb.systems for web application URL in /etc/bigbluebutton/bbb-web.properties
+Assigning bbb2.scalelitebbb.systems for web application URL in /etc/bigbluebutton/bbb-apps-akka.conf
+Assigning bbb2.scalelitebbb.systems for record and playback in /usr/local/bigbluebutton/core/scripts/bigbluebutton.yml
+Assigning bbb2.scalelitebbb.systems for playback of recordings: 
+Restarting BigBlueButton 3.0.0-alpha.6 ...
+Stopping BigBlueButton
+
+Applying updates in /etc/bigbluebutton/bbb-conf/apply-config.sh: 
+  - Enable Firewall and opening 22/tcp, 80/tcp, 443/tcp and 16384:32768/udp
+Skipping adding existing rule
+Skipping adding existing rule (v6)
+Skipping adding existing rule
+Skipping adding existing rule (v6)
+Skipping adding existing rule
+Skipping adding existing rule (v6)
+  - Local haproxy detected and running -- opening port 3478
+Skipping adding existing rule
+Skipping adding existing rule (v6)
+Firewall is active and enabled on system startup
+
+Reloading NginX configuration
+Starting BigBlueButton
 Hit:1 http://mirrors.digitalocean.com/ubuntu jammy InRelease
-Get:2 http://mirrors.digitalocean.com/ubuntu jammy-updates InRelease [119 kB]
-Hit:3 https://repos.insights.digitalocean.com/apt/do-agent main InRelease
+Hit:2 https://download.docker.com/linux/ubuntu jammy InRelease
+Ign:3 https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 InRelease
+Hit:4 http://mirrors.digitalocean.com/ubuntu jammy-updates InRelease
+Hit:5 http://mirrors.digitalocean.com/ubuntu jammy-backports InRelease
+Hit:6 https://repos.insights.digitalocean.com/apt/do-agent main InRelease
+Hit:7 https://deb.nodesource.com/node_18.x nodistro InRelease
+Hit:8 https://repos-droplet.digitalocean.com/apt/droplet-agent main InRelease
+Hit:9 http://security.ubuntu.com/ubuntu jammy-security InRelease
+Hit:10 https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 Release
+Hit:11 http://apt.postgresql.org/pub/repos/apt jammy-pgdg InRelease
+Hit:12 https://ubuntu.bigbluebutton.org/jammy-300 bigbluebutton-jammy InRelease
+Hit:13 https://ppa.launchpadcontent.net/bigbluebutton/support/ubuntu jammy InRelease
+Hit:14 https://ppa.launchpadcontent.net/martin-uni-mainz/coturn/ubuntu jammy InRelease
+Hit:16 https://ppa.launchpadcontent.net/rmescandon/yq/ubuntu jammy InRelease
+Reading package lists...
+Saving debug log to /var/log/letsencrypt/letsencrypt.log
+Requesting a certificate for bbb2.scalelitebbb.systems
+
+Successfully received certificate.
+Certificate is saved at: /etc/letsencrypt/live/bbb2.scalelitebbb.systems/fullchain.pem
+Key is saved at:         /etc/letsencrypt/live/bbb2.scalelitebbb.systems/privkey.pem
+This certificate expires on 2024-08-27.
+These files will be updated when the certificate renews.
+Certbot has set up a scheduled task to automatically renew this certificate in the background.
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+If you like Certbot, please consider supporting our work by:
+ * Donating to ISRG / Let's Encrypt:   https://letsencrypt.org/donate
+ * Donating to EFF:                    https://eff.org/donate-le
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Hit:1 http://mirrors.digitalocean.com/ubuntu jammy InRelease
+Ign:2 https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 InRelease
+Hit:3 http://mirrors.digitalocean.com/ubuntu jammy-updates InRelease
 Hit:4 https://download.docker.com/linux/ubuntu jammy InRelease
-Ign:5 https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 InRelease
-Get:6 http://mirrors.digitalocean.com/ubuntu jammy-backports InRelease [109 kB]
+Hit:5 http://mirrors.digitalocean.com/ubuntu jammy-backports InRelease
+Hit:6 https://repos.insights.digitalocean.com/apt/do-agent main InRelease
 Hit:7 https://repos-droplet.digitalocean.com/apt/droplet-agent main InRelease
 Hit:8 https://deb.nodesource.com/node_18.x nodistro InRelease
 Hit:9 https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 Release
 Hit:10 http://security.ubuntu.com/ubuntu jammy-security InRelease
-Hit:12 https://ubuntu.bigbluebutton.org/jammy-300 bigbluebutton-jammy InRelease
-Hit:13 https://ppa.launchpadcontent.net/bigbluebutton/support/ubuntu jammy InRelease
-Hit:14 http://apt.postgresql.org/pub/repos/apt jammy-pgdg InRelease
-Hit:15 https://ppa.launchpadcontent.net/martin-uni-mainz/coturn/ubuntu jammy InRelease
-Hit:16 https://ppa.launchpadcontent.net/rmescandon/yq/ubuntu jammy InRelease
-Fetched 227 kB in 2s (109 kB/s)
-Reading package lists...
-Hit:1 http://mirrors.digitalocean.com/ubuntu jammy InRelease
-Hit:2 https://download.docker.com/linux/ubuntu jammy InRelease
-Get:3 http://mirrors.digitalocean.com/ubuntu jammy-updates InRelease [119 kB]
-Get:4 http://mirrors.digitalocean.com/ubuntu jammy-backports InRelease [109 kB]
-Hit:5 https://deb.nodesource.com/node_18.x nodistro InRelease
-Hit:6 https://repos.insights.digitalocean.com/apt/do-agent main InRelease
-Hit:7 https://repos-droplet.digitalocean.com/apt/droplet-agent main InRelease
-Hit:8 http://apt.postgresql.org/pub/repos/apt jammy-pgdg InRelease
-Ign:9 https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 InRelease
-Hit:10 http://security.ubuntu.com/ubuntu jammy-security InRelease
-Hit:11 https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 Release
-Hit:12 https://ubuntu.bigbluebutton.org/jammy-300 bigbluebutton-jammy InRelease
+Hit:11 https://ubuntu.bigbluebutton.org/jammy-300 bigbluebutton-jammy InRelease
+Hit:12 http://apt.postgresql.org/pub/repos/apt jammy-pgdg InRelease
 Hit:14 https://ppa.launchpadcontent.net/bigbluebutton/support/ubuntu jammy InRelease
 Hit:15 https://ppa.launchpadcontent.net/martin-uni-mainz/coturn/ubuntu jammy InRelease
 Hit:16 https://ppa.launchpadcontent.net/rmescandon/yq/ubuntu jammy InRelease
-Fetched 227 kB in 2s (107 kB/s)
 Reading package lists...
 Reading package lists...
 Building dependency tree...
@@ -230,10 +306,10 @@ Reading package lists...
 Building dependency tree...
 Reading state information...
 0 upgraded, 0 newly installed, 0 to remove and 2 not upgraded.
-Assigning bbb8.scalelitebbb.systems for web application URL in /etc/bigbluebutton/bbb-web.properties
-Assigning bbb8.scalelitebbb.systems for web application URL in /etc/bigbluebutton/bbb-apps-akka.conf
-Assigning bbb8.scalelitebbb.systems for record and playback in /usr/local/bigbluebutton/core/scripts/bigbluebutton.yml
-Assigning bbb8.scalelitebbb.systems for playback of recordings: .
+Assigning bbb2.scalelitebbb.systems for web application URL in /etc/bigbluebutton/bbb-web.properties
+Assigning bbb2.scalelitebbb.systems for web application URL in /etc/bigbluebutton/bbb-apps-akka.conf
+Assigning bbb2.scalelitebbb.systems for record and playback in /usr/local/bigbluebutton/core/scripts/bigbluebutton.yml
+Assigning bbb2.scalelitebbb.systems for playback of recordings: 
 Restarting BigBlueButton 3.0.0-alpha.6 ...
 Stopping BigBlueButton
 
@@ -261,24 +337,24 @@ BigBlueButton Server 3.0.0-alpha.6 (831)
 
 /etc/bigbluebutton/bbb-web.properties (override for bbb-web)
 /usr/share/bbb-web/WEB-INF/classes/bigbluebutton.properties (bbb-web)
-       bigbluebutton.web.serverURL: https://bbb8.scalelitebbb.systems
+       bigbluebutton.web.serverURL: https://bbb2.scalelitebbb.systems
                 defaultGuestPolicy: ALWAYS_ACCEPT
               defaultMeetingLayout: CUSTOM_LAYOUT
 
 /etc/nginx/sites-available/bigbluebutton (nginx)
-                       server_name: bbb8.scalelitebbb.systems
+                       server_name: bbb2.scalelitebbb.systems
                               port: 80, [::]:80127.0.0.1:82 http2 proxy_protocol, [::1]:82 http2127.0.0.1:81 proxy_protocol, [::1]:81
 
 /opt/freeswitch/etc/freeswitch/vars.xml (FreeSWITCH)
-                       local_ip_v4: 134.209.111.8
-                   external_rtp_ip: 134.209.111.8
-                   external_sip_ip: 134.209.111.8
+                       local_ip_v4: 165.22.51.241
+                   external_rtp_ip: 159.65.132.50
+                   external_sip_ip: 159.65.132.50
 
 /opt/freeswitch/etc/freeswitch/sip_profiles/external.xml (FreeSWITCH)
                         ext-rtp-ip: $${local_ip_v4}
                         ext-sip-ip: $${local_ip_v4}
-                        ws-binding: 134.209.111.8:5066
-                       wss-binding: 134.209.111.8:7443
+                        ws-binding: 159.65.132.50:5066
+                       wss-binding: 159.65.132.50:7443
 
 UDP port ranges
 
@@ -287,24 +363,31 @@ UDP port ranges
                     bbb-webrtc-recorder: null-null
 
 /usr/local/bigbluebutton/core/scripts/bigbluebutton.yml (record and playback)
-                     playback_host: bbb8.scalelitebbb.systems
+                     playback_host: bbb2.scalelitebbb.systems
                  playback_protocol: https
                             ffmpeg: 4.4.2-0ubuntu0.22.04.1
 
 /usr/share/bigbluebutton/nginx/sip.nginx (sip.nginx)
-                        proxy_pass: 134.209.111.8
+                        proxy_pass: 159.65.132.50
                           protocol: http
 
 
 # Potential problems described below
-.............
+..................
+# Warning: The setting of 165.22.51.241 for local_ip_v4 in
+#
+#    /opt/freeswitch/etc/freeswitch/vars.xml
+#
+# does not match the local IP address (159.65.132.50).
+# (This is OK if you've manually changed the values)
+
 # Warning: You have this server defined for https, but in
 #
 #   /usr/share/bigbluebutton/nginx/sip.nginx
 #
 #  did not find the use of https in definition for proxy_pass
 #
-#            proxy_pass http://134.209.111.8:5066;
+#            proxy_pass http://159.65.132.50:5066;
 #
 
 # Warning: You have this server defined for https, but in
@@ -313,35 +396,6 @@ UDP port ranges
 #
 #  did not find the use of port 7443 in definition for proxy_pass
 #
-#            proxy_pass http://134.209.111.8:5066;
-#
-
-#
-# bbb-webrtc-sfu will try to connect to null but FreeSWITCH is listening on 134.209.111.8 for port 5066
-#
-# To fix, run the commands
-#
-# sudo yq e -i 'freeswitch.sip_ip' = 134.209.111.8 /etc/bigbluebutton/bbb-webrtc-sfu/production.yml
-# sudo chown bigbluebutton:bigbluebutton /etc/bigbluebutton/bbb-webrtc-sfu/production.yml
-#
-
-#
-# Warning: The file
-#
-#  /var/log/bigbluebutton/post_publish.log
-#
-# is not owned by bigbluebutton:bigbluebutton.  To fix, run the command
-#
-#   sudo chown bigbluebutton:bigbluebutton /var/log/bigbluebutton/post_publish.log
-#
-
-#
-# Warning: The file
-#
-#  /var/log/bigbluebutton/sanity.log
-#
-# is not owned by bigbluebutton:bigbluebutton.  To fix, run the command
-#
-#   sudo chown bigbluebutton:bigbluebutton /var/log/bigbluebutton/sanity.log
+#            proxy_pass http://159.65.132.50:5066;
 #
 IP addresses updated and services restarted.

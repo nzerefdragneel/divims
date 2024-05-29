@@ -1,4 +1,4 @@
-Warning: Permanently added '134.209.111.8' (ECDSA) to the list of known hosts.
+Warning: Permanently added '159.65.132.50' (ECDSA) to the list of known hosts.
 
 BigBlueButton Server 3.0.0-alpha.6 (831)
                     Kernel version: 5.15.0-107-generic
@@ -44,58 +44,5 @@ UDP port ranges
 
 
 # Potential problems described below
-
-# Warning: The setting of 165.22.51.241 for local_ip_v4 in
-#
-#    /opt/freeswitch/etc/freeswitch/vars.xml
-#
-# does not match the local IP address (134.209.111.8).
-# (This is OK if you've manually changed the values)
-
-bbb-apps-akka ————————————————► [✘ - inactive]
-bbb-fsesl-akka ———————————————► [✘ - inactive]
-mongod ———————————————————————► [✘ - inactive]
-bbb-html5 ————————————————————► [✘ - inactive]
-bbb-graphql-actions ——————————► [✘ - inactive]
-bbb-graphql-middleware ———————► [✘ - inactive]
-bbb-webrtc-sfu ———————————————► [✘ - inactive]
-bbb-webrtc-recorder ——————————► [✘ - inactive]
-etherpad —————————————————————► [✘ - inactive]
-bbb-web ——————————————————————► [✘ - inactive]
-bbb-pads —————————————————————► [✘ - inactive]
-bbb-export-annotations ———————► [✘ - inactive]
-bbb-rap-caption-inbox ————————► [✘ - inactive]
-bbb-rap-starter ——————————————► [✘ - inactive]
-# Error: Detected some processes have not started correctly
-#
-#   bbb-apps-akka ————————————————► [✘ - inactive]
-bbb-fsesl-akka ———————————————► [✘ - inactive]
-bbb-html5 ————————————————————► [✘ - inactive]
-bbb-graphql-actions ——————————► [✘ - inactive]
-bbb-graphql-middleware ———————► [✘ - inactive]
-bbb-webrtc-sfu ———————————————► [✘ - inactive]
-#
-# Warning: You have this server defined for https, but in
-#
-#   /usr/share/bigbluebutton/nginx/sip.nginx
-#
-#  did not find the use of https in definition for proxy_pass
-#
-#            proxy_pass http://165.22.51.241:5066;
-#
-# Warning: The setting of 165.22.51.241 for proxy_pass in
-#
-#    /usr/share/bigbluebutton/nginx/sip.nginx
-#
-# does not match the local IP address (134.209.111.8).
-# (This is OK if you've manually changed the values)
-
-
-# Warning: You have this server defined for https, but in
-#
-#   /usr/share/bigbluebutton/nginx/sip.nginx
-#
-#  did not find the use of port 7443 in definition for proxy_pass
-#
-#            proxy_pass http://165.22.51.241:5066;
-#
+.curl: (6) Could not resolve host: bbbclone.scalelitebbb.systems
+curl: (6) .Could not resolve host: bbbclone.scalelitebbb.systems

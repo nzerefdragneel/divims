@@ -45,7 +45,7 @@ $config = [
     // Duration in seconds before discarding data in past load data file
     'load_adaptation_data_file_suffix' => '_loadAdaptationData',
     // Maximum number of participants a server can handle
-    'load_adaptation_server_participants_capacity' => 250,
+    'load_adaptation_server_participants_capacity' => 2,
     // Maximum number of meetings a server can handle
     'load_adaptation_server_meetings_capacity' => 15,
     // Minimum pourcentage of the pool that must be active

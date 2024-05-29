@@ -1,10 +1,10 @@
-Warning: Permanently added '134.209.111.8' (ECDSA) to the list of known hosts.
+Warning: Permanently added '159.65.132.50' (ECDSA) to the list of known hosts.
 Filesystem                                Size  Used Avail Use% Mounted on
 tmpfs                                     794M  1.2M  793M   1% /run
 /dev/vda1                                 155G   11G  145G   7% /
 tmpfs                                     3.9G  1.1M  3.9G   1% /dev/shm
 tmpfs                                     5.0M     0  5.0M   0% /run/lock
 /dev/vda15                                105M  6.1M   99M   6% /boot/efi
-tmpfs                                     512M  301M  212M  59% /mnt/mongo-ramdisk
+tmpfs                                     512M  302M  211M  59% /mnt/mongo-ramdisk
 tmpfs                                     794M  4.0K  794M   1% /run/user/0
 157.245.193.98:/mnt/scalelite-recordings  155G  7.6G  148G   5% /mnt/scalelite-recordings

@@ -121,7 +121,7 @@ class ServersPoolDOC
             ];
         }
         $servers = array_merge_recursive($servers, $bare_metal_servers);
-
+        
 
         // Poll active servers in parallel if required (CPU and time intensive)
         if ($poll_active_servers) {
@@ -134,27 +134,8 @@ class ServersPoolDOC
             }
         }
 
-        // Create tmp directory if not exists
-        if (!is_dir($this->config->get('base_directory') . '/tmp')) {
-            mkdir($this->config->get('base_directory') . '/tmp', 0777);
-        }
-
-        $maintenance_file = $this->config->get('base_directory') . '/tmp/' . $this->config->get('project') . $this->config->get('maintenance_file_suffix') . '.json';
-
-        // Create file if not exists
-        if (!file_exists($maintenance_file)) {
-            file_put_contents($maintenance_file, '');
-        }
-
-        $servers_in_maintenance = json_decode(file_get_contents($maintenance_file), true);
-        if (!empty($servers_in_maintenance)) {
-            $this->logger->warning("Servers in maintenance. Ignoring for adaptation.", ['maintenance_list' => implode(',', $servers_in_maintenance)]);
-            foreach($servers_in_maintenance as $number) {
-                $domain = $this->getServerDomain($number);
-                $servers[$domain]['divims_state'] = 'in maintenance';
-            }
-        }
-
+     
+     
         foreach ($servers as $domain => $v) {
 
 
@@ -207,7 +188,7 @@ class ServersPoolDOC
                     $this->logger->warning("Uptime above limit for virtual machine server $domain detected. Tag server as 'to recycle'. Server will be powered off unless it is in maintenance.", $log_context);
                 }
                 $servers[$domain]['custom_state'] = 'to recycle';
-            }elseif ($v['hoster_state'] == 'active' and $bbb_status == 'OK' and $v['hoster_state_duration']<100000 and $v['scalelite_status']==null and $v['hoster_public_ip']!=null) {
+            }elseif ($v['hoster_state'] == 'active' and $bbb_status == 'OK' and $v['hoster_state_duration']<100000 and $v['scalelite_status']=="disabled" and $v['hoster_public_ip']!=null) {
                 // Alternatively check if server should be recycled due to long uptime
                 $log_context = compact('domain', 'bbb_status', 'divims_state', 'server_max_recycling_uptime', 'uptime','custom_state');
 
@@ -223,6 +204,7 @@ class ServersPoolDOC
 
         }
         $this->list = $servers;
+        echo "list of servers: " . json_encode($servers, JSON_PRETTY_PRINT);
         return $servers;
     }
 
@@ -328,7 +310,7 @@ class ServersPoolDOC
      */
     public function getHostnameFQDN(int $server_number)
     {
-        return $this->getHostname($server_number) . '.' . $this->config->get('clone_dns_entry_subdomain') . '.' . $this->config->get('clone_dns_entry_zone');
+        return $this->getHostname($server_number) . '.' . $this->config->get('domain_name') ;
     }
 
     /**
@@ -1000,14 +982,8 @@ class ServersPoolDOC
         if ($this->config->get('hoster_api') == 'DOC') {
             $search_pattern = str_replace('X', '', $this->config->get('clone_hostname_template'));
             $this->logger->debug("Search hostnames with pattern: $search_pattern");
-            $servers = $this->hoster_api->getServers(['name' => $search_pattern]);
-            //var_dump($servers);
-            if (!isset($servers['servers'])) {
-                $this->logger->error("No matching servers at hoster.", ['pattern' => $search_pattern]);
-                return false;
-            }
-            $count = count($servers['servers']);
-            $this->logger->debug("Matching servers count : $count");
+            $servers = $this->pollHoster();
+          
 
             //Build hostnames list
             foreach ($numbers as $server_number) {
@@ -1017,15 +993,28 @@ class ServersPoolDOC
             }
 
             $success_list = [];
-            foreach ($servers['servers'] as $server) {
-                if (in_array($server['name'], $hostname_list)) {
-                    $server_id = $server['id'];
+            foreach ($servers as $server) {
+                if (in_array($server['name'], $hostname_list) ) {
+            
+                    echo "terminate";
+                    $server_id = $server['hoster_id'];
+                    echo $server_id;
                     $this->logger->info("Perform hoster API action on server", ['action' => $action, 'hostname' => $server['name'], 'server_id' => $server_id]);
-                    $result = $this->hoster_api->actOnServer($server_id, ['action' => $action]);
-                    if ($result) {
-                        $success_list[] = $this->getServerNumberFromHostname($server['name']);
-                        continue;
+                    if ($action == 'terminate') {
+                        $result = $this->hoster_api->removeDroplet($server_id);
+                        $this->hoster_api->removeDomainRecordByName($this->config->get('domain_name'), $server['name']);
+                        if ($result) {
+                            $success_list[] = $this->getServerNumberFromHostname($server['name']);
+                            continue;
+                        }
+                    } else {
+                        $result = $this->hoster_api->actOnServer($server_id, ['action' => $action]);
+                        if ($result) {
+                            $success_list[] = $this->getServerNumberFromHostname($server['name']);
+                            continue;
+                        }
                     }
+                  
                     usleep(200000);
                 }
             }
@@ -1034,6 +1023,7 @@ class ServersPoolDOC
         if (isset($params['domains'])) {
             return $this->getServerDomainsFromNumbersList($success_list);
         }
+        echo "success_list : $success_list\n";
         return $success_list;
     }
 
@@ -1052,6 +1042,8 @@ class ServersPoolDOC
         $recordName = $server['name'];
         $domainName=$this->config->get('domain_name');
         $server_ip = $server['hoster_public_ip'];
+        $server_domain=$server['domain'];
+        $this->hoster_api->removeDomainRecordByName($domainName,$recordName);
         $recordId = $this->hoster_api->createDomainRecord($domainName, $recordType, $recordName, $server_ip );
         if ($recordId) {
             $this->logger->info("Record created", ['recordId' => $recordId]);
@@ -2195,6 +2187,46 @@ class ServersPoolDOC
                 }
             }
         }
+    }
+
+    public function deleteVPS($server){
+        $tries=0;
+        $server_name=$server["name"];
+        while (true){
+            $tries++;
+            $this->logger->info("Try to delete DNS $server_name. Try $tries.");
+            $ip=$server["hoster_public_ip"];
+            $domain=$this->config->get('domain_name');
+            if ($this->hoster_api->removeDomainRecordByIp($ip, $domain)) {
+                $this->logger->error("Can not delete DNS $server_name.", ["server" => $server]);
+                if ($tries >= 3) {
+                    $this->logger->error("Can not delete DNS $server_name after 3 tries. Stop trying.", ["server" => $server]);
+                    break;
+                }
+            } else {
+                $this->logger->info("DNS $server deleted.", ["server" => $server]);
+                break;
+            }
+        }
+        $tries=0;
+        while (true){
+            $tries++;
+            $this->logger->info("Try to delete VPS $server_name. Try $tries.");
+            $hoster_id=$server["hoster_id"];
+            if ($this->hoster_api->deleteDroplet($hoster_id)) {
+                $this->logger->error("Can not delete VPS $server_name.", ["server" => $server]);
+                if ($tries >= 3) {
+                    $this->logger->error("Can not delete VPS $server_name after 3 tries. Stop trying.", ["server" => $server]);
+                    break;
+
+                }
+            } else {
+                $this->logger->info("VPS $server deleted.", ["server" => $server]);
+                return true;
+
+            }
+        }
+        return false;
     }
 
     /**
