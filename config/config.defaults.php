@@ -45,16 +45,16 @@ $config = [
     // Duration in seconds before discarding data in past load data file
     'load_adaptation_data_file_suffix' => '_loadAdaptationData',
     // Maximum number of participants a server can handle
-    'load_adaptation_server_participants_capacity' => 2,
+    'load_adaptation_server_participants_capacity' => 4,
     // Maximum number of meetings a server can handle
     'load_adaptation_server_meetings_capacity' => 15,
     // Minimum pourcentage of the pool that must be active
     'load_adaptation_active_servers_minimum_ratio' => 0.01,
     // Multiply current participants count by following factors to define next capacity
-    'load_adaptation_participants_capacity_factor_1' => 2,
-    'load_adaptation_participants_capacity_factor_2' => 3,
-    'load_adaptation_meetings_capacity_factor_1' => 2,
-    'load_adaptation_meetings_capacity_factor_2' => 3,
+    'load_adaptation_participants_capacity_factor_1' => 1,
+    'load_adaptation_participants_capacity_factor_2' => 1,
+    'load_adaptation_meetings_capacity_factor_1' => 1,
+    'load_adaptation_meetings_capacity_factor_2' => 1,
     // Load variation ratio separating factor_1 from factor_2
     'load_adaptation_participants_variation_ratio_threshold' => 1.2,
     'load_adaptation_meetings_variation_ratio_threshold' => 1.2,

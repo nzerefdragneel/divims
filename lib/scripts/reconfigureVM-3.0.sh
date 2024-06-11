@@ -6,6 +6,7 @@ NEW_EXTERNAL_IPV4=
 EMAIL=
 NEW_DOMAIN=
 # Define the file paths
+# ///opt/freeswitch/etc/freeswitch/vars.xml
 FREESWITCH_VARS_FILE="/opt/freeswitch/etc/freeswitch/vars.xml"
 NGINX_SIP_FILE="/usr/share/bigbluebutton/nginx/sip.nginx"
 FREESWITCH_EXTERNAL_PROFILE_FILE="/opt/freeswitch/etc/freeswitch/sip_profiles/external.xml"
@@ -30,4 +31,9 @@ sudo systemctl restart freeswitch
 sudo systemctl restart nginx
 
 echo "IP addresses updated and services restarted."
+
+bbb-conf --clean
+bbb-conf --check
+bbb-conf --secret
+
 

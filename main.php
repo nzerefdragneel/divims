@@ -3,6 +3,8 @@
 /**
  * How to execute this script in the Docker container :
  * Change directory to the root directory of the application
+ * docker run --rm -it --user $(id -u):$(id -g) -v $(pwd):/app/ php:parallel /bin/bash
+
  * docker container run --rm --user $(id -u):$(id -g) -v $(pwd):/app/ php:parallel php /app/run/main.php  --project=<project>
  */
 
@@ -90,19 +92,7 @@ $logger->pushHandler(
         "/app/tmp/${project}_email_error.log", Logger::ERROR, 3600
     )
 );
-$to = 'nguyentranngocsuong94@gmail.com';
-$subject = 'Warning: DiViM-S $project';
-$from = 'twitterdevtw@gmail.com';
-$level = Logger::WARNING;
 
-// Instantiate EmailSender
-$emailSender = new NativeMailerHandler($to, $subject, $from, $level);
-
-// Add a custom header
-$emailSender->addHeader('For testing purpose');
-
-// Send the test email
-$emailSender->send('This is a test email', []);
 
 $config = new Config($project, $logger);
 
@@ -114,15 +104,18 @@ echo "oke!!!\n";
 // test digital ocean
 $digitalocean=new DOC($config, $logger);
 $snapshotname=$config->get('clone_image_name');
-$snapshotid=$pool->getSnapshotId($snapshotname);
-echo "snapshotid: $snapshotid\n";
+// $pool->setupCertificate($config, $logger);
+// $snapshotid=$pool->getSnapshotId($snapshotname);
+// echo "snapshotid: $snapshotid\n";
+// $pool->adaptCapacity();
 while (true){
-$pool->adaptCapacity();
-sleep(60);
+    $pool->poll(true);
+    $pool->adaptCapacity();
+    sleep(60);
 }
-
-
-$domainName = $config->get('domain_name');
+// // $pool->poll(true);
+// // $pool->adaptCapacity();
+// $domainName = $config->get('domain_name');
 
 
 

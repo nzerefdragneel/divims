@@ -1,4 +1,4 @@
-Warning: Permanently added '159.65.132.50' (ECDSA) to the list of known hosts.
+Warning: Permanently added '159.223.78.177' (ECDSA) to the list of known hosts.
 
 BigBlueButton Server 3.0.0-alpha.6 (831)
                     Kernel version: 5.15.0-107-generic
@@ -44,5 +44,3 @@ UDP port ranges
 
 
 # Potential problems described below
-.curl: (6) Could not resolve host: bbbclone.scalelitebbb.systems
-curl: (6) .Could not resolve host: bbbclone.scalelitebbb.systems

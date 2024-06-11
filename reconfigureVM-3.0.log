@@ -1,19 +1,40 @@
-Warning: Permanently added '159.65.132.50' (ECDSA) to the list of known hosts.
-Hit:1 https://download.docker.com/linux/ubuntu jammy InRelease
-Hit:2 http://mirrors.digitalocean.com/ubuntu jammy InRelease
-Hit:3 http://mirrors.digitalocean.com/ubuntu jammy-updates InRelease
-Hit:4 https://repos.insights.digitalocean.com/apt/do-agent main InRelease
-Hit:5 https://deb.nodesource.com/node_18.x nodistro InRelease
-Hit:6 https://repos-droplet.digitalocean.com/apt/droplet-agent main InRelease
-Hit:7 http://mirrors.digitalocean.com/ubuntu jammy-backports InRelease
-Hit:8 http://security.ubuntu.com/ubuntu jammy-security InRelease
-Ign:9 https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 InRelease
-Hit:10 http://apt.postgresql.org/pub/repos/apt jammy-pgdg InRelease
-Hit:11 https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 Release
-Hit:12 https://ubuntu.bigbluebutton.org/jammy-300 bigbluebutton-jammy InRelease
-Hit:14 https://ppa.launchpadcontent.net/bigbluebutton/support/ubuntu jammy InRelease
-Hit:15 https://ppa.launchpadcontent.net/martin-uni-mainz/coturn/ubuntu jammy InRelease
-Hit:16 https://ppa.launchpadcontent.net/rmescandon/yq/ubuntu jammy InRelease
+Warning: Permanently added '159.223.78.177' (ECDSA) to the list of known hosts.
+Ign:1 https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 InRelease
+Hit:2 https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 Release
+Get:4 https://download.docker.com/linux/ubuntu jammy InRelease [48.8 kB]
+Hit:5 http://mirrors.digitalocean.com/ubuntu jammy InRelease
+Get:6 http://mirrors.digitalocean.com/ubuntu jammy-updates InRelease [128 kB]
+Hit:7 https://repos-droplet.digitalocean.com/apt/droplet-agent main InRelease
+Hit:8 https://repos.insights.digitalocean.com/apt/do-agent main InRelease
+Get:9 http://mirrors.digitalocean.com/ubuntu jammy-backports InRelease [127 kB]
+Get:10 https://deb.nodesource.com/node_18.x nodistro InRelease [12.1 kB]
+Get:11 https://download.docker.com/linux/ubuntu jammy/stable amd64 Packages [33.7 kB]
+Get:12 http://mirrors.digitalocean.com/ubuntu jammy-updates/main amd64 Packages [1718 kB]
+Get:13 http://mirrors.digitalocean.com/ubuntu jammy-updates/main Translation-en [316 kB]
+Get:14 http://mirrors.digitalocean.com/ubuntu jammy-updates/restricted amd64 Packages [1975 kB]
+Get:15 http://mirrors.digitalocean.com/ubuntu jammy-updates/restricted Translation-en [336 kB]
+Get:16 http://mirrors.digitalocean.com/ubuntu jammy-updates/universe amd64 Packages [1086 kB]
+Get:17 http://mirrors.digitalocean.com/ubuntu jammy-updates/universe Translation-en [250 kB]
+Get:18 http://security.ubuntu.com/ubuntu jammy-security InRelease [129 kB]
+Get:19 http://mirrors.digitalocean.com/ubuntu jammy-updates/multiverse amd64 Packages [43.0 kB]
+Get:20 http://mirrors.digitalocean.com/ubuntu jammy-updates/multiverse Translation-en [10.7 kB]
+Get:21 http://apt.postgresql.org/pub/repos/apt jammy-pgdg InRelease [123 kB]
+Get:22 http://mirrors.digitalocean.com/ubuntu jammy-backports/main amd64 Packages [67.1 kB]
+Get:23 http://mirrors.digitalocean.com/ubuntu jammy-backports/universe amd64 Packages [27.2 kB]
+Get:24 http://mirrors.digitalocean.com/ubuntu jammy-backports/universe Translation-en [16.3 kB]
+Get:25 https://deb.nodesource.com/node_18.x nodistro/main amd64 Packages [9230 B]
+Hit:26 https://ubuntu.bigbluebutton.org/jammy-300 bigbluebutton-jammy InRelease
+Hit:27 https://ppa.launchpadcontent.net/bigbluebutton/support/ubuntu jammy InRelease
+Hit:28 https://ppa.launchpadcontent.net/martin-uni-mainz/coturn/ubuntu jammy InRelease
+Hit:29 https://ppa.launchpadcontent.net/rmescandon/yq/ubuntu jammy InRelease
+Get:30 http://security.ubuntu.com/ubuntu jammy-security/main amd64 Packages [1500 kB]
+Get:31 http://apt.postgresql.org/pub/repos/apt jammy-pgdg/main amd64 Packages [332 kB]
+Get:32 http://security.ubuntu.com/ubuntu jammy-security/main Translation-en [257 kB]
+Get:33 http://security.ubuntu.com/ubuntu jammy-security/restricted amd64 Packages [1910 kB]
+Get:34 http://security.ubuntu.com/ubuntu jammy-security/restricted Translation-en [324 kB]
+Get:35 http://security.ubuntu.com/ubuntu jammy-security/universe amd64 Packages [857 kB]
+Get:36 http://security.ubuntu.com/ubuntu jammy-security/universe Translation-en [166 kB]
+Fetched 11.8 MB in 8s (1393 kB/s)
 Reading package lists...
 Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8)).
 -----BEGIN PGP PUBLIC KEY BLOCK-----
@@ -75,34 +96,35 @@ XDG_SESSION_TYPE=tty
 MOTD_SHOWN=pam
 HOME=/root
 LANG=C.UTF-8
-SSH_CONNECTION=42.118.199.228 50813 159.65.132.50 22
+SSH_CONNECTION=113.22.92.204 52191 159.223.78.177 22
 XDG_SESSION_CLASS=user
 USER=root
 SHLVL=1
-XDG_SESSION_ID=15
+XDG_SESSION_ID=8
 XDG_RUNTIME_DIR=/run/user/0
-SSH_CLIENT=42.118.199.228 50813 22
+SSH_CLIENT=113.22.92.204 52191 22
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/0/bus
 DEBIAN_FRONTEND=noninteractive
 _=/usr/bin/env
 Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8)).
 yq (https://github.com/mikefarah/yq/) version 4.16.2
-Hit:1 https://download.docker.com/linux/ubuntu jammy InRelease
-Hit:2 http://mirrors.digitalocean.com/ubuntu jammy InRelease
-Hit:3 https://deb.nodesource.com/node_18.x nodistro InRelease
-Hit:4 http://mirrors.digitalocean.com/ubuntu jammy-updates InRelease
-Hit:5 http://mirrors.digitalocean.com/ubuntu jammy-backports InRelease
+Ign:1 https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 InRelease
+Hit:2 https://download.docker.com/linux/ubuntu jammy InRelease
+Hit:3 http://mirrors.digitalocean.com/ubuntu jammy InRelease
+Hit:4 https://deb.nodesource.com/node_18.x nodistro InRelease
+Get:5 http://mirrors.digitalocean.com/ubuntu jammy-updates InRelease [128 kB]
 Hit:6 https://repos.insights.digitalocean.com/apt/do-agent main InRelease
 Hit:7 https://repos-droplet.digitalocean.com/apt/droplet-agent main InRelease
-Ign:8 https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 InRelease
-Hit:9 http://security.ubuntu.com/ubuntu jammy-security InRelease
-Hit:10 http://apt.postgresql.org/pub/repos/apt jammy-pgdg InRelease
-Hit:11 https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 Release
-Hit:12 https://ubuntu.bigbluebutton.org/jammy-300 bigbluebutton-jammy InRelease
-Hit:13 https://ppa.launchpadcontent.net/bigbluebutton/support/ubuntu jammy InRelease
-Hit:14 https://ppa.launchpadcontent.net/martin-uni-mainz/coturn/ubuntu jammy InRelease
+Hit:8 http://mirrors.digitalocean.com/ubuntu jammy-backports InRelease
+Hit:9 https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 Release
+Hit:10 http://security.ubuntu.com/ubuntu jammy-security InRelease
+Hit:12 http://apt.postgresql.org/pub/repos/apt jammy-pgdg InRelease
+Hit:13 https://ubuntu.bigbluebutton.org/jammy-300 bigbluebutton-jammy InRelease
+Hit:14 https://ppa.launchpadcontent.net/bigbluebutton/support/ubuntu jammy InRelease
+Hit:15 https://ppa.launchpadcontent.net/martin-uni-mainz/coturn/ubuntu jammy InRelease
 Hit:16 https://ppa.launchpadcontent.net/rmescandon/yq/ubuntu jammy InRelease
+Fetched 128 kB in 2s (65.2 kB/s)
 Reading package lists...
 Repository: 'deb https://ppa.launchpadcontent.net/bigbluebutton/support/ubuntu/ jammy main'
 Description:
@@ -120,21 +142,22 @@ Found existing deb-src entry in /etc/apt/sources.list.d/bigbluebutton-ubuntu-sup
 Adding disabled deb-src entry to /etc/apt/sources.list.d/bigbluebutton-ubuntu-support-jammy.list
 Adding key to /etc/apt/trusted.gpg.d/bigbluebutton-ubuntu-support.gpg with fingerprint 36A9CA9512E5F0A4BE549ACF2E1B01D0E95B94BC
 Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8)).
-Hit:1 http://mirrors.digitalocean.com/ubuntu jammy InRelease
+Ign:1 https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 InRelease
 Hit:2 https://download.docker.com/linux/ubuntu jammy InRelease
-Ign:3 https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 InRelease
-Hit:4 http://mirrors.digitalocean.com/ubuntu jammy-updates InRelease
-Hit:5 http://mirrors.digitalocean.com/ubuntu jammy-backports InRelease
-Hit:6 https://deb.nodesource.com/node_18.x nodistro InRelease
-Hit:7 https://repos-droplet.digitalocean.com/apt/droplet-agent main InRelease
-Hit:8 https://repos.insights.digitalocean.com/apt/do-agent main InRelease
-Hit:9 https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 Release
+Hit:3 https://repos-droplet.digitalocean.com/apt/droplet-agent main InRelease
+Hit:4 https://deb.nodesource.com/node_18.x nodistro InRelease
+Hit:5 http://mirrors.digitalocean.com/ubuntu jammy InRelease
+Hit:6 https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 Release
+Get:7 http://mirrors.digitalocean.com/ubuntu jammy-updates InRelease [128 kB]
+Hit:8 http://mirrors.digitalocean.com/ubuntu jammy-backports InRelease
+Hit:9 https://repos.insights.digitalocean.com/apt/do-agent main InRelease
 Hit:10 http://security.ubuntu.com/ubuntu jammy-security InRelease
-Hit:11 https://ubuntu.bigbluebutton.org/jammy-300 bigbluebutton-jammy InRelease
-Hit:12 https://ppa.launchpadcontent.net/bigbluebutton/support/ubuntu jammy InRelease
-Hit:14 https://ppa.launchpadcontent.net/martin-uni-mainz/coturn/ubuntu jammy InRelease
-Hit:15 https://ppa.launchpadcontent.net/rmescandon/yq/ubuntu jammy InRelease
-Hit:16 http://apt.postgresql.org/pub/repos/apt jammy-pgdg InRelease
+Hit:12 http://apt.postgresql.org/pub/repos/apt jammy-pgdg InRelease
+Hit:13 https://ppa.launchpadcontent.net/bigbluebutton/support/ubuntu jammy InRelease
+Hit:14 https://ubuntu.bigbluebutton.org/jammy-300 bigbluebutton-jammy InRelease
+Hit:15 https://ppa.launchpadcontent.net/martin-uni-mainz/coturn/ubuntu jammy InRelease
+Hit:16 https://ppa.launchpadcontent.net/rmescandon/yq/ubuntu jammy InRelease
+Fetched 128 kB in 2s (67.1 kB/s)
 Reading package lists...
 Repository: 'deb https://ppa.launchpadcontent.net/martin-uni-mainz/coturn/ubuntu/ jammy main'
 Description:
@@ -154,78 +177,354 @@ Reading package lists...
 Building dependency tree...
 Reading state information...
 Package 'docker-compose' is not installed, so not removed
-0 upgraded, 0 newly installed, 0 to remove and 5 not upgraded.
-Hit:1 http://mirrors.digitalocean.com/ubuntu jammy InRelease
-Hit:2 http://mirrors.digitalocean.com/ubuntu jammy-updates InRelease
-Hit:3 https://download.docker.com/linux/ubuntu jammy InRelease
-Ign:4 https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 InRelease
-Hit:5 https://repos.insights.digitalocean.com/apt/do-agent main InRelease
-Hit:6 http://mirrors.digitalocean.com/ubuntu jammy-backports InRelease
-Hit:7 https://deb.nodesource.com/node_18.x nodistro InRelease
-Hit:8 https://repos-droplet.digitalocean.com/apt/droplet-agent main InRelease
-Hit:9 http://apt.postgresql.org/pub/repos/apt jammy-pgdg InRelease
-Hit:10 https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 Release
-Hit:11 http://security.ubuntu.com/ubuntu jammy-security InRelease
-Hit:12 https://ubuntu.bigbluebutton.org/jammy-300 bigbluebutton-jammy InRelease
-Hit:13 https://ppa.launchpadcontent.net/bigbluebutton/support/ubuntu jammy InRelease
-Hit:15 https://ppa.launchpadcontent.net/martin-uni-mainz/coturn/ubuntu jammy InRelease
-Hit:16 https://ppa.launchpadcontent.net/rmescandon/yq/ubuntu jammy InRelease
+0 upgraded, 0 newly installed, 0 to remove and 53 not upgraded.
+Sleeping for 1 second because dpkg/lock-frontend in use
+Sleeping for 1 second because dpkg/lock-frontend in use
+Sleeping for 1 second because dpkg/lock-frontend in use
+Sleeping for 1 second because dpkg/lock-frontend in use
+Sleeping for 1 second because dpkg/lock-frontend in use
 Reading package lists...
+E: Could not get lock /var/lib/apt/lists/lock. It is held by process 7421 (apt-get)
+E: Unable to lock directory /var/lib/apt/lists/
 Reading package lists...
 Building dependency tree...
 Reading state information...
 Calculating upgrade...
+The following NEW packages will be installed:
+  linux-headers-5.15.0-112 linux-headers-5.15.0-112-generic
+  linux-image-5.15.0-112-generic linux-modules-5.15.0-112-generic
 The following packages have been kept back:
   python3-update-manager update-manager-core
 The following packages will be upgraded:
-  git git-man python3-jinja2
-3 upgraded, 0 newly installed, 0 to remove and 2 not upgraded.
-Need to get 4228 kB of archives.
-After this operation, 17.4 kB of additional disk space will be used.
-Get:1 http://mirrors.digitalocean.com/ubuntu jammy-updates/main amd64 git-man all 1:2.34.1-1ubuntu1.11 [955 kB]
-Get:2 http://mirrors.digitalocean.com/ubuntu jammy-updates/main amd64 git amd64 1:2.34.1-1ubuntu1.11 [3165 kB]
-Get:3 http://mirrors.digitalocean.com/ubuntu jammy-updates/main amd64 python3-jinja2 all 3.0.3-1ubuntu0.2 [108 kB]
-Fetched 4228 kB in 0s (33.2 MB/s)
-(Reading database ... 
-(Reading database ... 5%
-(Reading database ... 10%
-(Reading database ... 15%
-(Reading database ... 20%
-(Reading database ... 25%
-(Reading database ... 30%
-(Reading database ... 35%
-(Reading database ... 40%
-(Reading database ... 45%
-(Reading database ... 50%
-(Reading database ... 55%
-(Reading database ... 60%
-(Reading database ... 65%
-(Reading database ... 70%
-(Reading database ... 75%
-(Reading database ... 80%
-(Reading database ... 85%
-(Reading database ... 90%
-(Reading database ... 95%
-(Reading database ... 100%
-(Reading database ... 253761 files and directories currently installed.)
-Preparing to unpack .../git-man_1%3a2.34.1-1ubuntu1.11_all.deb ...
+  bind9-dnsutils bind9-host bind9-libs cloud-init containerd.io dnsutils
+  docker-buildx-plugin docker-ce docker-ce-cli docker-ce-rootless-extras
+  docker-compose-plugin git git-man libarchive13 libc-bin libc-dev-bin
+  libc-devtools libc6 libc6-dev libgdk-pixbuf-2.0-0 libgdk-pixbuf2.0-bin
+  libgdk-pixbuf2.0-common libgif7 libtiff5 libtss2-esys-3.0.2-0 libtss2-mu0
+  libtss2-sys1 libtss2-tcti-cmd0 libtss2-tcti-device0 libtss2-tcti-mssim0
+  libtss2-tcti-swtpm0 libvpx7 linux-headers-generic linux-headers-virtual
+  linux-image-virtual linux-libc-dev linux-virtual locales openjdk-17-jdk
+  openjdk-17-jdk-headless openjdk-17-jre openjdk-17-jre-headless
+  python3-jinja2 ubuntu-advantage-tools ubuntu-pro-client
+  ubuntu-pro-client-l10n vim vim-common vim-runtime vim-tiny xxd
+51 upgraded, 4 newly installed, 0 to remove and 2 not upgraded.
+Need to get 320 MB of archives.
+After this operation, 228 MB of additional disk space will be used.
+Get:1 https://download.docker.com/linux/ubuntu jammy/stable amd64 containerd.io amd64 1.6.33-1 [30.0 MB]
+Get:2 http://mirrors.digitalocean.com/ubuntu jammy-updates/main amd64 libc-devtools amd64 2.35-0ubuntu3.8 [28.9 kB]
+Get:3 http://mirrors.digitalocean.com/ubuntu jammy-updates/main amd64 libc6-dev amd64 2.35-0ubuntu3.8 [2100 kB]
+Get:4 http://mirrors.digitalocean.com/ubuntu jammy-updates/main amd64 libc-dev-bin amd64 2.35-0ubuntu3.8 [20.3 kB]
+Get:5 http://mirrors.digitalocean.com/ubuntu jammy-updates/main amd64 linux-libc-dev amd64 5.15.0-112.122 [1342 kB]
+Get:6 http://mirrors.digitalocean.com/ubuntu jammy-updates/main amd64 libc6 amd64 2.35-0ubuntu3.8 [3235 kB]
+Get:7 http://mirrors.digitalocean.com/ubuntu jammy-updates/main amd64 libc-bin amd64 2.35-0ubuntu3.8 [706 kB]
+Get:8 http://mirrors.digitalocean.com/ubuntu jammy-updates/main amd64 locales all 2.35-0ubuntu3.8 [4245 kB]
+Get:9 http://mirrors.digitalocean.com/ubuntu jammy-updates/main amd64 ubuntu-pro-client-l10n amd64 32.3~22.04 [20.3 kB]
+Get:10 http://mirrors.digitalocean.com/ubuntu jammy-updates/main amd64 ubuntu-pro-client amd64 32.3~22.04 [209 kB]
+Get:11 http://mirrors.digitalocean.com/ubuntu jammy-updates/main amd64 ubuntu-advantage-tools all 32.3~22.04 [10.9 kB]
+Get:12 https://download.docker.com/linux/ubuntu jammy/stable amd64 docker-buildx-plugin amd64 0.14.1-1~ubuntu.22.04~jammy [29.6 MB]
+Get:13 http://mirrors.digitalocean.com/ubuntu jammy-updates/main amd64 vim amd64 2:8.2.3995-1ubuntu2.17 [1734 kB]
+Get:14 http://mirrors.digitalocean.com/ubuntu jammy-updates/main amd64 vim-tiny amd64 2:8.2.3995-1ubuntu2.17 [709 kB]
+Get:15 http://mirrors.digitalocean.com/ubuntu jammy-updates/main amd64 vim-runtime all 2:8.2.3995-1ubuntu2.17 [6827 kB]
+Get:16 http://security.ubuntu.com/ubuntu jammy-security/main amd64 libtiff5 amd64 4.3.0-6ubuntu0.9 [185 kB]
+Get:17 http://mirrors.digitalocean.com/ubuntu jammy-updates/main amd64 xxd amd64 2:8.2.3995-1ubuntu2.17 [53.7 kB]
+Get:18 http://mirrors.digitalocean.com/ubuntu jammy-updates/main amd64 vim-common all 2:8.2.3995-1ubuntu2.17 [81.5 kB]
+Get:19 http://mirrors.digitalocean.com/ubuntu jammy-updates/main amd64 bind9-host amd64 1:9.18.24-0ubuntu0.22.04.1 [52.5 kB]
+Get:20 http://mirrors.digitalocean.com/ubuntu jammy-updates/main amd64 bind9-dnsutils amd64 1:9.18.24-0ubuntu0.22.04.1 [157 kB]
+Get:21 http://mirrors.digitalocean.com/ubuntu jammy-updates/main amd64 bind9-libs amd64 1:9.18.24-0ubuntu0.22.04.1 [1247 kB]
+Get:22 http://mirrors.digitalocean.com/ubuntu jammy-updates/universe amd64 dnsutils all 1:9.18.24-0ubuntu0.22.04.1 [3916 B]
+Get:23 http://mirrors.digitalocean.com/ubuntu jammy-updates/main amd64 git-man all 1:2.34.1-1ubuntu1.11 [955 kB]
+Get:24 http://mirrors.digitalocean.com/ubuntu jammy-updates/main amd64 git amd64 1:2.34.1-1ubuntu1.11 [3165 kB]
+Get:25 https://download.docker.com/linux/ubuntu jammy/stable amd64 docker-ce-cli amd64 5:26.1.4-1~ubuntu.22.04~jammy [14.6 MB]
+Get:26 http://mirrors.digitalocean.com/ubuntu jammy-updates/main amd64 libarchive13 amd64 3.6.0-1ubuntu1.1 [369 kB]
+Get:27 http://mirrors.digitalocean.com/ubuntu jammy-updates/main amd64 libgdk-pixbuf2.0-common all 2.42.8+dfsg-1ubuntu0.3 [5630 B]
+Get:28 http://mirrors.digitalocean.com/ubuntu jammy-updates/main amd64 libgdk-pixbuf-2.0-0 amd64 2.42.8+dfsg-1ubuntu0.3 [148 kB]
+Get:29 http://mirrors.digitalocean.com/ubuntu jammy-updates/main amd64 libgdk-pixbuf2.0-bin amd64 2.42.8+dfsg-1ubuntu0.3 [14.2 kB]
+Get:30 http://mirrors.digitalocean.com/ubuntu jammy-updates/main amd64 libgif7 amd64 5.1.9-2ubuntu0.1 [33.9 kB]
+Get:31 http://mirrors.digitalocean.com/ubuntu jammy-updates/main amd64 libtss2-mu0 amd64 3.2.0-1ubuntu1.1 [65.6 kB]
+Get:32 http://mirrors.digitalocean.com/ubuntu jammy-updates/main amd64 libtss2-tcti-cmd0 amd64 3.2.0-1ubuntu1.1 [16.7 kB]
+Get:33 http://mirrors.digitalocean.com/ubuntu jammy-updates/main amd64 libtss2-tcti-device0 amd64 3.2.0-1ubuntu1.1 [15.3 kB]
+Get:34 http://mirrors.digitalocean.com/ubuntu jammy-updates/main amd64 libtss2-tcti-mssim0 amd64 3.2.0-1ubuntu1.1 [15.4 kB]
+Get:35 https://download.docker.com/linux/ubuntu jammy/stable amd64 docker-ce amd64 5:26.1.4-1~ubuntu.22.04~jammy [25.3 MB]
+Get:36 http://mirrors.digitalocean.com/ubuntu jammy-updates/main amd64 libtss2-tcti-swtpm0 amd64 3.2.0-1ubuntu1.1 [15.4 kB]
+Get:37 http://mirrors.digitalocean.com/ubuntu jammy-updates/main amd64 libtss2-sys1 amd64 3.2.0-1ubuntu1.1 [41.0 kB]
+Get:38 http://mirrors.digitalocean.com/ubuntu jammy-updates/main amd64 libtss2-esys-3.0.2-0 amd64 3.2.0-1ubuntu1.1 [150 kB]
+Get:39 http://mirrors.digitalocean.com/ubuntu jammy-updates/main amd64 libvpx7 amd64 1.11.0-2ubuntu2.3 [1078 kB]
+Get:40 http://mirrors.digitalocean.com/ubuntu jammy-updates/main amd64 linux-headers-5.15.0-112 all 5.15.0-112.122 [12.3 MB]
+Get:41 http://mirrors.digitalocean.com/ubuntu jammy-updates/main amd64 linux-headers-5.15.0-112-generic amd64 5.15.0-112.122 [2904 kB]
+Get:42 https://download.docker.com/linux/ubuntu jammy/stable amd64 docker-ce-rootless-extras amd64 5:26.1.4-1~ubuntu.22.04~jammy [9319 kB]
+Get:43 http://mirrors.digitalocean.com/ubuntu jammy-updates/main amd64 linux-modules-5.15.0-112-generic amd64 5.15.0-112.122 [22.6 MB]
+Get:44 https://download.docker.com/linux/ubuntu jammy/stable amd64 docker-compose-plugin amd64 2.27.1-1~ubuntu.22.04~jammy [12.5 MB]
+Get:45 http://mirrors.digitalocean.com/ubuntu jammy-updates/main amd64 linux-image-5.15.0-112-generic amd64 5.15.0-112.122 [11.5 MB]
+Get:46 http://mirrors.digitalocean.com/ubuntu jammy-updates/main amd64 linux-virtual amd64 5.15.0.112.112 [1672 B]
+Get:47 http://mirrors.digitalocean.com/ubuntu jammy-updates/main amd64 linux-image-virtual amd64 5.15.0.112.112 [2458 B]
+Get:48 http://mirrors.digitalocean.com/ubuntu jammy-updates/main amd64 linux-headers-virtual amd64 5.15.0.112.112 [1632 B]
+Get:49 http://mirrors.digitalocean.com/ubuntu jammy-updates/main amd64 linux-headers-generic amd64 5.15.0.112.112 [2360 B]
+Get:50 http://mirrors.digitalocean.com/ubuntu jammy-updates/universe amd64 openjdk-17-jdk amd64 17.0.11+9-1~22.04.1 [10.8 kB]
+Get:51 http://mirrors.digitalocean.com/ubuntu jammy-updates/universe amd64 openjdk-17-jdk-headless amd64 17.0.11+9-1~22.04.1 [71.1 MB]
+Get:52 http://mirrors.digitalocean.com/ubuntu jammy-updates/universe amd64 openjdk-17-jre amd64 17.0.11+9-1~22.04.1 [203 kB]
+Get:53 http://mirrors.digitalocean.com/ubuntu jammy-updates/universe amd64 openjdk-17-jre-headless amd64 17.0.11+9-1~22.04.1 [48.2 MB]
+Get:54 http://mirrors.digitalocean.com/ubuntu jammy-updates/main amd64 python3-jinja2 all 3.0.3-1ubuntu0.2 [108 kB]
+Get:55 http://mirrors.digitalocean.com/ubuntu jammy-updates/main amd64 cloud-init all 24.1.3-0ubuntu1~22.04.4 [560 kB]
+Preconfiguring packages ...
+Fetched 320 MB in 3s (110 MB/s)
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 253752 files and directories currently installed.)
+Preparing to unpack .../libc-devtools_2.35-0ubuntu3.8_amd64.deb ...
+Unpacking libc-devtools (2.35-0ubuntu3.8) over (2.35-0ubuntu3.7) ...
+Preparing to unpack .../libc6-dev_2.35-0ubuntu3.8_amd64.deb ...
+Unpacking libc6-dev:amd64 (2.35-0ubuntu3.8) over (2.35-0ubuntu3.7) ...
+Preparing to unpack .../libc-dev-bin_2.35-0ubuntu3.8_amd64.deb ...
+Unpacking libc-dev-bin (2.35-0ubuntu3.8) over (2.35-0ubuntu3.7) ...
+Preparing to unpack .../linux-libc-dev_5.15.0-112.122_amd64.deb ...
+Unpacking linux-libc-dev:amd64 (5.15.0-112.122) over (5.15.0-107.117) ...
+Preparing to unpack .../libc6_2.35-0ubuntu3.8_amd64.deb ...
+Unpacking libc6:amd64 (2.35-0ubuntu3.8) over (2.35-0ubuntu3.7) ...
+Setting up libc6:amd64 (2.35-0ubuntu3.8) ...
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 253752 files and directories currently installed.)
+Preparing to unpack .../libc-bin_2.35-0ubuntu3.8_amd64.deb ...
+Unpacking libc-bin (2.35-0ubuntu3.8) over (2.35-0ubuntu3.7) ...
+Setting up libc-bin (2.35-0ubuntu3.8) ...
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 253752 files and directories currently installed.)
+Preparing to unpack .../00-locales_2.35-0ubuntu3.8_all.deb ...
+Unpacking locales (2.35-0ubuntu3.8) over (2.35-0ubuntu3.7) ...
+Preparing to unpack .../01-ubuntu-pro-client-l10n_32.3~22.04_amd64.deb ...
+Unpacking ubuntu-pro-client-l10n (32.3~22.04) over (31.2.3~22.04) ...
+Preparing to unpack .../02-ubuntu-pro-client_32.3~22.04_amd64.deb ...
+Unpacking ubuntu-pro-client (32.3~22.04) over (31.2.3~22.04) ...
+Preparing to unpack .../03-ubuntu-advantage-tools_32.3~22.04_all.deb ...
+Unpacking ubuntu-advantage-tools (32.3~22.04) over (31.2.3~22.04) ...
+Preparing to unpack .../04-vim_2%3a8.2.3995-1ubuntu2.17_amd64.deb ...
+Unpacking vim (2:8.2.3995-1ubuntu2.17) over (2:8.2.3995-1ubuntu2.16) ...
+Preparing to unpack .../05-vim-tiny_2%3a8.2.3995-1ubuntu2.17_amd64.deb ...
+Unpacking vim-tiny (2:8.2.3995-1ubuntu2.17) over (2:8.2.3995-1ubuntu2.16) ...
+Preparing to unpack .../06-vim-runtime_2%3a8.2.3995-1ubuntu2.17_all.deb ...
+Unpacking vim-runtime (2:8.2.3995-1ubuntu2.17) over (2:8.2.3995-1ubuntu2.16) ...
+Preparing to unpack .../07-xxd_2%3a8.2.3995-1ubuntu2.17_amd64.deb ...
+Unpacking xxd (2:8.2.3995-1ubuntu2.17) over (2:8.2.3995-1ubuntu2.16) ...
+Preparing to unpack .../08-vim-common_2%3a8.2.3995-1ubuntu2.17_all.deb ...
+Unpacking vim-common (2:8.2.3995-1ubuntu2.17) over (2:8.2.3995-1ubuntu2.16) ...
+Preparing to unpack .../09-bind9-host_1%3a9.18.24-0ubuntu0.22.04.1_amd64.deb ...
+Unpacking bind9-host (1:9.18.24-0ubuntu0.22.04.1) over (1:9.18.18-0ubuntu0.22.04.2) ...
+Preparing to unpack .../10-bind9-dnsutils_1%3a9.18.24-0ubuntu0.22.04.1_amd64.deb ...
+Unpacking bind9-dnsutils (1:9.18.24-0ubuntu0.22.04.1) over (1:9.18.18-0ubuntu0.22.04.2) ...
+Preparing to unpack .../11-bind9-libs_1%3a9.18.24-0ubuntu0.22.04.1_amd64.deb ...
+Unpacking bind9-libs:amd64 (1:9.18.24-0ubuntu0.22.04.1) over (1:9.18.18-0ubuntu0.22.04.2) ...
+Preparing to unpack .../12-containerd.io_1.6.33-1_amd64.deb ...
+Unpacking containerd.io (1.6.33-1) over (1.6.32-1) ...
+Preparing to unpack .../13-dnsutils_1%3a9.18.24-0ubuntu0.22.04.1_all.deb ...
+Unpacking dnsutils (1:9.18.24-0ubuntu0.22.04.1) over (1:9.18.18-0ubuntu0.22.04.2) ...
+Preparing to unpack .../14-docker-buildx-plugin_0.14.1-1~ubuntu.22.04~jammy_amd64.deb ...
+Unpacking docker-buildx-plugin (0.14.1-1~ubuntu.22.04~jammy) over (0.14.0-1~ubuntu.22.04~jammy) ...
+Preparing to unpack .../15-docker-ce-cli_5%3a26.1.4-1~ubuntu.22.04~jammy_amd64.deb ...
+Unpacking docker-ce-cli (5:26.1.4-1~ubuntu.22.04~jammy) over (5:26.1.3-1~ubuntu.22.04~jammy) ...
+Preparing to unpack .../16-docker-ce_5%3a26.1.4-1~ubuntu.22.04~jammy_amd64.deb ...
+Unpacking docker-ce (5:26.1.4-1~ubuntu.22.04~jammy) over (5:26.1.3-1~ubuntu.22.04~jammy) ...
+Preparing to unpack .../17-docker-ce-rootless-extras_5%3a26.1.4-1~ubuntu.22.04~jammy_amd64.deb ...
+Unpacking docker-ce-rootless-extras (5:26.1.4-1~ubuntu.22.04~jammy) over (5:26.1.3-1~ubuntu.22.04~jammy) ...
+Preparing to unpack .../18-docker-compose-plugin_2.27.1-1~ubuntu.22.04~jammy_amd64.deb ...
+Unpacking docker-compose-plugin (2.27.1-1~ubuntu.22.04~jammy) over (2.27.0-1~ubuntu.22.04~jammy) ...
+Preparing to unpack .../19-git-man_1%3a2.34.1-1ubuntu1.11_all.deb ...
 Unpacking git-man (1:2.34.1-1ubuntu1.11) over (1:2.34.1-1ubuntu1.10) ...
-Preparing to unpack .../git_1%3a2.34.1-1ubuntu1.11_amd64.deb ...
+Preparing to unpack .../20-git_1%3a2.34.1-1ubuntu1.11_amd64.deb ...
 Unpacking git (1:2.34.1-1ubuntu1.11) over (1:2.34.1-1ubuntu1.10) ...
-Preparing to unpack .../python3-jinja2_3.0.3-1ubuntu0.2_all.deb ...
+Preparing to unpack .../21-libarchive13_3.6.0-1ubuntu1.1_amd64.deb ...
+Unpacking libarchive13:amd64 (3.6.0-1ubuntu1.1) over (3.6.0-1ubuntu1) ...
+Preparing to unpack .../22-libgdk-pixbuf2.0-common_2.42.8+dfsg-1ubuntu0.3_all.deb ...
+Unpacking libgdk-pixbuf2.0-common (2.42.8+dfsg-1ubuntu0.3) over (2.42.8+dfsg-1ubuntu0.2) ...
+Preparing to unpack .../23-libtiff5_4.3.0-6ubuntu0.9_amd64.deb ...
+Unpacking libtiff5:amd64 (4.3.0-6ubuntu0.9) over (4.3.0-6ubuntu0.8) ...
+Preparing to unpack .../24-libgdk-pixbuf-2.0-0_2.42.8+dfsg-1ubuntu0.3_amd64.deb ...
+Unpacking libgdk-pixbuf-2.0-0:amd64 (2.42.8+dfsg-1ubuntu0.3) over (2.42.8+dfsg-1ubuntu0.2) ...
+Preparing to unpack .../25-libgdk-pixbuf2.0-bin_2.42.8+dfsg-1ubuntu0.3_amd64.deb ...
+Unpacking libgdk-pixbuf2.0-bin (2.42.8+dfsg-1ubuntu0.3) over (2.42.8+dfsg-1ubuntu0.2) ...
+Preparing to unpack .../26-libgif7_5.1.9-2ubuntu0.1_amd64.deb ...
+Unpacking libgif7:amd64 (5.1.9-2ubuntu0.1) over (5.1.9-2build2) ...
+Preparing to unpack .../27-libtss2-mu0_3.2.0-1ubuntu1.1_amd64.deb ...
+Unpacking libtss2-mu0:amd64 (3.2.0-1ubuntu1.1) over (3.2.0-1ubuntu1) ...
+Preparing to unpack .../28-libtss2-tcti-cmd0_3.2.0-1ubuntu1.1_amd64.deb ...
+Unpacking libtss2-tcti-cmd0:amd64 (3.2.0-1ubuntu1.1) over (3.2.0-1ubuntu1) ...
+Preparing to unpack .../29-libtss2-tcti-device0_3.2.0-1ubuntu1.1_amd64.deb ...
+Unpacking libtss2-tcti-device0:amd64 (3.2.0-1ubuntu1.1) over (3.2.0-1ubuntu1) ...
+Preparing to unpack .../30-libtss2-tcti-mssim0_3.2.0-1ubuntu1.1_amd64.deb ...
+Unpacking libtss2-tcti-mssim0:amd64 (3.2.0-1ubuntu1.1) over (3.2.0-1ubuntu1) ...
+Preparing to unpack .../31-libtss2-tcti-swtpm0_3.2.0-1ubuntu1.1_amd64.deb ...
+Unpacking libtss2-tcti-swtpm0:amd64 (3.2.0-1ubuntu1.1) over (3.2.0-1ubuntu1) ...
+Preparing to unpack .../32-libtss2-sys1_3.2.0-1ubuntu1.1_amd64.deb ...
+Unpacking libtss2-sys1:amd64 (3.2.0-1ubuntu1.1) over (3.2.0-1ubuntu1) ...
+Preparing to unpack .../33-libtss2-esys-3.0.2-0_3.2.0-1ubuntu1.1_amd64.deb ...
+Unpacking libtss2-esys-3.0.2-0:amd64 (3.2.0-1ubuntu1.1) over (3.2.0-1ubuntu1) ...
+Preparing to unpack .../34-libvpx7_1.11.0-2ubuntu2.3_amd64.deb ...
+Unpacking libvpx7:amd64 (1.11.0-2ubuntu2.3) over (1.11.0-2ubuntu2.2) ...
+Selecting previously unselected package linux-headers-5.15.0-112.
+Preparing to unpack .../35-linux-headers-5.15.0-112_5.15.0-112.122_all.deb ...
+Unpacking linux-headers-5.15.0-112 (5.15.0-112.122) ...
+Selecting previously unselected package linux-headers-5.15.0-112-generic.
+Preparing to unpack .../36-linux-headers-5.15.0-112-generic_5.15.0-112.122_amd64.deb ...
+Unpacking linux-headers-5.15.0-112-generic (5.15.0-112.122) ...
+Selecting previously unselected package linux-modules-5.15.0-112-generic.
+Preparing to unpack .../37-linux-modules-5.15.0-112-generic_5.15.0-112.122_amd64.deb ...
+Unpacking linux-modules-5.15.0-112-generic (5.15.0-112.122) ...
+Selecting previously unselected package linux-image-5.15.0-112-generic.
+Preparing to unpack .../38-linux-image-5.15.0-112-generic_5.15.0-112.122_amd64.deb ...
+Unpacking linux-image-5.15.0-112-generic (5.15.0-112.122) ...
+Preparing to unpack .../39-linux-virtual_5.15.0.112.112_amd64.deb ...
+Unpacking linux-virtual (5.15.0.112.112) over (5.15.0.107.107) ...
+Preparing to unpack .../40-linux-image-virtual_5.15.0.112.112_amd64.deb ...
+Unpacking linux-image-virtual (5.15.0.112.112) over (5.15.0.107.107) ...
+Preparing to unpack .../41-linux-headers-virtual_5.15.0.112.112_amd64.deb ...
+Unpacking linux-headers-virtual (5.15.0.112.112) over (5.15.0.107.107) ...
+Preparing to unpack .../42-linux-headers-generic_5.15.0.112.112_amd64.deb ...
+Unpacking linux-headers-generic (5.15.0.112.112) over (5.15.0.107.107) ...
+Preparing to unpack .../43-openjdk-17-jdk_17.0.11+9-1~22.04.1_amd64.deb ...
+Unpacking openjdk-17-jdk:amd64 (17.0.11+9-1~22.04.1) over (17.0.10+7-1~22.04.1) ...
+Preparing to unpack .../44-openjdk-17-jdk-headless_17.0.11+9-1~22.04.1_amd64.deb ...
+Unpacking openjdk-17-jdk-headless:amd64 (17.0.11+9-1~22.04.1) over (17.0.10+7-1~22.04.1) ...
+Preparing to unpack .../45-openjdk-17-jre_17.0.11+9-1~22.04.1_amd64.deb ...
+Unpacking openjdk-17-jre:amd64 (17.0.11+9-1~22.04.1) over (17.0.10+7-1~22.04.1) ...
+Preparing to unpack .../46-openjdk-17-jre-headless_17.0.11+9-1~22.04.1_amd64.deb ...
+Unpacking openjdk-17-jre-headless:amd64 (17.0.11+9-1~22.04.1) over (17.0.10+7-1~22.04.1) ...
+Preparing to unpack .../47-python3-jinja2_3.0.3-1ubuntu0.2_all.deb ...
 Unpacking python3-jinja2 (3.0.3-1ubuntu0.2) over (3.0.3-1ubuntu0.1) ...
+Preparing to unpack .../48-cloud-init_24.1.3-0ubuntu1~22.04.4_all.deb ...
+Unpacking cloud-init (24.1.3-0ubuntu1~22.04.4) over (24.1.3-0ubuntu1~22.04.1) ...
+Setting up bind9-libs:amd64 (1:9.18.24-0ubuntu0.22.04.1) ...
+Setting up libarchive13:amd64 (3.6.0-1ubuntu1.1) ...
+Setting up linux-headers-5.15.0-112 (5.15.0-112.122) ...
+Setting up libtss2-mu0:amd64 (3.2.0-1ubuntu1.1) ...
+Setting up libgdk-pixbuf2.0-common (2.42.8+dfsg-1ubuntu0.3) ...
+Setting up libtss2-tcti-swtpm0:amd64 (3.2.0-1ubuntu1.1) ...
+Setting up linux-headers-5.15.0-112-generic (5.15.0-112.122) ...
+Setting up linux-libc-dev:amd64 (5.15.0-112.122) ...
+Setting up linux-headers-generic (5.15.0.112.112) ...
+Setting up locales (2.35-0ubuntu3.8) ...
+Generating locales (this might take a while)...
+  en_US.UTF-8... done
+Generation complete.
+Setting up xxd (2:8.2.3995-1ubuntu2.17) ...
+Setting up libtss2-tcti-device0:amd64 (3.2.0-1ubuntu1.1) ...
+Setting up docker-buildx-plugin (0.14.1-1~ubuntu.22.04~jammy) ...
 Setting up python3-jinja2 (3.0.3-1ubuntu0.2) ...
+Setting up libtss2-tcti-cmd0:amd64 (3.2.0-1ubuntu1.1) ...
+Setting up vim-common (2:8.2.3995-1ubuntu2.17) ...
+Setting up containerd.io (1.6.33-1) ...
+Setting up docker-compose-plugin (2.27.1-1~ubuntu.22.04~jammy) ...
+Setting up libtss2-tcti-mssim0:amd64 (3.2.0-1ubuntu1.1) ...
+Setting up openjdk-17-jre-headless:amd64 (17.0.11+9-1~22.04.1) ...
+Installing new version of config file /etc/java-17-openjdk/security/default.policy ...
+Installing new version of config file /etc/java-17-openjdk/security/java.security ...
+Installing new version of config file /etc/java-17-openjdk/security/public_suffix_list.dat ...
+Setting up libgif7:amd64 (5.1.9-2ubuntu0.1) ...
+Setting up docker-ce-cli (5:26.1.4-1~ubuntu.22.04~jammy) ...
 Setting up git-man (1:2.34.1-1ubuntu1.11) ...
+Setting up libvpx7:amd64 (1.11.0-2ubuntu2.3) ...
+Setting up libtiff5:amd64 (4.3.0-6ubuntu0.9) ...
+Setting up docker-ce-rootless-extras (5:26.1.4-1~ubuntu.22.04~jammy) ...
+Setting up vim-runtime (2:8.2.3995-1ubuntu2.17) ...
+Setting up libc-dev-bin (2.35-0ubuntu3.8) ...
+Setting up bind9-host (1:9.18.24-0ubuntu0.22.04.1) ...
+Setting up ubuntu-pro-client (32.3~22.04) ...
+Installing new version of config file /etc/apparmor.d/ubuntu_pro_apt_news ...
+Setting up libc-devtools (2.35-0ubuntu3.8) ...
+Setting up ubuntu-pro-client-l10n (32.3~22.04) ...
+Setting up cloud-init (24.1.3-0ubuntu1~22.04.4) ...
+Setting up vim (2:8.2.3995-1ubuntu2.17) ...
+Setting up linux-headers-virtual (5.15.0.112.112) ...
+Setting up libtss2-sys1:amd64 (3.2.0-1ubuntu1.1) ...
+Setting up openjdk-17-jre:amd64 (17.0.11+9-1~22.04.1) ...
+Setting up vim-tiny (2:8.2.3995-1ubuntu2.17) ...
+Setting up libtss2-esys-3.0.2-0:amd64 (3.2.0-1ubuntu1.1) ...
+Setting up docker-ce (5:26.1.4-1~ubuntu.22.04~jammy) ...
+Setting up openjdk-17-jdk-headless:amd64 (17.0.11+9-1~22.04.1) ...
 Setting up git (1:2.34.1-1ubuntu1.11) ...
+Setting up libc6-dev:amd64 (2.35-0ubuntu3.8) ...
+Setting up libgdk-pixbuf-2.0-0:amd64 (2.42.8+dfsg-1ubuntu0.3) ...
+Setting up ubuntu-advantage-tools (32.3~22.04) ...
+Setting up bind9-dnsutils (1:9.18.24-0ubuntu0.22.04.1) ...
+Setting up dnsutils (1:9.18.24-0ubuntu0.22.04.1) ...
+Setting up openjdk-17-jdk:amd64 (17.0.11+9-1~22.04.1) ...
+Setting up libgdk-pixbuf2.0-bin (2.42.8+dfsg-1ubuntu0.3) ...
+Setting up linux-image-5.15.0-112-generic (5.15.0-112.122) ...
+I: /boot/vmlinuz.old is now a symlink to vmlinuz-5.15.0-107-generic
+I: /boot/initrd.img.old is now a symlink to initrd.img-5.15.0-107-generic
+I: /boot/vmlinuz is now a symlink to vmlinuz-5.15.0-112-generic
+I: /boot/initrd.img is now a symlink to initrd.img-5.15.0-112-generic
+Setting up linux-modules-5.15.0-112-generic (5.15.0-112.122) ...
+Setting up linux-image-virtual (5.15.0.112.112) ...
+Setting up linux-virtual (5.15.0.112.112) ...
+Processing triggers for mailcap (3.70+nmu1ubuntu1) ...
+Processing triggers for hicolor-icon-theme (0.17-2) ...
+Processing triggers for libc-bin (2.35-0ubuntu3.8) ...
+Processing triggers for rsyslog (8.2112.0-2ubuntu2.2) ...
 Processing triggers for man-db (2.10.2-1) ...
+Processing triggers for linux-image-5.15.0-112-generic (5.15.0-112.122) ...
+/etc/kernel/postinst.d/initramfs-tools:
+update-initramfs: Generating /boot/initrd.img-5.15.0-112-generic
+/etc/kernel/postinst.d/zz-update-grub:
+Sourcing file `/etc/default/grub'
+Sourcing file `/etc/default/grub.d/50-cloudimg-settings.cfg'
+Sourcing file `/etc/default/grub.d/51-legacy-ifnames.cfg'
+Sourcing file `/etc/default/grub.d/init-select.cfg'
+Generating grub configuration file ...
+Found linux image: /boot/vmlinuz-5.15.0-112-generic
+Found initrd image: /boot/initrd.img-5.15.0-112-generic
+Found linux image: /boot/vmlinuz-5.15.0-107-generic
+Found initrd image: /boot/initrd.img-5.15.0-107-generic
+Found linux image: /boot/vmlinuz-5.15.0-67-generic
+Found initrd image: /boot/initrd.img-5.15.0-67-generic
+Warning: os-prober will not be executed to detect other bootable partitions.
+Systems on them will not be added to the GRUB boot configuration.
+Check GRUB_DISABLE_OS_PROBER documentation entry.
+done
 NEEDRESTART-VER: 3.5
 NEEDRESTART-KCUR: 5.15.0-107-generic
-NEEDRESTART-KEXP: 5.15.0-107-generic
-NEEDRESTART-KSTA: 1
-Assigning bbb2.scalelitebbb.systems for web application URL in /etc/bigbluebutton/bbb-web.properties
-Assigning bbb2.scalelitebbb.systems for web application URL in /etc/bigbluebutton/bbb-apps-akka.conf
-Assigning bbb2.scalelitebbb.systems for record and playback in /usr/local/bigbluebutton/core/scripts/bigbluebutton.yml
-Assigning bbb2.scalelitebbb.systems for playback of recordings: 
+NEEDRESTART-KEXP: 5.15.0-112-generic
+NEEDRESTART-KSTA: 3
+NEEDRESTART-SVC: bbb-apps-akka.service
+NEEDRESTART-SVC: bbb-export-annotations.service
+NEEDRESTART-SVC: bbb-fsesl-akka.service
+NEEDRESTART-SVC: bbb-graphql-actions.service
+NEEDRESTART-SVC: bbb-graphql-server.service
+NEEDRESTART-SVC: bbb-html5.service
+NEEDRESTART-SVC: bbb-pads.service
+NEEDRESTART-SVC: bbb-rap-caption-inbox.service
+NEEDRESTART-SVC: bbb-rap-resque-worker.service
+NEEDRESTART-SVC: bbb-rap-starter.service
+NEEDRESTART-SVC: bbb-web.service
+NEEDRESTART-SVC: bbb-webrtc-recorder.service
+NEEDRESTART-SVC: bbb-webrtc-sfu.service
+NEEDRESTART-SVC: cloud-final.service
+NEEDRESTART-SVC: coturn.service
+NEEDRESTART-SVC: cron.service
+NEEDRESTART-SVC: dbus.service
+NEEDRESTART-SVC: etherpad.service
+NEEDRESTART-SVC: freeswitch.service
+NEEDRESTART-SVC: getty@tty1.service
+NEEDRESTART-SVC: haproxy.service
+NEEDRESTART-SVC: haveged.service
+NEEDRESTART-SVC: irqbalance.service
+NEEDRESTART-SVC: mongod.service
+NEEDRESTART-SVC: multipathd.service
+NEEDRESTART-SVC: networkd-dispatcher.service
+NEEDRESTART-SVC: nginx.service
+NEEDRESTART-SVC: packagekit.service
+NEEDRESTART-SVC: polkit.service
+NEEDRESTART-SVC: postgresql@16-main.service
+NEEDRESTART-SVC: redis-server.service
+NEEDRESTART-SVC: rpcbind.service
+NEEDRESTART-SVC: serial-getty@ttyS0.service
+NEEDRESTART-SVC: snapd.service
+NEEDRESTART-SVC: ssh.service
+NEEDRESTART-SVC: systemd-journald.service
+NEEDRESTART-SVC: systemd-logind.service
+NEEDRESTART-SVC: systemd-networkd.service
+NEEDRESTART-SVC: systemd-resolved.service
+NEEDRESTART-SVC: systemd-timesyncd.service
+NEEDRESTART-SVC: systemd-udevd.service
+NEEDRESTART-SVC: unattended-upgrades.service
+NEEDRESTART-SVC: user@0.service
+Assigning bbb3.scalelitebbb.systems for web application URL in /etc/bigbluebutton/bbb-web.properties
+Assigning bbb3.scalelitebbb.systems for web application URL in /etc/bigbluebutton/bbb-apps-akka.conf
+Assigning bbb3.scalelitebbb.systems for record and playback in /usr/local/bigbluebutton/core/scripts/bigbluebutton.yml
+Assigning bbb3.scalelitebbb.systems for playback of recordings: 
 Restarting BigBlueButton 3.0.0-alpha.6 ...
 Stopping BigBlueButton
 
@@ -244,29 +543,31 @@ Firewall is active and enabled on system startup
 
 Reloading NginX configuration
 Starting BigBlueButton
-Hit:1 http://mirrors.digitalocean.com/ubuntu jammy InRelease
-Hit:2 https://download.docker.com/linux/ubuntu jammy InRelease
-Ign:3 https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 InRelease
+Hit:1 https://download.docker.com/linux/ubuntu jammy InRelease
+Ign:2 https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 InRelease
+Hit:3 http://mirrors.digitalocean.com/ubuntu jammy InRelease
 Hit:4 http://mirrors.digitalocean.com/ubuntu jammy-updates InRelease
-Hit:5 http://mirrors.digitalocean.com/ubuntu jammy-backports InRelease
+Hit:5 https://deb.nodesource.com/node_18.x nodistro InRelease
 Hit:6 https://repos.insights.digitalocean.com/apt/do-agent main InRelease
-Hit:7 https://deb.nodesource.com/node_18.x nodistro InRelease
+Hit:7 http://mirrors.digitalocean.com/ubuntu jammy-backports InRelease
 Hit:8 https://repos-droplet.digitalocean.com/apt/droplet-agent main InRelease
-Hit:9 http://security.ubuntu.com/ubuntu jammy-security InRelease
-Hit:10 https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 Release
+Hit:9 https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 Release
+Hit:10 http://security.ubuntu.com/ubuntu jammy-security InRelease
 Hit:11 http://apt.postgresql.org/pub/repos/apt jammy-pgdg InRelease
-Hit:12 https://ubuntu.bigbluebutton.org/jammy-300 bigbluebutton-jammy InRelease
-Hit:13 https://ppa.launchpadcontent.net/bigbluebutton/support/ubuntu jammy InRelease
-Hit:14 https://ppa.launchpadcontent.net/martin-uni-mainz/coturn/ubuntu jammy InRelease
+Hit:13 https://ubuntu.bigbluebutton.org/jammy-300 bigbluebutton-jammy InRelease
+Hit:14 https://ppa.launchpadcontent.net/bigbluebutton/support/ubuntu jammy InRelease
+Hit:15 https://ppa.launchpadcontent.net/martin-uni-mainz/coturn/ubuntu jammy InRelease
 Hit:16 https://ppa.launchpadcontent.net/rmescandon/yq/ubuntu jammy InRelease
 Reading package lists...
+Sleeping for 1 second because dpkg/lock-frontend in use
+Sleeping for 1 second because dpkg/lock-frontend in use
 Saving debug log to /var/log/letsencrypt/letsencrypt.log
-Requesting a certificate for bbb2.scalelitebbb.systems
+Requesting a certificate for bbb3.scalelitebbb.systems
 
 Successfully received certificate.
-Certificate is saved at: /etc/letsencrypt/live/bbb2.scalelitebbb.systems/fullchain.pem
-Key is saved at:         /etc/letsencrypt/live/bbb2.scalelitebbb.systems/privkey.pem
-This certificate expires on 2024-08-27.
+Certificate is saved at: /etc/letsencrypt/live/bbb3.scalelitebbb.systems/fullchain.pem
+Key is saved at:         /etc/letsencrypt/live/bbb3.scalelitebbb.systems/privkey.pem
+This certificate expires on 2024-09-09.
 These files will be updated when the certificate renews.
 Certbot has set up a scheduled task to automatically renew this certificate in the background.
 
@@ -275,18 +576,18 @@ If you like Certbot, please consider supporting our work by:
  * Donating to ISRG / Let's Encrypt:   https://letsencrypt.org/donate
  * Donating to EFF:                    https://eff.org/donate-le
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Hit:1 http://mirrors.digitalocean.com/ubuntu jammy InRelease
-Ign:2 https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 InRelease
+Ign:1 https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 InRelease
+Hit:2 http://mirrors.digitalocean.com/ubuntu jammy InRelease
 Hit:3 http://mirrors.digitalocean.com/ubuntu jammy-updates InRelease
 Hit:4 https://download.docker.com/linux/ubuntu jammy InRelease
-Hit:5 http://mirrors.digitalocean.com/ubuntu jammy-backports InRelease
-Hit:6 https://repos.insights.digitalocean.com/apt/do-agent main InRelease
+Hit:5 https://deb.nodesource.com/node_18.x nodistro InRelease
+Hit:6 http://mirrors.digitalocean.com/ubuntu jammy-backports InRelease
 Hit:7 https://repos-droplet.digitalocean.com/apt/droplet-agent main InRelease
-Hit:8 https://deb.nodesource.com/node_18.x nodistro InRelease
-Hit:9 https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 Release
-Hit:10 http://security.ubuntu.com/ubuntu jammy-security InRelease
-Hit:11 https://ubuntu.bigbluebutton.org/jammy-300 bigbluebutton-jammy InRelease
-Hit:12 http://apt.postgresql.org/pub/repos/apt jammy-pgdg InRelease
+Hit:8 https://repos.insights.digitalocean.com/apt/do-agent main InRelease
+Hit:9 http://security.ubuntu.com/ubuntu jammy-security InRelease
+Hit:10 https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 Release
+Hit:11 http://apt.postgresql.org/pub/repos/apt jammy-pgdg InRelease
+Hit:13 https://ubuntu.bigbluebutton.org/jammy-300 bigbluebutton-jammy InRelease
 Hit:14 https://ppa.launchpadcontent.net/bigbluebutton/support/ubuntu jammy InRelease
 Hit:15 https://ppa.launchpadcontent.net/martin-uni-mainz/coturn/ubuntu jammy InRelease
 Hit:16 https://ppa.launchpadcontent.net/rmescandon/yq/ubuntu jammy InRelease
@@ -295,6 +596,10 @@ Reading package lists...
 Building dependency tree...
 Reading state information...
 Calculating upgrade...
+The following packages were automatically installed and are no longer required:
+  linux-headers-5.15.0-67 linux-headers-5.15.0-67-generic
+  linux-image-5.15.0-67-generic linux-modules-5.15.0-67-generic
+Use 'apt autoremove' to remove them.
 The following packages have been kept back:
   python3-update-manager update-manager-core
 0 upgraded, 0 newly installed, 0 to remove and 2 not upgraded.
@@ -305,11 +610,36 @@ Executing: /lib/systemd/systemd-sysv-install enable haproxy
 Reading package lists...
 Building dependency tree...
 Reading state information...
-0 upgraded, 0 newly installed, 0 to remove and 2 not upgraded.
-Assigning bbb2.scalelitebbb.systems for web application URL in /etc/bigbluebutton/bbb-web.properties
-Assigning bbb2.scalelitebbb.systems for web application URL in /etc/bigbluebutton/bbb-apps-akka.conf
-Assigning bbb2.scalelitebbb.systems for record and playback in /usr/local/bigbluebutton/core/scripts/bigbluebutton.yml
-Assigning bbb2.scalelitebbb.systems for playback of recordings: 
+The following packages will be REMOVED:
+  linux-headers-5.15.0-67 linux-headers-5.15.0-67-generic
+  linux-image-5.15.0-67-generic linux-modules-5.15.0-67-generic
+0 upgraded, 0 newly installed, 4 to remove and 2 not upgraded.
+After this operation, 241 MB disk space will be freed.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 283353 files and directories currently installed.)
+Removing linux-headers-5.15.0-67-generic (5.15.0-67.74) ...
+Removing linux-headers-5.15.0-67 (5.15.0-67.74) ...
+Removing linux-modules-5.15.0-67-generic (5.15.0-67.74) ...
+Removing linux-image-5.15.0-67-generic (5.15.0-67.74) ...
+/etc/kernel/postrm.d/initramfs-tools:
+update-initramfs: Deleting /boot/initrd.img-5.15.0-67-generic
+/etc/kernel/postrm.d/zz-update-grub:
+Sourcing file `/etc/default/grub'
+Sourcing file `/etc/default/grub.d/50-cloudimg-settings.cfg'
+Sourcing file `/etc/default/grub.d/51-legacy-ifnames.cfg'
+Sourcing file `/etc/default/grub.d/init-select.cfg'
+Generating grub configuration file ...
+Found linux image: /boot/vmlinuz-5.15.0-112-generic
+Found initrd image: /boot/initrd.img-5.15.0-112-generic
+Found linux image: /boot/vmlinuz-5.15.0-107-generic
+Found initrd image: /boot/initrd.img-5.15.0-107-generic
+Warning: os-prober will not be executed to detect other bootable partitions.
+Systems on them will not be added to the GRUB boot configuration.
+Check GRUB_DISABLE_OS_PROBER documentation entry.
+done
+Assigning bbb3.scalelitebbb.systems for web application URL in /etc/bigbluebutton/bbb-web.properties
+Assigning bbb3.scalelitebbb.systems for web application URL in /etc/bigbluebutton/bbb-apps-akka.conf
+Assigning bbb3.scalelitebbb.systems for record and playback in /usr/local/bigbluebutton/core/scripts/bigbluebutton.yml
+Assigning bbb3.scalelitebbb.systems for playback of recordings: 
 Restarting BigBlueButton 3.0.0-alpha.6 ...
 Stopping BigBlueButton
 
@@ -337,24 +667,24 @@ BigBlueButton Server 3.0.0-alpha.6 (831)
 
 /etc/bigbluebutton/bbb-web.properties (override for bbb-web)
 /usr/share/bbb-web/WEB-INF/classes/bigbluebutton.properties (bbb-web)
-       bigbluebutton.web.serverURL: https://bbb2.scalelitebbb.systems
+       bigbluebutton.web.serverURL: https://bbb3.scalelitebbb.systems
                 defaultGuestPolicy: ALWAYS_ACCEPT
               defaultMeetingLayout: CUSTOM_LAYOUT
 
 /etc/nginx/sites-available/bigbluebutton (nginx)
-                       server_name: bbb2.scalelitebbb.systems
+                       server_name: bbb3.scalelitebbb.systems
                               port: 80, [::]:80127.0.0.1:82 http2 proxy_protocol, [::1]:82 http2127.0.0.1:81 proxy_protocol, [::1]:81
 
 /opt/freeswitch/etc/freeswitch/vars.xml (FreeSWITCH)
                        local_ip_v4: 165.22.51.241
-                   external_rtp_ip: 159.65.132.50
-                   external_sip_ip: 159.65.132.50
+                   external_rtp_ip: 159.223.78.177
+                   external_sip_ip: 159.223.78.177
 
 /opt/freeswitch/etc/freeswitch/sip_profiles/external.xml (FreeSWITCH)
                         ext-rtp-ip: $${local_ip_v4}
                         ext-sip-ip: $${local_ip_v4}
-                        ws-binding: 159.65.132.50:5066
-                       wss-binding: 159.65.132.50:7443
+                        ws-binding: 159.223.78.177:5066
+                       wss-binding: 159.223.78.177:7443
 
 UDP port ranges
 
@@ -363,22 +693,25 @@ UDP port ranges
                     bbb-webrtc-recorder: null-null
 
 /usr/local/bigbluebutton/core/scripts/bigbluebutton.yml (record and playback)
-                     playback_host: bbb2.scalelitebbb.systems
+                     playback_host: bbb3.scalelitebbb.systems
                  playback_protocol: https
                             ffmpeg: 4.4.2-0ubuntu0.22.04.1
 
 /usr/share/bigbluebutton/nginx/sip.nginx (sip.nginx)
-                        proxy_pass: 159.65.132.50
+                        proxy_pass: 159.223.78.177
                           protocol: http
 
 
 # Potential problems described below
-..................
+.curl: (6) Could not resolve host: bbb3.scalelitebbb.systems
+curl: (6.) Could not resolve host: bbb3.scalelitebbb.systems
+.curl: (6) Could not resolve host: bbb3.scalelitebbb.systems
+.......
 # Warning: The setting of 165.22.51.241 for local_ip_v4 in
 #
 #    /opt/freeswitch/etc/freeswitch/vars.xml
 #
-# does not match the local IP address (159.65.132.50).
+# does not match the local IP address (159.223.78.177).
 # (This is OK if you've manually changed the values)
 
 # Warning: You have this server defined for https, but in
@@ -387,7 +720,7 @@ UDP port ranges
 #
 #  did not find the use of https in definition for proxy_pass
 #
-#            proxy_pass http://159.65.132.50:5066;
+#            proxy_pass http://159.223.78.177:5066;
 #
 
 # Warning: You have this server defined for https, but in
@@ -396,6 +729,6 @@ UDP port ranges
 #
 #  did not find the use of port 7443 in definition for proxy_pass
 #
-#            proxy_pass http://159.65.132.50:5066;
+#            proxy_pass http://159.223.78.177:5066;
 #
 IP addresses updated and services restarted.

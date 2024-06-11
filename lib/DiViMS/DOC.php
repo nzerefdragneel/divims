@@ -202,7 +202,7 @@ class DOC
             // Get all droplets
             $droplets = $droplet->getAll();
 
-            $this->logger->info("Retrieved all droplets", ['droplets' => $droplets]);
+           
             return $droplets;
         } catch (Exception $e) {
             $this->logger->error("Error retrieving droplets", ['exception' => $e]);
@@ -234,7 +234,7 @@ class DOC
         try{
             $droplet=$this->clientDOC->droplet();
             $droplet=$droplet->getById($dropletid);
-            $this->logger->info("Retrieved droplet by id", ['droplet' => $droplet]);
+       
             return $droplet;
         }catch (Exception $e) {
             $this->logger->error("Error retrieving droplet by id", ['exception' => $e]);

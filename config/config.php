@@ -21,10 +21,11 @@ $config = [
      */
     // Common
     // Adaptation policy. Possible value are (schedule|load|both)
-    'capacity_adaptation_policy' => 'both',
+    'capacity_adaptation_policy' => 'load',
     // Number of minutes between two controller cron runs
     'controller_run_frequency' => 5,
     // Duration in minutes above which meetings will be forcibly ended
+    //600=10 minutes
     'meetings_max_duration' => 600,
     // Duration in minutes above which send a warning for recording still processing
     'recordings_max_processing_duration' => 300,
@@ -45,7 +46,7 @@ $config = [
     // Duration in seconds before discarding data in past load data file
     'load_adaptation_data_file_suffix' => '_loadAdaptationData',
     // Maximum number of participants a server can handle
-    'load_adaptation_server_participants_capacity' => 2,
+    'load_adaptation_server_participants_capacity' => 4,
     // Maximum number of meetings a server can handle
     'load_adaptation_server_meetings_capacity' => 15,
     // Minimum pourcentage of the pool that must be active

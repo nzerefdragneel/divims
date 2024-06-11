@@ -14,7 +14,7 @@ use \parallel\{Runtime, Future, Channel, Events};
 use \Sabre\VObject;
 
 // https://github.com/bigbluebutton/bigbluebutton-api-php
-// https://github.com/bigbluebutton/bigbluebutton-api-php/wiki
+// https://github.com/bigbluebutton/bigbluebutton-api-php/wikixg
 // composer require bigbluebutton/bigbluebutton-api-php:~2.0.0
 use \BigBlueButton\BigBlueButton;
 use \BigBlueButton\Parameters\GetRecordingsParameters;
@@ -79,8 +79,6 @@ class ServersPoolDOC
         if ($this->config->get('hoster_api') == 'DOC') {
             $this->hoster_api = new DOC($this->config, $this->logger);
         }
-
-
     }
 
     /**
@@ -159,7 +157,7 @@ class ServersPoolDOC
             // Tag servers that need to be replaced
             $divims_state = $servers[$domain]['divims_state'];
             $scalelite_status = $v['scalelite_status'];
-            if ($v['hoster_state'] == 'active' and $v['scalelite_status'] == 'offline' and $v['hoster_state_duration'] >= 240) {
+            if ($v['hoster_state'] == 'active' and $v['scalelite_status'] == 'offline' and $v['hoster_state_duration'] >= 800 and $v['bbb_reconfigure'] == 'OK') {
                 // Mark server as unresponsive if it is offline in Scalelite and active since at least 4 minutes
                 $log_context = compact('domain', 'bbb_status', 'divims_state');
                 if ($v['server_type'] == 'bare metal') {
@@ -168,7 +166,16 @@ class ServersPoolDOC
                     $this->logger->error("Unresponsive virtual machine server $domain detected. Tag server as 'unresponsive'. Server will be powered off unless it is in maintenance.",  $log_context);
                 }
                 $servers[$domain]['custom_state'] = 'unresponsive';
-            } elseif ($v['hoster_state'] == 'active' and $bbb_status == 'KO' and $v['hoster_state_duration'] >= 120) {
+            }
+            elseif ($v['hoster_state'] == 'active' and $v['scalelite_status'] == 'offline' and $v['hoster_state_duration'] < 240 and $v['bbb_reconfigure'] == 'OK') {
+                // Mark server as unresponsive if it is offline in Scalelite and active since at least 4 minutes
+                $log_context = compact('domain', 'bbb_status', 'divims_state');
+                
+                    $this->logger->error("Unconfigure virtual machine server $domain ",  $log_context);
+             
+                $servers[$domain]['custom_state'] = "need to configure";
+            }
+             elseif ($v['hoster_state'] == 'active' and $bbb_status == 'KO' and $v['hoster_state_duration'] >= 240 and $v['bbb_reconfigure'] == 'OK') {
                 // Also tag server as 'malfunctioning' when BBB malfunctions
                 $log_context = compact('domain', 'scalelite_status', 'bbb_status', 'divims_state');
                 if ($v['server_type'] == 'bare metal') {
@@ -188,7 +195,7 @@ class ServersPoolDOC
                     $this->logger->warning("Uptime above limit for virtual machine server $domain detected. Tag server as 'to recycle'. Server will be powered off unless it is in maintenance.", $log_context);
                 }
                 $servers[$domain]['custom_state'] = 'to recycle';
-            }elseif ($v['hoster_state'] == 'active' and $bbb_status == 'OK' and $v['hoster_state_duration']<100000 and $v['scalelite_status']=="disabled" and $v['hoster_public_ip']!=null) {
+            }elseif ($v['hoster_state'] == 'active' and $bbb_status == 'OK' and $v['hoster_state_duration']<1200000 and $v['scalelite_status']=="disabled" and $v['hoster_public_ip']!=null) {
                 // Alternatively check if server should be recycled due to long uptime
                 $log_context = compact('domain', 'bbb_status', 'divims_state', 'server_max_recycling_uptime', 'uptime','custom_state');
 
@@ -619,6 +626,7 @@ class ServersPoolDOC
                     'internal_ipv4' => $values['internal_ipv4'],
                     'external_ipv6' => $values['external_ipv6'],
                     'bbb_status' => $values['bbb_status'],
+                    'bbb_reconfigure' => $values['bbb_reconfigure']
                 ];
                 //print "Worker " . $worker .  " finished batch " . $fetchCount . " for ID " . $i . " in ". ($time_post - $time_pre) . " seconds\n";
                 //echo "Domain treated : $domain\n";
@@ -1628,23 +1636,32 @@ class ServersPoolDOC
         $potential_active_servers = $this->getList(['scalelite_state' => 'enabled'], true, false);
 
         $current_active_unresponsive_servers = $this->getList(['scalelite_state' => 'enabled', 'hoster_state' => 'active', 'custom_state' => 'unresponsive'], true, false);
+        $current_active_reconfigure_servers = $this->getList(['scalelite_state' => 'enabled', 'hoster_state' => 'active', 'custom_state' => 'need to configure'], true, false);
         $current_active_malfunctioning_servers = $this->getList(['scalelite_state' => 'enabled', 'hoster_state' => 'active', 'custom_state' => 'malfunctioning'], true, false);
         $current_active_to_recycle_servers = $this->getList(['scalelite_state' => 'enabled', 'hoster_state' => 'active', 'custom_state' => 'to recycle'], true, false);
 
         $current_active_to_replace_servers = array_merge($current_active_unresponsive_servers, $current_active_malfunctioning_servers, $current_active_to_recycle_servers);
         $current_active_to_replace_servers_count = count($current_active_to_replace_servers);
-
+        $current_active_configing_servers = $this->getList(['scalelite_state' => 'enabled', 'hoster_state' => 'active', 'bbb_reconfigure' => 'KO'], true, false);
         // Unconditionnaly terminate 'unresponsive' servers
         $to_terminate_servers = [];
         $current_active_to_replace_servers_copy = $current_active_to_replace_servers;
+        $current_active_online_servers[]=$current_active_reconfigure_servers;
+        $current_active_online_servers[]=$current_active_configing_servers;
         foreach ($current_active_unresponsive_servers as $domain => $v) {
             $this->logger->info("Unresponsive server $domain detected. Add server to cordon list.", ['domain' => $domain, 'custom_state' => $v['custom_state'], 'server_type' => $v['server_type']]);
             $to_terminate_servers[] = $domain;
+
             unset($current_active_servers[$domain]);
             unset($potential_active_servers[$domain]);
             unset($current_active_to_replace_servers_copy[$domain]);
         }
-
+        if (!empty($current_active_reconfigure_servers)) {
+            foreach ($current_active_reconfigure_servers as $domain => $v) {
+                $this->logger->info("Server $domain is due to be reconfigured. ", ['domain' => $domain, 'custom_state' => $v['custom_state'], 'server_type' => $v['server_type']]);
+                $this->enableServerOnScalelite($v);
+            }
+        }
         // If there are still servers to replace, cordon them all
         // But keep one server alive in case the number of server to replace matches the number of online servers
         $additional_servers_to_enable_count = 0;
@@ -2118,7 +2135,7 @@ class ServersPoolDOC
         }
 
         // Clone and start
-        $servers_to_clone_or_poweron = $this->getList(['scalelite_state' => 'enabled']);
+        $servers_to_clone_or_poweron = $this->getList(['scalelite_state' => 'enabled','hoster_state'=>'nonexistent'], true, false);
 
         foreach ($servers_to_clone_or_poweron as $domain => $v) {
             $hoster_state = $v['hoster_state'];
@@ -2269,5 +2286,63 @@ class ServersPoolDOC
 
         $this->logger->info('End gather statistics.');
     }
+    public function setupCertificate($config, $logger, $error_log = true) {
+        $logger->info("Start certificate setup.");
+    
+        // SSH configuration
+        $sshConfig = [
+            'host' => $config->get('encrypt_ip'),
+            'username' => 'root',
+            // Use an SSH key instead of a password for better security
+            //'privateKey' => $config->get('ssh_private_key'),
+            'port' => $config->get('ssh_port', 22),
+        ];
+    
+        // Initialize SSH connection
+        $ssh = new SSH(['host' => $this->config->get('encrypt_ip')], $this->config, $this->logger);
+    
+        // Path to the script on the remote server
+        $remoteScriptPath = "./lib/scripts/setup-certificates.sh";
+    
+        // Execute the shell script with nohup
+        $command = "/bin/bash $remoteScriptPath > cert-setup.log 2>&1 &";
+    
+        // Execute the command on the remote server
+        if ($ssh->exec("/bin/bash < " . __DIR__ . "/../scripts/setup-certificates.sh", ['max_tries' => 3, 'sleep_time' => 5,'timeout' => 120])) {
+            $out = $ssh->getOutput();
+        
+            // Copy PEM files to local directory
+           
+            // foreach (['bbbx1.scalelitebbb.systems', 'bbbx2.scalelitebbb.systems', 'bbbx3.scalelitebbb.systems', 'bbbx4.scalelitebbb.systems', 'bbbx5.scalelitebbb.systems'] as $domain) {
+            //     $localPemDir = __DIR__ . "/../certificates/{$domain}";
+            //     if (!file_exists($localPemDir)) {
+            //         mkdir($localPemDir, 0755, true);
+            //     }
+            //     $remotePemDir = "/etc/letsencrypt/live/{$domain}";
+            //     $scpCommandFullchain = "scp -P {$sshConfig['port']} {$sshConfig['username']}@{$sshConfig['host']}:{$remotePemDir}/{$domain}-fullchain.pem $localPemDir";
+            //     $scpCommandPrivkey = "scp -P {$sshConfig['port']} {$sshConfig['username']}@{$sshConfig['host']}:{$remotePemDir}/{$domain}-privkey.pem $localPemDir";
+    
+            //     // Execute scp commands
+            //     exec($scpCommandFullchain, $outputFullchain, $returnFullchain);
+            //     if ($returnFullchain === 0) {
+            //         $logger->info("Copied fullchain.pem for $domain.");
+            //     } else {
+            //         $logger->error("Failed to copy fullchain.pem for $domain. Output: " . implode("\n", $outputFullchain));
+            //     }
+    
+            //     exec($scpCommandPrivkey, $outputPrivkey, $returnPrivkey);
+            //     if ($returnPrivkey === 0) {
+            //         $logger->info("Copied privkey.pem for $domain.");
+            //     } else {
+            //         $logger->error("Failed to copy privkey.pem for $domain. Output: " . implode("\n", $outputPrivkey));
+            //     }
+            // }
+        } else {
+            if ($error_log) {
+                $logger->error("Cannot get certificates.");
+            }
+        }
+    }
+    
 
 }
