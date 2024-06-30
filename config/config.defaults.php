@@ -21,7 +21,7 @@ $config = [
      */
     // Common
     // Adaptation policy. Possible value are (schedule|load|both)
-    'capacity_adaptation_policy' => 'both',
+    'capacity_adaptation_policy' => 'load',
     // Number of minutes between two controller cron runs
     'controller_run_frequency' => 5,
     // Duration in minutes above which meetings will be forcibly ended

@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # Variables
-DOMAINS=(bbbx2.scalelitebbb.systems bbbx3.scalelitebbb.systems bbbx4.scalelitebbb.systems bbbx5.scalelitebbb.systems)
+# DOMAINS=(bbb1.scalelitebbb.systems bbb2.scalelitebbb.systems bbb3.scalelitebbb.systems bbb4.scalelitebbb.systems bbb5.scalelitebbb.systems bbb6.scalelitebbb.systems bbb.scalelitebbb.systems)
 EMAIL="nguyentranngocsuong94@gmail.com"
 WEB_SERVER="nginx"  # Can be nginx or apache
 PEM_DESTINATION_DIR="/etc/letsencrypt/live"
-
+DOMAIN_BASE="scalelitebbb.systems"
 # Function to install Certbot
 install_certbot() {
     if [ -f /etc/debian_version ]; then
@@ -23,13 +23,15 @@ install_certbot() {
 # Function to request certificates
 request_certificates() {
     DOMAIN_ARGS=""
-    for DOMAIN in "${DOMAINS[@]}"; do
+    for i in {1..9}; do
+        DOMAIN="bbbdemo$i.$DOMAIN_BASE"
         DOMAIN_ARGS="$DOMAIN_ARGS -d $DOMAIN"
     done
-
-     sudo certbot --$WEB_SERVER $DOMAIN_ARGS --email $EMAIL --agree-tos --no-eff-email 
-    
+    # DOMAIN_ARGS="$DOMAIN_ARGS -d bbbdemo.$DOMAIN_BASE"
+    # DOMAIN_ARGS="$DOMAIN_ARGS -d bbbdemo.$DOMAIN_BASE -d bbbtest.$DOMAIN_BASE"
+    sudo certbot --$WEB_SERVER $DOMAIN_ARGS --email $EMAIL --agree-tos --no-eff-email
 }
+
 
 # Function to save PEM files
 save_pem_files() {

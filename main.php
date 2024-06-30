@@ -104,6 +104,7 @@ echo "oke!!!\n";
 // test digital ocean
 $digitalocean=new DOC($config, $logger);
 $snapshotname=$config->get('clone_image_name');
+$shh=$digitalocean->getAllSshKey();
 // $pool->setupCertificate($config, $logger);
 // $snapshotid=$pool->getSnapshotId($snapshotname);
 // echo "snapshotid: $snapshotid\n";
@@ -113,7 +114,7 @@ while (true){
     $pool->adaptCapacity();
     sleep(60);
 }
-// // $pool->poll(true);
+// $pool->poll(true);
 // // $pool->adaptCapacity();
 // $domainName = $config->get('domain_name');
 

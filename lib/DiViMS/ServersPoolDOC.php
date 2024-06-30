@@ -171,7 +171,7 @@ class ServersPoolDOC
                 // Mark server as unresponsive if it is offline in Scalelite and active since at least 4 minutes
                 $log_context = compact('domain', 'bbb_status', 'divims_state');
                 
-                    $this->logger->error("Unconfigure virtual machine server $domain ",  $log_context);
+                    // $this->logger->error("Unconfigure virtual machine server $domain ",  $log_context);
              
                 $servers[$domain]['custom_state'] = "need to configure";
             }
@@ -1057,7 +1057,7 @@ class ServersPoolDOC
             $this->logger->info("Record created", ['recordId' => $recordId]);
             //reconfigure bbb
             $sshBBB=new SSH(['host' => $server_ip ], $this->config, $this->logger);
-            $target_script = '/root/reconfigureVM-3.0.sh';
+            $target_script = '/root/config.sh';
             $old_extenal_ip=$this->config->get('clone_old_external_ipv4');
             $new_external_ip=$server_ip;
             $email=$this->config->get('email');
@@ -1106,7 +1106,7 @@ class ServersPoolDOC
             $sshBBB->exec("sed -i -e \"s/^SCALELITE_SERVER_IP=.*/SCALELITE_SERVER_IP=\"$scalelite_ip\"/\" /root/enableNFSonBBB.sh", ['max_tries' => 3, 'sleep_time' => 5, 'timeout' => 10]);
             $sshBBB->exec("chmod +x $bbb_nfs");
             //chạy ngầm
-            if (  $sshBBB->exec("nohup  $bbb_nfs > enableNFSonBBB.log 2>&1 &" , ['max_tries' => 1, 'sleep_time' => 5, 'timeout' => 10])) {
+            if (  $sshBBB->exec("nohup  $bbb_nfs > log/enableNFSonBBB.log 2>&1 &" , ['max_tries' => 1, 'sleep_time' => 5, 'timeout' => 10])) {
                 $out = $sshScalelite->getOutput();
             } else {
                 if ($error_log) {
@@ -1114,8 +1114,8 @@ class ServersPoolDOC
                 }
                 return false;
             }
-            $sshBBB->exec("nohup bbb-conf --restart > bbbrestart.log 2>&1 & ", ['max_tries' => 1, 'sleep_time' => 5, 'timeout' => 5]);
-            $sshBBB->exec("nohup bbb-conf --check > bbbcheck.log 2>&1 &", ['max_tries' => 1, 'sleep_time' => 5, 'timeout' => 5]);
+            $sshBBB->exec("nohup bbb-conf --restart > log/bbbrestart.log 2>&1 & ", ['max_tries' => 1, 'sleep_time' => 5, 'timeout' => 5]);
+            $sshBBB->exec("nohup bbb-conf --check > log/bbbcheck.log 2>&1 &", ['max_tries' => 1, 'sleep_time' => 5, 'timeout' => 5]);
 
 
             return $server;
@@ -1145,6 +1145,8 @@ class ServersPoolDOC
 
         $hostname = $this->getHostname($server_number);
         $domain = $this->getServerDomain($server_number);
+        $sshkey=$this->config->get('ssh_key_id');
+        $vpc_id=$this->config->get('vpc_id');
 
         $this->logger->info("Start cloning new VM.", compact('hostname', 'domain'));
 
@@ -1167,8 +1169,8 @@ class ServersPoolDOC
                     $snapshot_id,                                 // ID của image (thay vì slug)
                     false,                                     // Có sao lưu
                     false,                                      // không có IPv6
-                    "24c014f8-7d48-4ebf-bc79-91ac5475d6e5",    // UUID của VPC
-                    [41923124],                                // Số hiệu SSH
+                    $vpc_id,    // UUID của VPC
+                    [$sshkey],                                // Số hiệu SSH
                     "",                                        // Dữ liệu người dùng
                     true,                                      // Giám sát
                     [],                                        // Danh sách volume
@@ -2126,7 +2128,7 @@ class ServersPoolDOC
                 $terminated_servers = $this->hosterActOnServersList(['action' => 'terminate', 'domains' => array_keys($virtual_machines_to_terminate)]);
 
                 $not_terminated_servers = array_diff(array_keys($virtual_machines_to_terminate), $terminated_servers);
-
+                $this->logger->info("Terminated servers count: " . count($terminated_servers));
                 if (!empty($not_terminated_servers)) {
                     $this->logger->warning('Some virtual machines could not be terminated', ['servers_in_error' => json_encode($not_terminated_servers)]);
                 }
@@ -2305,7 +2307,7 @@ class ServersPoolDOC
         $remoteScriptPath = "./lib/scripts/setup-certificates.sh";
     
         // Execute the shell script with nohup
-        $command = "/bin/bash $remoteScriptPath > cert-setup.log 2>&1 &";
+        $command = "/bin/bash $remoteScriptPath > log/cert-setup.log 2>&1 &";
     
         // Execute the command on the remote server
         if ($ssh->exec("/bin/bash < " . __DIR__ . "/../scripts/setup-certificates.sh", ['max_tries' => 3, 'sleep_time' => 5,'timeout' => 120])) {
