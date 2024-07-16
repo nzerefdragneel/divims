@@ -44,6 +44,6 @@ echo "hostname="$(hostname -s)
 bbb-conf --status | grep -q -E "inactive|activating|failed"
 echo "bbb_status="$([ $? -eq 0 ] && echo KO || echo OK)
 
-process_count=$(ps aux | grep reconfigureVM-3.0.sh | wc -l)
+process_count=$(ps aux | grep config.sh | wc -l)
 
 echo "bbb_reconfigure=$([ $process_count -gt 1 ] && echo KO || echo OK)"

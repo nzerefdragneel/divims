@@ -1070,8 +1070,10 @@ class ServersPoolDOC
             //excute
 
             $sshBBB->exec("chmod +x $target_script");
+            $sshBBB->exec("mkdir -p log && chmod 755 log");
 
-            $sshBBB->exec("nohup $target_script > reconfigureVM-3.0.log 2>&1 & ", ['max_tries' => 1, 'sleep_time' => 5, 'timeout' => 300]);
+
+            $sshBBB->exec("$target_script", ['max_tries' => 1, 'sleep_time' => 5, 'timeout' => 30]);
             
             $sshBBB->exec("bbb-conf --secret", ['max_tries' => 3, 'sleep_time' => 5, 'timeout' => 10]);
             //enable in scalelite
@@ -1106,7 +1108,7 @@ class ServersPoolDOC
             $sshBBB->exec("sed -i -e \"s/^SCALELITE_SERVER_IP=.*/SCALELITE_SERVER_IP=\"$scalelite_ip\"/\" /root/enableNFSonBBB.sh", ['max_tries' => 3, 'sleep_time' => 5, 'timeout' => 10]);
             $sshBBB->exec("chmod +x $bbb_nfs");
             //chạy ngầm
-            if (  $sshBBB->exec("nohup  $bbb_nfs > log/enableNFSonBBB.log 2>&1 &" , ['max_tries' => 1, 'sleep_time' => 5, 'timeout' => 10])) {
+            if (  $sshBBB->exec("$bbb_nfs" , ['max_tries' => 1, 'sleep_time' => 5, 'timeout' => 10])) {
                 $out = $sshScalelite->getOutput();
             } else {
                 if ($error_log) {
@@ -1114,8 +1116,8 @@ class ServersPoolDOC
                 }
                 return false;
             }
-            $sshBBB->exec("nohup bbb-conf --restart > log/bbbrestart.log 2>&1 & ", ['max_tries' => 1, 'sleep_time' => 5, 'timeout' => 5]);
-            $sshBBB->exec("nohup bbb-conf --check > log/bbbcheck.log 2>&1 &", ['max_tries' => 1, 'sleep_time' => 5, 'timeout' => 5]);
+            $sshBBB->exec("nohup bbb-conf --restart > app/log/bbbrestart.log 2>&1 & ", ['max_tries' => 1, 'sleep_time' => 5, 'timeout' => 5]);
+            $sshBBB->exec("nohup bbb-conf --check > app/log/bbbcheck.log 2>&1 &", ['max_tries' => 1, 'sleep_time' => 5, 'timeout' => 5]);
 
 
             return $server;
