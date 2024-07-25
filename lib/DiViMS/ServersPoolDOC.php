@@ -157,7 +157,7 @@ class ServersPoolDOC
             // Tag servers that need to be replaced
             $divims_state = $servers[$domain]['divims_state'];
             $scalelite_status = $v['scalelite_status'];
-            if ($v['hoster_state'] == 'active' and $v['scalelite_status'] == 'offline' and $v['hoster_state_duration'] >= 800 and $v['bbb_reconfigure'] == 'OK') {
+            if ($v['hoster_state'] == 'active' and $v['scalelite_status'] == 'offline' and $v['hoster_state_duration'] >= 1800 and $v['bbb_reconfigure'] == 'OK') {
                 // Mark server as unresponsive if it is offline in Scalelite and active since at least 4 minutes
                 $log_context = compact('domain', 'bbb_status', 'divims_state');
                 if ($v['server_type'] == 'bare metal') {
@@ -175,7 +175,7 @@ class ServersPoolDOC
              
                 $servers[$domain]['custom_state'] = "need to configure";
             }
-             elseif ($v['hoster_state'] == 'active' and $bbb_status == 'KO' and $v['hoster_state_duration'] >= 240 and $v['bbb_reconfigure'] == 'OK') {
+             elseif ($v['hoster_state'] == 'active' and $bbb_status == 'KO' and $v['hoster_state_duration'] >= 2400 and $v['bbb_reconfigure'] == 'OK') {
                 // Also tag server as 'malfunctioning' when BBB malfunctions
                 $log_context = compact('domain', 'scalelite_status', 'bbb_status', 'divims_state');
                 if ($v['server_type'] == 'bare metal') {
@@ -195,7 +195,7 @@ class ServersPoolDOC
                     $this->logger->warning("Uptime above limit for virtual machine server $domain detected. Tag server as 'to recycle'. Server will be powered off unless it is in maintenance.", $log_context);
                 }
                 $servers[$domain]['custom_state'] = 'to recycle';
-            }elseif ($v['hoster_state'] == 'active' and $bbb_status == 'OK' and $v['hoster_state_duration']<1200000 and $v['scalelite_status']=="disabled" and $v['hoster_public_ip']!=null) {
+            }elseif ($v['hoster_state'] == 'active' and $bbb_status == 'OK' and $v['hoster_state_duration']<3600 and $v['scalelite_status']=="disabled" and $v['hoster_public_ip']!=null) {
                 // Alternatively check if server should be recycled due to long uptime
                 $log_context = compact('domain', 'bbb_status', 'divims_state', 'server_max_recycling_uptime', 'uptime','custom_state');
 
@@ -1051,6 +1051,8 @@ class ServersPoolDOC
         $domainName=$this->config->get('domain_name');
         $server_ip = $server['hoster_public_ip'];
         $server_domain=$server['domain'];
+        $old_domain=$this->config->get('clone_old_domain');
+
         $this->hoster_api->removeDomainRecordByName($domainName,$recordName);
         $recordId = $this->hoster_api->createDomainRecord($domainName, $recordType, $recordName, $server_ip );
         if ($recordId) {
@@ -1067,6 +1069,7 @@ class ServersPoolDOC
             $sshBBB->exec("sed -i -e \"s/^NEW_EXTERNAL_IPV4=.*/NEW_EXTERNAL_IPV4=\"$new_external_ip\"/\" $target_script", ['max_tries' => 3, 'sleep_time' => 5, 'timeout' => 10]);
             $sshBBB->exec("sed -i -e \"s/^EMAIL=.*/EMAIL=\"$email\"/\" $target_script", ['max_tries' => 3, 'sleep_time' => 5, 'timeout' => 10]);
             $sshBBB->exec("sed -i -e \"s/^NEW_DOMAIN=.*/NEW_DOMAIN=\"$new_domain\"/\" $target_script", ['max_tries' => 3, 'sleep_time' => 5, 'timeout' => 10]);
+            $sshBBB->exec("sed -i -e \"s/^OLD_DOMAIN=.*/OLD_DOMAIN=\"$old_domain\"/\" $target_script", ['max_tries' => 3, 'sleep_time' => 5, 'timeout' => 10]);
             //excute
 
             $sshBBB->exec("chmod +x $target_script");
